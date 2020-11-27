@@ -1,0 +1,10 @@
+# Define all coms in DAG streaming.
+    module_config {
+    module_library : "/apollo/bazel-bin/cyber/examples/ComponentNoReader/libComponentNoReader.so"
+    components {
+        class_name : "ComponentNoReader"
+        config {
+            name : "CNR"
+        }
+      }
+    }

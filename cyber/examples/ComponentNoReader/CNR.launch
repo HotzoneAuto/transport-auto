@@ -1,0 +1,7 @@
+<cyber>
+    <module>
+        <name>CNR</name>
+        <dag_conf>/apollo/cyber/examples/ComponentNoReader/CNR.dag</dag_conf>
+        <process_name>CNR</process_name>
+    </module>
+</cyber>
