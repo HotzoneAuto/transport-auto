@@ -1,0 +1,71 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: Transport
+
+
+BO_ 2349075243 ID_0xC040B2B: 8 Transport
+ SG_ XBR1_VehAccReqMode : 8|4@1+ (1,0) [0|2] "" Vector__XXX
+ SG_ XBR1_VehAccReq : 16|8@1- (0.1,-15) [-15|15] "" Vector__XXX
+ SG_ XBR1_CluPedalReqFlag : 14|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ XBR1_CluPedalOpenReq : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ XBR1_BrkPedalReqFlag : 13|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ XBR1_BrkPedalOpenReq : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ XBR1_AccPedalReqFlag : 12|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ XBR1_AccPedalOpenReq : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ XBR1_RollingCnt : 4|4@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ XBR1_SysCtrlMode : 0|4@1+ (1,0) [0|3] "" Vector__XXX
+
+BO_ 2566867921 ID_0x18FF4BD1: 8 Vector__XXX
+ SG_ FaultCode : 48|8@1+ (1,0) [0|255] ""  Transport
+ SG_ FaultLevel : 40|2@1+ (1,0) [0|3] ""  Transport
+ SG_ CurrentSteerAngle : 0|16@1- (0.1,-3276.7) [-1260|1260] ""  Transport
+
+BO_ 2230289536 ID_0x4EF8480: 8 Transport
+ SG_ VehicleSteerPumpReadySts : 1|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ SteerEnableCmd : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ SteerAngleSpeedCmd : 8|8@1+ (4,-500) [0|500] "" Vector__XXX
+ SG_ SteerAngleCmd : 16|16@1- (0.1,-3276.7) [-880|880] "" Vector__XXX
+ SG_ LifeCnt : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ CurrentVehicleSpeed : 32|16@1+ (0.00390625,0) [0|250.99] "" Vector__XXX
+
+
+
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 1000;
+BA_DEF_  "BusType" STRING ;
+BA_DEF_DEF_  "GenMsgCycleTime" 20;
+BA_DEF_DEF_  "BusType" "CAN";
+BA_ "GenMsgCycleTime" BO_ 2566867921 50;
+

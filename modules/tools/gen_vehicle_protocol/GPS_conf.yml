@@ -1,0 +1,9 @@
+dbc_file: TransportGPS.dbc
+protocol_conf: TransportGPS.yml
+car_type: TransportGPS
+sender_list: []
+sender: GPS
+black_list: []
+
+output_dir: output_can2/
+

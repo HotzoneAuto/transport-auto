@@ -1,0 +1,192 @@
+car_type: TransportGPS
+protocols:
+  '701':
+    id: '701'
+    name: id_0x701
+    protocol_type: report
+    sender: Vector__XXX
+    vars:
+    - bit: 32
+      is_signed_var: true
+      len: 16
+      name: AccelerationDown
+      offset: 0.0
+      order: intel
+      physical_range: '[-32.768|32.767]'
+      physical_unit: m/s^2
+      precision: 0.001
+      type: double
+    - bit: 16
+      is_signed_var: true
+      len: 16
+      name: AccelerationLateral
+      offset: 0.0
+      order: intel
+      physical_range: '[-32.768|32.767]'
+      physical_unit: m/s^2
+      precision: 0.001
+      type: double
+    - bit: 0
+      is_signed_var: true
+      len: 16
+      name: AccelerationForward
+      offset: 0.0
+      order: intel
+      physical_range: '[-32.768|32.767]'
+      physical_unit: m/s^2
+      precision: 0.001
+      type: double
+  '703':
+    id: '703'
+    name: id_0x703
+    protocol_type: report
+    sender: Vector__XXX
+    vars:
+    - bit: 32
+      is_signed_var: true
+      len: 16
+      name: VelocityDown
+      offset: 0.0
+      order: intel
+      physical_range: '[-327.68|327.67]'
+      physical_unit: m/s
+      precision: 0.01
+      type: double
+    - bit: 16
+      is_signed_var: true
+      len: 16
+      name: VelocityLateral
+      offset: 0.0
+      order: intel
+      physical_range: '[-327.68|327.67]'
+      physical_unit: m/s
+      precision: 0.01
+      type: double
+    - bit: 0
+      is_signed_var: true
+      len: 16
+      name: VelocityForward
+      offset: 0.0
+      order: intel
+      physical_range: '[-327.68|327.67]'
+      physical_unit: m/s
+      precision: 0.01
+      type: double
+  '710':
+    id: '710'
+    name: id_0x710
+    protocol_type: report
+    sender: Vector__XXX
+    vars:
+    - bit: 16
+      is_signed_var: true
+      len: 16
+      name: PitchAngle
+      offset: 0.0
+      order: intel
+      physical_range: '[-327.68|327.67]'
+      physical_unit: degree
+      precision: 0.01
+      type: double
+    - bit: 0
+      is_signed_var: true
+      len: 16
+      name: RollAngle
+      offset: 0.0
+      order: intel
+      physical_range: '[-327.68|327.67]'
+      physical_unit: ''
+      precision: 0.01
+      type: double
+  '712':
+    id: '712'
+    name: id_0x712
+    protocol_type: report
+    sender: Vector__XXX
+    vars:
+    - bit: 56
+      is_signed_var: false
+      len: 8
+      name: GPSNH
+      offset: 0.0
+      order: intel
+      physical_range: '[0|255]'
+      physical_unit: ''
+      precision: 1.0
+      type: int
+    - bit: 32
+      is_signed_var: false
+      len: 24
+      name: GPSNL
+      offset: 0.0
+      order: intel
+      physical_range: '[0|1.6777215]'
+      physical_unit: ''
+      precision: 1.0e-07
+      type: double
+    - bit: 24
+      is_signed_var: false
+      len: 8
+      name: GPSEH
+      offset: 0.0
+      order: intel
+      physical_range: '[0|255]'
+      physical_unit: ''
+      precision: 1.0
+      type: int
+    - bit: 0
+      is_signed_var: false
+      len: 24
+      name: GPSEL
+      offset: 0.0
+      order: intel
+      physical_range: '[0|1.6777215]'
+      physical_unit: ''
+      precision: 1.0e-07
+      type: double
+  '713':
+    id: '713'
+    name: id_0x713
+    protocol_type: report
+    sender: Vector__XXX
+    vars:
+    - bit: 48
+      is_signed_var: true
+      len: 16
+      name: HeadingAngle
+      offset: 0.0
+      order: intel
+      physical_range: '[-327.68|327.67]'
+      physical_unit: degree
+      precision: 0.01
+      type: double
+    - bit: 32
+      is_signed_var: true
+      len: 16
+      name: YawRate
+      offset: 0.0
+      order: intel
+      physical_range: '[-327.68|327.67]'
+      physical_unit: degree
+      precision: 0.01
+      type: double
+    - bit: 16
+      is_signed_var: false
+      len: 16
+      name: GPSvelocity
+      offset: 0.0
+      order: intel
+      physical_range: '[0|655.35]'
+      physical_unit: ''
+      precision: 0.01
+      type: double
+    - bit: 0
+      is_signed_var: false
+      len: 16
+      name: GPSstate
+      offset: 0.0
+      order: intel
+      physical_range: '[0|65535]'
+      physical_unit: ''
+      precision: 1.0
+      type: int

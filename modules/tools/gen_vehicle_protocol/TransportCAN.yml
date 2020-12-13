@@ -1,0 +1,210 @@
+car_type: Transport
+protocols:
+  18ff4bd1:
+    id: 18ff4bd1
+    name: id_0x18ff4bd1
+    protocol_type: report
+    sender: Vector__XXX
+    vars:
+    - bit: 48
+      is_signed_var: false
+      len: 8
+      name: FaultCode
+      offset: 0.0
+      order: intel
+      physical_range: '[0|255]'
+      physical_unit: ''
+      precision: 1.0
+      type: int
+    - bit: 40
+      is_signed_var: false
+      len: 2
+      name: FaultLevel
+      offset: 0.0
+      order: intel
+      physical_range: '[0|3]'
+      physical_unit: ''
+      precision: 1.0
+      type: int
+    - bit: 0
+      is_signed_var: true
+      len: 16
+      name: CurrentSteerAngle
+      offset: -3276.7
+      order: intel
+      physical_range: '[-1260|1260]'
+      physical_unit: ''
+      precision: 0.1
+      type: double
+  4ef8480:
+    id: 4ef8480
+    name: id_0x4ef8480
+    protocol_type: control
+    sender: Transport
+    vars:
+    - bit: 1
+      is_signed_var: false
+      len: 1
+      name: VehicleSteerPumpReadySts
+      offset: 0.0
+      order: intel
+      physical_range: '[0|1]'
+      physical_unit: ''
+      precision: 1.0
+      type: bool
+    - bit: 0
+      is_signed_var: false
+      len: 1
+      name: SteerEnableCmd
+      offset: 0.0
+      order: intel
+      physical_range: '[0|1]'
+      physical_unit: ''
+      precision: 1.0
+      type: bool
+    - bit: 8
+      is_signed_var: false
+      len: 8
+      name: SteerAngleSpeedCmd
+      offset: -500.0
+      order: intel
+      physical_range: '[0|500]'
+      physical_unit: ''
+      precision: 4.0
+      type: double
+    - bit: 16
+      is_signed_var: true
+      len: 16
+      name: SteerAngleCmd
+      offset: -3276.7
+      order: intel
+      physical_range: '[-880|880]'
+      physical_unit: ''
+      precision: 0.1
+      type: double
+    - bit: 56
+      is_signed_var: false
+      len: 8
+      name: LifeCnt
+      offset: 0.0
+      order: intel
+      physical_range: '[0|255]'
+      physical_unit: ''
+      precision: 1.0
+      type: int
+    - bit: 32
+      is_signed_var: false
+      len: 16
+      name: CurrentVehicleSpeed
+      offset: 0.0
+      order: intel
+      physical_range: '[0|250.99]'
+      physical_unit: ''
+      precision: 0.00390625
+      type: double
+  c040b2b:
+    id: c040b2b
+    name: id_0xc040b2b
+    protocol_type: control
+    sender: Transport
+    vars:
+    - bit: 8
+      is_signed_var: false
+      len: 4
+      name: XBR1_VehAccReqMode
+      offset: 0.0
+      order: intel
+      physical_range: '[0|2]'
+      physical_unit: ''
+      precision: 1.0
+      type: int
+    - bit: 16
+      is_signed_var: true
+      len: 8
+      name: XBR1_VehAccReq
+      offset: -15.0
+      order: intel
+      physical_range: '[-15|15]'
+      physical_unit: ''
+      precision: 0.1
+      type: double
+    - bit: 14
+      is_signed_var: false
+      len: 1
+      name: XBR1_CluPedalReqFlag
+      offset: 0.0
+      order: intel
+      physical_range: '[0|1]'
+      physical_unit: ''
+      precision: 1.0
+      type: bool
+    - bit: 48
+      is_signed_var: false
+      len: 8
+      name: XBR1_CluPedalOpenReq
+      offset: 0.0
+      order: intel
+      physical_range: '[0|255]'
+      physical_unit: ''
+      precision: 1.0
+      type: int
+    - bit: 13
+      is_signed_var: false
+      len: 1
+      name: XBR1_BrkPedalReqFlag
+      offset: 0.0
+      order: intel
+      physical_range: '[0|1]'
+      physical_unit: ''
+      precision: 1.0
+      type: bool
+    - bit: 40
+      is_signed_var: false
+      len: 8
+      name: XBR1_BrkPedalOpenReq
+      offset: 0.0
+      order: intel
+      physical_range: '[0|255]'
+      physical_unit: ''
+      precision: 1.0
+      type: int
+    - bit: 12
+      is_signed_var: false
+      len: 1
+      name: XBR1_AccPedalReqFlag
+      offset: 0.0
+      order: intel
+      physical_range: '[0|1]'
+      physical_unit: ''
+      precision: 1.0
+      type: bool
+    - bit: 32
+      is_signed_var: false
+      len: 8
+      name: XBR1_AccPedalOpenReq
+      offset: 0.0
+      order: intel
+      physical_range: '[0|255]'
+      physical_unit: ''
+      precision: 1.0
+      type: int
+    - bit: 4
+      is_signed_var: false
+      len: 4
+      name: XBR1_RollingCnt
+      offset: 0.0
+      order: intel
+      physical_range: '[0|15]'
+      physical_unit: ''
+      precision: 1.0
+      type: int
+    - bit: 0
+      is_signed_var: false
+      len: 4
+      name: XBR1_SysCtrlMode
+      offset: 0.0
+      order: intel
+      physical_range: '[0|3]'
+      physical_unit: ''
+      precision: 1.0
+      type: int

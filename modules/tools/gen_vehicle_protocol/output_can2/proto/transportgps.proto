@@ -1,0 +1,63 @@
+syntax = "proto2";
+
+package apollo.canbus;
+
+message Id_0x703 {
+// Report Message
+  // [m/s] [-327.68|327.67]
+  optional double velocitydown = 1;
+  // [m/s] [-327.68|327.67]
+  optional double velocitylateral = 2;
+  // [m/s] [-327.68|327.67]
+  optional double velocityforward = 3;
+}
+
+message Id_0x713 {
+// Report Message
+  // [degree] [-327.68|327.67]
+  optional double headingangle = 1;
+  // [degree] [-327.68|327.67]
+  optional double yawrate = 2;
+  // [] [0|655.35]
+  optional double gpsvelocity = 3;
+  // [] [0|65535]
+  optional int32 gpsstate = 4;
+}
+
+message Id_0x701 {
+// Report Message
+  // [m/s^2] [-32.768|32.767]
+  optional double accelerationdown = 1;
+  // [m/s^2] [-32.768|32.767]
+  optional double accelerationlateral = 2;
+  // [m/s^2] [-32.768|32.767]
+  optional double accelerationforward = 3;
+}
+
+message Id_0x712 {
+// Report Message
+  // [] [0|255]
+  optional int32 gpsnh = 1;
+  // [] [0|1.6777215]
+  optional double gpsnl = 2;
+  // [] [0|255]
+  optional int32 gpseh = 3;
+  // [] [0|1.6777215]
+  optional double gpsel = 4;
+}
+
+message Id_0x710 {
+// Report Message
+  // [degree] [-327.68|327.67]
+  optional double pitchangle = 1;
+  // [] [-327.68|327.67]
+  optional double rollangle = 2;
+}
+
+message Transportgps {
+  optional Id_0x703 id_0x703 = 1; // report message
+  optional Id_0x713 id_0x713 = 2; // report message
+  optional Id_0x701 id_0x701 = 3; // report message
+  optional Id_0x712 id_0x712 = 4; // report message
+  optional Id_0x710 id_0x710 = 5; // report message
+}

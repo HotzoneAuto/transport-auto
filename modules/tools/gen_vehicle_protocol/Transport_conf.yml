@@ -1,0 +1,9 @@
+dbc_file: TransportCAN.dbc
+protocol_conf: TransportCAN.yml
+car_type: Transport
+sender_list: []
+sender: Transport
+black_list: []
+
+output_dir: output_can1/
+

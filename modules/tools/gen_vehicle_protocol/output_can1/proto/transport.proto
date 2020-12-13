@@ -1,0 +1,59 @@
+syntax = "proto2";
+
+package apollo.canbus;
+
+message Id_0x18ff4bd1 {
+// Report Message
+  // [] [0|255]
+  optional int32 faultcode = 1;
+  // [] [0|3]
+  optional int32 faultlevel = 2;
+  // [] [-1260|1260]
+  optional double currentsteerangle = 3;
+}
+
+message Id_0xc040b2b {
+// Control Message
+  // [] [0|2]
+  optional int32 xbr1_vehaccreqmode = 1;
+  // [] [-15|15]
+  optional double xbr1_vehaccreq = 2;
+  // [] [0|1]
+  optional bool xbr1_clupedalreqflag = 3;
+  // [] [0|255]
+  optional int32 xbr1_clupedalopenreq = 4;
+  // [] [0|1]
+  optional bool xbr1_brkpedalreqflag = 5;
+  // [] [0|255]
+  optional int32 xbr1_brkpedalopenreq = 6;
+  // [] [0|1]
+  optional bool xbr1_accpedalreqflag = 7;
+  // [] [0|255]
+  optional int32 xbr1_accpedalopenreq = 8;
+  // [] [0|15]
+  optional int32 xbr1_rollingcnt = 9;
+  // [] [0|3]
+  optional int32 xbr1_sysctrlmode = 10;
+}
+
+message Id_0x4ef8480 {
+// Control Message
+  // [] [0|1]
+  optional bool vehiclesteerpumpreadysts = 1;
+  // [] [0|1]
+  optional bool steerenablecmd = 2;
+  // [] [0|500]
+  optional double steeranglespeedcmd = 3;
+  // [] [-880|880]
+  optional double steeranglecmd = 4;
+  // [] [0|255]
+  optional int32 lifecnt = 5;
+  // [] [0|250.99]
+  optional double currentvehiclespeed = 6;
+}
+
+message Transport {
+  optional Id_0x18ff4bd1 id_0x18ff4bd1 = 1; // report message
+  optional Id_0xc040b2b id_0xc040b2b = 2; // control message
+  optional Id_0x4ef8480 id_0x4ef8480 = 3; // control message
+}

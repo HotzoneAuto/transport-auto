@@ -79,38 +79,36 @@ ErrorCode SocketCanClientRaw::Start() {
 
   // 1. for non virtual busses, set receive message_id filter, ie white list
   if (interface_ != CANCardParameter::VIRTUAL) {
-    struct can_filter filter[9];
+    struct can_filter filter[8];
     /*for (int i = 0; i < 2048; ++i) {
       filter[i].can_id = 0x000 + i;
       filter[i].can_mask = CAN_EFF_MASK;
     }*/
 
-    filter[0].can_id = 0x00000059;
+    filter[0].can_id = 0xc040b2b;
     filter[0].can_mask = CAN_EFF_MASK;
 
-    filter[1].can_id = 0x0000005A;
+    filter[1].can_id = 0x18ff4bd1;
     filter[1].can_mask = CAN_EFF_MASK;
 
-    filter[2].can_id = 0x00000650;
+    filter[2].can_id = 0x4ef8480;
     filter[2].can_mask = CAN_EFF_MASK;
 
-    filter[3].can_id = 0x03100000;
-    filter[3].can_mask = CAN_EFF_MASK;
+    filter[3].can_id = 0x00000701;
+    filter[3].can_mask = CAN_SFF_MASK;
 
-    filter[4].can_id = 0x04EF8480;
-    filter[4].can_mask = CAN_EFF_MASK;
+    filter[4].can_id = 0x00000703;
+    filter[4].can_mask = CAN_SFF_MASK;
 
-    filter[5].can_id = 0x0C040B2A;
-    filter[5].can_mask = CAN_EFF_MASK;
+    filter[5].can_id = 0x00000710;
+    filter[5].can_mask = CAN_SFF_MASK;
 
-    filter[6].can_id = 0x18F02501;
-    filter[6].can_mask = CAN_EFF_MASK;
+    filter[6].can_id = 0x00000712;
+    filter[6].can_mask = CAN_SFF_MASK;
 
-    filter[7].can_id = 0x18F02502;
-    filter[7].can_mask = CAN_EFF_MASK;
+    filter[7].can_id = 0x00000713;
+    filter[7].can_mask = CAN_SFF_MASK;
 
-    filter[8].can_id = 0x18FF4BD1;
-    filter[8].can_mask = CAN_EFF_MASK;
 
     ret = setsockopt(dev_handler_, SOL_CAN_RAW, CAN_RAW_FILTER, &filter,
                      sizeof(filter));

@@ -23,7 +23,7 @@ source "${APOLLO_ROOT_DIR}/scripts/apollo.bashrc"
 VERSION_X86_64="diamond-auto-x86_64-18.04-20200727_1838"
 VERSION_AARCH64="diamond-auto-aarch64-18.04-20200723_2253"
 VERSION_LOCAL_CYBER="local_cyber_dev"
-CYBER_CONTAINER="guide_cyber_${USER}"
+CYBER_CONTAINER="transport_cyber_${USER}"
 CYBER_INSIDE="in_cyber_docker"
 
 DOCKER_REPO="hotzoneauto2020/diamond-auto"
