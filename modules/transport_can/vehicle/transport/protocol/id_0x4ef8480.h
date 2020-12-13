@@ -24,7 +24,7 @@ namespace canbus {
 namespace Transport {
 
 class Id0x4ef8480 : public ::apollo::drivers::canbus::ProtocolData<
-                    ::apollo::canbus::ChassisDetail> {
+                        ::apollo::canbus::ChassisDetail> {
  public:
   static const int32_t ID;
 
@@ -36,42 +36,70 @@ class Id0x4ef8480 : public ::apollo::drivers::canbus::ProtocolData<
 
   void Reset() override;
 
-  // config detail: {'name': 'VehicleSteerPumpReadySts', 'offset': 0.0, 'precision': 1.0, 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 1, 'type': 'bool', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'VehicleSteerPumpReadySts', 'offset': 0.0,
+  // 'precision': 1.0, 'len': 1, 'is_signed_var': False, 'physical_range':
+  // '[0|1]', 'bit': 1, 'type': 'bool', 'order': 'intel', 'physical_unit': ''}
   Id0x4ef8480* set_vehiclesteerpumpreadysts(bool vehiclesteerpumpreadysts);
 
-  // config detail: {'name': 'SteerEnableCmd', 'offset': 0.0, 'precision': 1.0, 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'SteerEnableCmd', 'offset': 0.0, 'precision': 1.0,
+  // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0,
+  // 'type': 'bool', 'order': 'intel', 'physical_unit': ''}
   Id0x4ef8480* set_steerenablecmd(bool steerenablecmd);
 
-  // config detail: {'name': 'SteerAngleSpeedCmd', 'offset': -500.0, 'precision': 4.0, 'len': 8, 'is_signed_var': False, 'physical_range': '[0|500]', 'bit': 8, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'SteerAngleSpeedCmd', 'offset': -500.0,
+  // 'precision': 4.0, 'len': 8, 'is_signed_var': False, 'physical_range':
+  // '[0|500]', 'bit': 8, 'type': 'double', 'order': 'intel', 'physical_unit':
+  // ''}
   Id0x4ef8480* set_steeranglespeedcmd(double steeranglespeedcmd);
 
-  // config detail: {'name': 'SteerAngleCmd', 'offset': -3276.7, 'precision': 0.1, 'len': 16, 'is_signed_var': True, 'physical_range': '[-880|880]', 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'SteerAngleCmd', 'offset': -3276.7, 'precision':
+  // 0.1, 'len': 16, 'is_signed_var': True, 'physical_range': '[-880|880]',
+  // 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
   Id0x4ef8480* set_steeranglecmd(double steeranglecmd);
 
-  // config detail: {'name': 'LifeCnt', 'offset': 0.0, 'precision': 1.0, 'len': 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 56, 'type': 'int', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'LifeCnt', 'offset': 0.0, 'precision': 1.0, 'len':
+  // 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 56, 'type':
+  // 'int', 'order': 'intel', 'physical_unit': ''}
   Id0x4ef8480* set_lifecnt(int lifecnt);
 
-  // config detail: {'name': 'CurrentVehicleSpeed', 'offset': 0.0, 'precision': 0.00390625, 'len': 16, 'is_signed_var': False, 'physical_range': '[0|250.99]', 'bit': 32, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'CurrentVehicleSpeed', 'offset': 0.0, 'precision':
+  // 0.00390625, 'len': 16, 'is_signed_var': False, 'physical_range':
+  // '[0|250.99]', 'bit': 32, 'type': 'double', 'order': 'intel',
+  // 'physical_unit': ''}
   Id0x4ef8480* set_currentvehiclespeed(double currentvehiclespeed);
 
  private:
+  // config detail: {'name': 'VehicleSteerPumpReadySts', 'offset': 0.0,
+  // 'precision': 1.0, 'len': 1, 'is_signed_var': False, 'physical_range':
+  // '[0|1]', 'bit': 1, 'type': 'bool', 'order': 'intel', 'physical_unit': ''}
+  void set_p_vehiclesteerpumpreadysts(uint8_t* data,
+                                      bool vehiclesteerpumpreadysts);
 
-  // config detail: {'name': 'VehicleSteerPumpReadySts', 'offset': 0.0, 'precision': 1.0, 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 1, 'type': 'bool', 'order': 'intel', 'physical_unit': ''}
-  void set_p_vehiclesteerpumpreadysts(uint8_t* data, bool vehiclesteerpumpreadysts);
-
-  // config detail: {'name': 'SteerEnableCmd', 'offset': 0.0, 'precision': 1.0, 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0, 'type': 'bool', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'SteerEnableCmd', 'offset': 0.0, 'precision': 1.0,
+  // 'len': 1, 'is_signed_var': False, 'physical_range': '[0|1]', 'bit': 0,
+  // 'type': 'bool', 'order': 'intel', 'physical_unit': ''}
   void set_p_steerenablecmd(uint8_t* data, bool steerenablecmd);
 
-  // config detail: {'name': 'SteerAngleSpeedCmd', 'offset': -500.0, 'precision': 4.0, 'len': 8, 'is_signed_var': False, 'physical_range': '[0|500]', 'bit': 8, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'SteerAngleSpeedCmd', 'offset': -500.0,
+  // 'precision': 4.0, 'len': 8, 'is_signed_var': False, 'physical_range':
+  // '[0|500]', 'bit': 8, 'type': 'double', 'order': 'intel', 'physical_unit':
+  // ''}
   void set_p_steeranglespeedcmd(uint8_t* data, double steeranglespeedcmd);
 
-  // config detail: {'name': 'SteerAngleCmd', 'offset': -3276.7, 'precision': 0.1, 'len': 16, 'is_signed_var': True, 'physical_range': '[-880|880]', 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'SteerAngleCmd', 'offset': -3276.7, 'precision':
+  // 0.1, 'len': 16, 'is_signed_var': True, 'physical_range': '[-880|880]',
+  // 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
   void set_p_steeranglecmd(uint8_t* data, double steeranglecmd);
 
-  // config detail: {'name': 'LifeCnt', 'offset': 0.0, 'precision': 1.0, 'len': 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 56, 'type': 'int', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'LifeCnt', 'offset': 0.0, 'precision': 1.0, 'len':
+  // 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 56, 'type':
+  // 'int', 'order': 'intel', 'physical_unit': ''}
   void set_p_lifecnt(uint8_t* data, int lifecnt);
 
-  // config detail: {'name': 'CurrentVehicleSpeed', 'offset': 0.0, 'precision': 0.00390625, 'len': 16, 'is_signed_var': False, 'physical_range': '[0|250.99]', 'bit': 32, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'CurrentVehicleSpeed', 'offset': 0.0, 'precision':
+  // 0.00390625, 'len': 16, 'is_signed_var': False, 'physical_range':
+  // '[0|250.99]', 'bit': 32, 'type': 'double', 'order': 'intel',
+  // 'physical_unit': ''}
   void set_p_currentvehiclespeed(uint8_t* data, double currentvehiclespeed);
 
  private:
@@ -86,5 +114,3 @@ class Id0x4ef8480 : public ::apollo::drivers::canbus::ProtocolData<
 }  // namespace Transport
 }  // namespace canbus
 }  // namespace apollo
-
-

@@ -9,10 +9,10 @@
 #include "modules/drivers/canbus/can_comm/can_receiver.h"
 #include "modules/drivers/canbus/can_comm/can_sender.h"
 #include "modules/drivers/canbus/proto/can_card_parameter.pb.h"
-//transport
-#include "modules/transport_can/vehicle/transport/transport_controller.h"
+// transport
 #include "modules/transport_can/vehicle//transport/transport_message_manager.h"
-//transportgps
+#include "modules/transport_can/vehicle/transport/transport_controller.h"
+// transportgps
 #include "modules/transport_can/vehicle//transportgps/transportgps_message_manager.h"
 
 using apollo::canbus::ChassisDetail;
@@ -37,9 +37,10 @@ class transport_Canbus : public apollo::cyber::TimerComponent {
   void ReadConfig();
   void PublishChassisDetail();
   void OnControl(ControlCommand& msg);
-  std::unique_ptr<SocketCanClientRaw> CanClient,CanClient_gps;
-  std::unique_ptr<MessageManager<ChassisDetail> > message_manager,message_manager_gps;
-  CanReceiver<ChassisDetail> can_receiver,can_receiver_gps;
+  std::unique_ptr<SocketCanClientRaw> CanClient, CanClient_gps;
+  std::unique_ptr<MessageManager<ChassisDetail> > message_manager,
+      message_manager_gps;
+  CanReceiver<ChassisDetail> can_receiver, can_receiver_gps;
   CanSender<ChassisDetail> can_sender;
   TransportController transport_controller;
   std::shared_ptr<apollo::cyber::Writer<ChassisDetail> > chassis_detail_writer_;

@@ -33,6 +33,6 @@ class TransportMessageManager
   virtual ~TransportMessageManager();
 };
 
-}  // namespace guide
+}  // namespace Transport
 }  // namespace canbus
 }  // namespace apollo

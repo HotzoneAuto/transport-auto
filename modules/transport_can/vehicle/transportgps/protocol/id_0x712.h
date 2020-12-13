@@ -29,25 +29,30 @@ class Id0x712 : public ::apollo::drivers::canbus::ProtocolData<
   static const int32_t ID;
   Id0x712();
   void Parse(const std::uint8_t* bytes, int32_t length,
-                     ChassisDetail* chassis) const override;
+             ChassisDetail* chassis) const override;
 
  private:
-
-  // config detail: {'name': 'GPSNH', 'offset': 0.0, 'precision': 1.0, 'len': 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 56, 'type': 'int', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'GPSNH', 'offset': 0.0, 'precision': 1.0, 'len': 8,
+  // 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 56, 'type':
+  // 'int', 'order': 'intel', 'physical_unit': ''}
   int gpsnh(const std::uint8_t* bytes, const int32_t length) const;
 
-  // config detail: {'name': 'GPSNL', 'offset': 0.0, 'precision': 1e-07, 'len': 24, 'is_signed_var': False, 'physical_range': '[0|1.6777215]', 'bit': 32, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'GPSNL', 'offset': 0.0, 'precision': 1e-07, 'len':
+  // 24, 'is_signed_var': False, 'physical_range': '[0|1.6777215]', 'bit': 32,
+  // 'type': 'double', 'order': 'intel', 'physical_unit': ''}
   double gpsnl(const std::uint8_t* bytes, const int32_t length) const;
 
-  // config detail: {'name': 'GPSEH', 'offset': 0.0, 'precision': 1.0, 'len': 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 24, 'type': 'int', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'GPSEH', 'offset': 0.0, 'precision': 1.0, 'len': 8,
+  // 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 24, 'type':
+  // 'int', 'order': 'intel', 'physical_unit': ''}
   int gpseh(const std::uint8_t* bytes, const int32_t length) const;
 
-  // config detail: {'name': 'GPSEL', 'offset': 0.0, 'precision': 1e-07, 'len': 24, 'is_signed_var': False, 'physical_range': '[0|1.6777215]', 'bit': 0, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'GPSEL', 'offset': 0.0, 'precision': 1e-07, 'len':
+  // 24, 'is_signed_var': False, 'physical_range': '[0|1.6777215]', 'bit': 0,
+  // 'type': 'double', 'order': 'intel', 'physical_unit': ''}
   double gpsel(const std::uint8_t* bytes, const int32_t length) const;
 };
 
-}  // namespace transportgps
+}  // namespace TransportGPS
 }  // namespace canbus
 }  // namespace apollo
-
-

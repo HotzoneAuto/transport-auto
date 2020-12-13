@@ -29,22 +29,31 @@ class Id0x701 : public ::apollo::drivers::canbus::ProtocolData<
   static const int32_t ID;
   Id0x701();
   void Parse(const std::uint8_t* bytes, int32_t length,
-                     ChassisDetail* chassis) const override;
+             ChassisDetail* chassis) const override;
 
  private:
+  // config detail: {'name': 'AccelerationDown', 'offset': 0.0, 'precision':
+  // 0.001, 'len': 16, 'is_signed_var': True, 'physical_range':
+  // '[-32.768|32.767]', 'bit': 32, 'type': 'double', 'order': 'intel',
+  // 'physical_unit': 'm/s^2'}
+  double accelerationdown(const std::uint8_t* bytes,
+                          const int32_t length) const;
 
-  // config detail: {'name': 'AccelerationDown', 'offset': 0.0, 'precision': 0.001, 'len': 16, 'is_signed_var': True, 'physical_range': '[-32.768|32.767]', 'bit': 32, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s^2'}
-  double accelerationdown(const std::uint8_t* bytes, const int32_t length) const;
+  // config detail: {'name': 'AccelerationLateral', 'offset': 0.0, 'precision':
+  // 0.001, 'len': 16, 'is_signed_var': True, 'physical_range':
+  // '[-32.768|32.767]', 'bit': 16, 'type': 'double', 'order': 'intel',
+  // 'physical_unit': 'm/s^2'}
+  double accelerationlateral(const std::uint8_t* bytes,
+                             const int32_t length) const;
 
-  // config detail: {'name': 'AccelerationLateral', 'offset': 0.0, 'precision': 0.001, 'len': 16, 'is_signed_var': True, 'physical_range': '[-32.768|32.767]', 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s^2'}
-  double accelerationlateral(const std::uint8_t* bytes, const int32_t length) const;
-
-  // config detail: {'name': 'AccelerationForward', 'offset': 0.0, 'precision': 0.001, 'len': 16, 'is_signed_var': True, 'physical_range': '[-32.768|32.767]', 'bit': 0, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s^2'}
-  double accelerationforward(const std::uint8_t* bytes, const int32_t length) const;
+  // config detail: {'name': 'AccelerationForward', 'offset': 0.0, 'precision':
+  // 0.001, 'len': 16, 'is_signed_var': True, 'physical_range':
+  // '[-32.768|32.767]', 'bit': 0, 'type': 'double', 'order': 'intel',
+  // 'physical_unit': 'm/s^2'}
+  double accelerationforward(const std::uint8_t* bytes,
+                             const int32_t length) const;
 };
 
-}  // namespace transportgps
+}  // namespace TransportGPS
 }  // namespace canbus
 }  // namespace apollo
-
-

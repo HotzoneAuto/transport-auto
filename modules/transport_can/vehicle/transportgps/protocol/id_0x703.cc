@@ -31,13 +31,15 @@ Id0x703::Id0x703() {}
 const int32_t Id0x703::ID = 0x703;
 
 void Id0x703::Parse(const std::uint8_t* bytes, int32_t length,
-                         ChassisDetail* chassis) const {
+                    ChassisDetail* chassis) const {
   chassis->set_velocity_down(velocitydown(bytes, length));
   chassis->set_velocity_lateral(velocitylateral(bytes, length));
   chassis->set_velocity_forward(velocityforward(bytes, length));
 }
 
-// config detail: {'name': 'velocitydown', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 32, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s'}
+// config detail: {'name': 'velocitydown', 'offset': 0.0, 'precision': 0.01,
+// 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]',
+// 'bit': 32, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s'}
 double Id0x703::velocitydown(const std::uint8_t* bytes, int32_t length) const {
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 8);
@@ -54,8 +56,11 @@ double Id0x703::velocitydown(const std::uint8_t* bytes, int32_t length) const {
   return ret;
 }
 
-// config detail: {'name': 'velocitylateral', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s'}
-double Id0x703::velocitylateral(const std::uint8_t* bytes, int32_t length) const {
+// config detail: {'name': 'velocitylateral', 'offset': 0.0, 'precision': 0.01,
+// 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]',
+// 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s'}
+double Id0x703::velocitylateral(const std::uint8_t* bytes,
+                                int32_t length) const {
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 
@@ -71,8 +76,11 @@ double Id0x703::velocitylateral(const std::uint8_t* bytes, int32_t length) const
   return ret;
 }
 
-// config detail: {'name': 'velocityforward', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 0, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s'}
-double Id0x703::velocityforward(const std::uint8_t* bytes, int32_t length) const {
+// config detail: {'name': 'velocityforward', 'offset': 0.0, 'precision': 0.01,
+// 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]',
+// 'bit': 0, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s'}
+double Id0x703::velocityforward(const std::uint8_t* bytes,
+                                int32_t length) const {
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 

@@ -16,14 +16,11 @@
 
 #include "modules/transport_can/vehicle/transportgps/transportgps_message_manager.h"
 
-
 #include "modules/transport_can/vehicle/transportgps/protocol/id_0x701.h"
 #include "modules/transport_can/vehicle/transportgps/protocol/id_0x703.h"
 #include "modules/transport_can/vehicle/transportgps/protocol/id_0x710.h"
 #include "modules/transport_can/vehicle/transportgps/protocol/id_0x712.h"
 #include "modules/transport_can/vehicle/transportgps/protocol/id_0x713.h"
-
-
 
 namespace apollo {
 namespace canbus {
@@ -42,6 +39,6 @@ TransportGPSMessageManager::TransportGPSMessageManager() {
 
 TransportGPSMessageManager::~TransportGPSMessageManager() {}
 
-}  // namespace guide
+}  // namespace TransportGPS
 }  // namespace canbus
 }  // namespace apollo

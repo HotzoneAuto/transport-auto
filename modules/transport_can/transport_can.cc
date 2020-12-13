@@ -8,7 +8,7 @@ using std::endl;
 using namespace std;
 
 bool transport_Canbus::Init() {
-  //CAN0 Open
+  // CAN0 Open
   CanClient = std::unique_ptr<SocketCanClientRaw>(new SocketCanClientRaw());
   CANCardParameter CanPara = CANCardParameter();
   CanPara.set_type(CANCardParameter::PCI_CARD);
@@ -16,33 +16,33 @@ bool transport_Canbus::Init() {
   CanPara.set_channel_id(CANCardParameter::CHANNEL_ID_ZERO);
   CanPara.set_interface(CANCardParameter::NATIVE);
   CanClient->Init(CanPara);
-  CanClient->Start(); 
-  //CAN1 Open
+  CanClient->Start();
+  // CAN1 Open
   CanClient_gps = std::unique_ptr<SocketCanClientRaw>(new SocketCanClientRaw());
   CanPara.set_type(CANCardParameter::PCI_CARD);
   CanPara.set_brand(CANCardParameter::SOCKET_CAN_RAW);
   CanPara.set_channel_id(CANCardParameter::CHANNEL_ID_ONE);
   CanPara.set_interface(CANCardParameter::NATIVE);
   CanClient_gps->Init(CanPara);
-  CanClient_gps->Start(); 
-  
-  //Init can0 message_menager
-  message_manager =
-      std::unique_ptr<MessageManager<ChassisDetail> >(new TransportMessageManager);
+  CanClient_gps->Start();
+
+  // Init can0 message_menager
+  message_manager = std::unique_ptr<MessageManager<ChassisDetail> >(
+      new TransportMessageManager);
   message_manager->ClearSensorData();
 
-  //Init can1 message_menager
-  message_manager_gps =
-      std::unique_ptr<MessageManager<ChassisDetail> >(new TransportGPSMessageManager);
+  // Init can1 message_menager
+  message_manager_gps = std::unique_ptr<MessageManager<ChassisDetail> >(
+      new TransportGPSMessageManager);
   message_manager->ClearSensorData();
 
-  //CAN0 receiver&sender
+  // CAN0 receiver&sender
   can_receiver.Init(CanClient.get(), message_manager.get(), 1);
   can_receiver.Start();
   can_sender.Init(CanClient.get(), 1);
   can_sender.Start();
 
-  //CAN1 receiver
+  // CAN1 receiver
   can_receiver_gps.Init(CanClient_gps.get(), message_manager_gps.get(), 1);
   can_receiver_gps.Start();
 
@@ -80,7 +80,7 @@ void transport_Canbus::Clear() {  // shutdown
   // std::cout<<"stopping and clearing"<<std::endl;
 }
 void transport_Canbus::PublishChassisDetail() {
-  ChassisDetail sensordata1,sensordata2;
+  ChassisDetail sensordata1, sensordata2;
   message_manager->GetSensorData(&sensordata1);
   message_manager_gps->GetSensorData(&sensordata2);
   sensordata2.set_current_steer_angle(sensordata1.current_steer_angle());
@@ -118,14 +118,14 @@ void transport_Canbus::ReadConfig() {
       string SettingName;
       f >> SettingName;
       if (SettingName == "LonConSwitch") {
-        f>>AccEnable;
-        AINFO<<"AccEnable= "<<AccEnable;
-      }else if(SettingName == "LatConSwitch"){
-        f>>SteerEnable;
-        AINFO<<"SteerEnable= "<<SteerEnable;
+        f >> AccEnable;
+        AINFO << "AccEnable= " << AccEnable;
+      } else if (SettingName == "LatConSwitch") {
+        f >> SteerEnable;
+        AINFO << "SteerEnable= " << SteerEnable;
       }
     }
     f.close();
-  }else
-  AERROR << "ControlSettings.config Missing";
+  } else
+    AERROR << "ControlSettings.config Missing";
 }

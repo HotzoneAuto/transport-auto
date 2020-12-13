@@ -17,8 +17,8 @@
 #include "modules/guide_can/vehicle/guide_controller.h"
 
 ErrorCode TransportController::Init(
-	const VehicleParameter& params,
-	CanSender<::apollo::canbus::ChassisDetail> *const can_sender,
+    const VehicleParameter &params,
+    CanSender<::apollo::canbus::ChassisDetail> *const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail> *const message_manager) {
   if (is_initialized_) {
     AINFO << "TransportController has already been initiated.";
@@ -43,18 +43,18 @@ ErrorCode TransportController::Init(
   message_manager_ = message_manager;
 
   // sender part
-  id_0x4ef8480_ = dynamic_cast<Id0x4ef8480*>
-          (message_manager_->GetMutableProtocolDataById(Id0x4ef8480::ID));
+  id_0x4ef8480_ = dynamic_cast<Id0x4ef8480 *>(
+      message_manager_->GetMutableProtocolDataById(Id0x4ef8480::ID));
   if (id_0x4ef8480_ == nullptr) {
-     AERROR << "Id0x4ef8480 does not exist in the TransportMessageManager!";
-     return ErrorCode::CANBUS_ERROR;
+    AERROR << "Id0x4ef8480 does not exist in the TransportMessageManager!";
+    return ErrorCode::CANBUS_ERROR;
   }
 
-  id_0xc040b2b_ = dynamic_cast<Id0xc040b2b*>
-          (message_manager_->GetMutableProtocolDataById(Id0xc040b2b::ID));
+  id_0xc040b2b_ = dynamic_cast<Id0xc040b2b *>(
+      message_manager_->GetMutableProtocolDataById(Id0xc040b2b::ID));
   if (id_0xc040b2b_ == nullptr) {
-     AERROR << "Id0xc040b2b does not exist in the TransportMessageManager!";
-     return ErrorCode::CANBUS_ERROR;
+    AERROR << "Id0xc040b2b does not exist in the TransportMessageManager!";
+    return ErrorCode::CANBUS_ERROR;
   }
 
   can_sender_->AddMessage(Id0x4ef8480::ID, id_0x4ef8480_, false);
@@ -87,8 +87,9 @@ void TransportController::Stop() {
   if (is_start) is_start = false;
 }
 
-void TransportController::ControlUpdate(ControlCommand cmd, const int SteerEnable,
-                                    const int AccEnable) {
+void TransportController::ControlUpdate(ControlCommand cmd,
+                                        const int SteerEnable,
+                                        const int AccEnable) {
   if (!is_start) {
     AERROR << "Controller didn't start";
     return;

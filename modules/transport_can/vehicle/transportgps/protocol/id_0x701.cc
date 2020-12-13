@@ -31,14 +31,18 @@ Id0x701::Id0x701() {}
 const int32_t Id0x701::ID = 0x701;
 
 void Id0x701::Parse(const std::uint8_t* bytes, int32_t length,
-                         ChassisDetail* chassis) const {
+                    ChassisDetail* chassis) const {
   chassis->set_acceleration_down(accelerationdown(bytes, length));
   chassis->set_acceleration_lateral(accelerationlateral(bytes, length));
   chassis->set_acceleration_forward(accelerationforward(bytes, length));
 }
 
-// config detail: {'name': 'accelerationdown', 'offset': 0.0, 'precision': 0.001, 'len': 16, 'is_signed_var': True, 'physical_range': '[-32.768|32.767]', 'bit': 32, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s^2'}
-double Id0x701::accelerationdown(const std::uint8_t* bytes, int32_t length) const {
+// config detail: {'name': 'accelerationdown', 'offset': 0.0, 'precision':
+// 0.001, 'len': 16, 'is_signed_var': True, 'physical_range':
+// '[-32.768|32.767]', 'bit': 32, 'type': 'double', 'order': 'intel',
+// 'physical_unit': 'm/s^2'}
+double Id0x701::accelerationdown(const std::uint8_t* bytes,
+                                 int32_t length) const {
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 8);
 
@@ -54,8 +58,12 @@ double Id0x701::accelerationdown(const std::uint8_t* bytes, int32_t length) cons
   return ret;
 }
 
-// config detail: {'name': 'accelerationlateral', 'offset': 0.0, 'precision': 0.001, 'len': 16, 'is_signed_var': True, 'physical_range': '[-32.768|32.767]', 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s^2'}
-double Id0x701::accelerationlateral(const std::uint8_t* bytes, int32_t length) const {
+// config detail: {'name': 'accelerationlateral', 'offset': 0.0, 'precision':
+// 0.001, 'len': 16, 'is_signed_var': True, 'physical_range':
+// '[-32.768|32.767]', 'bit': 16, 'type': 'double', 'order': 'intel',
+// 'physical_unit': 'm/s^2'}
+double Id0x701::accelerationlateral(const std::uint8_t* bytes,
+                                    int32_t length) const {
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
 
@@ -71,8 +79,12 @@ double Id0x701::accelerationlateral(const std::uint8_t* bytes, int32_t length) c
   return ret;
 }
 
-// config detail: {'name': 'accelerationforward', 'offset': 0.0, 'precision': 0.001, 'len': 16, 'is_signed_var': True, 'physical_range': '[-32.768|32.767]', 'bit': 0, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s^2'}
-double Id0x701::accelerationforward(const std::uint8_t* bytes, int32_t length) const {
+// config detail: {'name': 'accelerationforward', 'offset': 0.0, 'precision':
+// 0.001, 'len': 16, 'is_signed_var': True, 'physical_range':
+// '[-32.768|32.767]', 'bit': 0, 'type': 'double', 'order': 'intel',
+// 'physical_unit': 'm/s^2'}
+double Id0x701::accelerationforward(const std::uint8_t* bytes,
+                                    int32_t length) const {
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);
 

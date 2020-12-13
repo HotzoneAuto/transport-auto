@@ -29,19 +29,20 @@ class Id0x710 : public ::apollo::drivers::canbus::ProtocolData<
   static const int32_t ID;
   Id0x710();
   void Parse(const std::uint8_t* bytes, int32_t length,
-                     ChassisDetail* chassis) const override;
+             ChassisDetail* chassis) const override;
 
  private:
-
-  // config detail: {'name': 'PitchAngle', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit': 'degree'}
+  // config detail: {'name': 'PitchAngle', 'offset': 0.0, 'precision': 0.01,
+  // 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]',
+  // 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit': 'degree'}
   double pitchangle(const std::uint8_t* bytes, const int32_t length) const;
 
-  // config detail: {'name': 'RollAngle', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 0, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'RollAngle', 'offset': 0.0, 'precision': 0.01,
+  // 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]',
+  // 'bit': 0, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
   double rollangle(const std::uint8_t* bytes, const int32_t length) const;
 };
 
-}  // namespace transportgps
+}  // namespace TransportGPS
 }  // namespace canbus
 }  // namespace apollo
-
-

@@ -31,12 +31,14 @@ Id0x710::Id0x710() {}
 const int32_t Id0x710::ID = 0x710;
 
 void Id0x710::Parse(const std::uint8_t* bytes, int32_t length,
-                         ChassisDetail* chassis) const {
+                    ChassisDetail* chassis) const {
   chassis->set_pitch_angle(pitchangle(bytes, length));
   chassis->set_roll_angle(rollangle(bytes, length));
 }
 
-// config detail: {'name': 'pitchangle', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit': 'degree'}
+// config detail: {'name': 'pitchangle', 'offset': 0.0, 'precision': 0.01,
+// 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]',
+// 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit': 'degree'}
 double Id0x710::pitchangle(const std::uint8_t* bytes, int32_t length) const {
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
@@ -53,7 +55,9 @@ double Id0x710::pitchangle(const std::uint8_t* bytes, int32_t length) const {
   return ret;
 }
 
-// config detail: {'name': 'rollangle', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 0, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
+// config detail: {'name': 'rollangle', 'offset': 0.0, 'precision': 0.01, 'len':
+// 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 0,
+// 'type': 'double', 'order': 'intel', 'physical_unit': ''}
 double Id0x710::rollangle(const std::uint8_t* bytes, int32_t length) const {
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);

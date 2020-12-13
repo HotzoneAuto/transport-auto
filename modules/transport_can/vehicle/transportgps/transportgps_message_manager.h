@@ -33,6 +33,6 @@ class TransportGPSMessageManager
   virtual ~TransportGPSMessageManager();
 };
 
-}  // namespace guide
+}  // namespace TransportGPS
 }  // namespace canbus
 }  // namespace apollo

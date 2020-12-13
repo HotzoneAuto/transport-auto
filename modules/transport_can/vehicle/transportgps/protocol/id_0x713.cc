@@ -31,14 +31,16 @@ Id0x713::Id0x713() {}
 const int32_t Id0x713::ID = 0x713;
 
 void Id0x713::Parse(const std::uint8_t* bytes, int32_t length,
-                         ChassisDetail* chassis) const {
+                    ChassisDetail* chassis) const {
   chassis->set_heading_angle(headingangle(bytes, length));
   chassis->set_yaw_rate(yawrate(bytes, length));
   chassis->set_gps_velocity(gpsvelocity(bytes, length));
   chassis->set_gps_state(gpsstate(bytes, length));
 }
 
-// config detail: {'name': 'headingangle', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 48, 'type': 'double', 'order': 'intel', 'physical_unit': 'degree'}
+// config detail: {'name': 'headingangle', 'offset': 0.0, 'precision': 0.01,
+// 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]',
+// 'bit': 48, 'type': 'double', 'order': 'intel', 'physical_unit': 'degree'}
 double Id0x713::headingangle(const std::uint8_t* bytes, int32_t length) const {
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
@@ -55,7 +57,9 @@ double Id0x713::headingangle(const std::uint8_t* bytes, int32_t length) const {
   return ret;
 }
 
-// config detail: {'name': 'yawrate', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 32, 'type': 'double', 'order': 'intel', 'physical_unit': 'degree'}
+// config detail: {'name': 'yawrate', 'offset': 0.0, 'precision': 0.01, 'len':
+// 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 32,
+// 'type': 'double', 'order': 'intel', 'physical_unit': 'degree'}
 double Id0x713::yawrate(const std::uint8_t* bytes, int32_t length) const {
   Byte t0(bytes + 5);
   int32_t x = t0.get_byte(0, 8);
@@ -72,7 +76,9 @@ double Id0x713::yawrate(const std::uint8_t* bytes, int32_t length) const {
   return ret;
 }
 
-// config detail: {'name': 'gpsvelocity', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': False, 'physical_range': '[0|655.35]', 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
+// config detail: {'name': 'gpsvelocity', 'offset': 0.0, 'precision': 0.01,
+// 'len': 16, 'is_signed_var': False, 'physical_range': '[0|655.35]', 'bit': 16,
+// 'type': 'double', 'order': 'intel', 'physical_unit': ''}
 double Id0x713::gpsvelocity(const std::uint8_t* bytes, int32_t length) const {
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
@@ -86,7 +92,9 @@ double Id0x713::gpsvelocity(const std::uint8_t* bytes, int32_t length) const {
   return ret;
 }
 
-// config detail: {'name': 'gpsstate', 'offset': 0.0, 'precision': 1.0, 'len': 16, 'is_signed_var': False, 'physical_range': '[0|65535]', 'bit': 0, 'type': 'int', 'order': 'intel', 'physical_unit': ''}
+// config detail: {'name': 'gpsstate', 'offset': 0.0, 'precision': 1.0, 'len':
+// 16, 'is_signed_var': False, 'physical_range': '[0|65535]', 'bit': 0, 'type':
+// 'int', 'order': 'intel', 'physical_unit': ''}
 int Id0x713::gpsstate(const std::uint8_t* bytes, int32_t length) const {
   Byte t0(bytes + 1);
   int32_t x = t0.get_byte(0, 8);

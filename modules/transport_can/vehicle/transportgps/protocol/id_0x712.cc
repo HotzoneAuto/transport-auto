@@ -31,14 +31,16 @@ Id0x712::Id0x712() {}
 const int32_t Id0x712::ID = 0x712;
 
 void Id0x712::Parse(const std::uint8_t* bytes, int32_t length,
-                         ChassisDetail* chassis) const {
+                    ChassisDetail* chassis) const {
   chassis->set_gpsnh(gpsnh(bytes, length));
   chassis->set_gpsnl(gpsnl(bytes, length));
   chassis->set_gpseh(gpseh(bytes, length));
   chassis->set_gpsel(gpsel(bytes, length));
 }
 
-// config detail: {'name': 'gpsnh', 'offset': 0.0, 'precision': 1.0, 'len': 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 56, 'type': 'int', 'order': 'intel', 'physical_unit': ''}
+// config detail: {'name': 'gpsnh', 'offset': 0.0, 'precision': 1.0, 'len': 8,
+// 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 56, 'type':
+// 'int', 'order': 'intel', 'physical_unit': ''}
 int Id0x712::gpsnh(const std::uint8_t* bytes, int32_t length) const {
   Byte t0(bytes + 7);
   int32_t x = t0.get_byte(0, 8);
@@ -47,7 +49,9 @@ int Id0x712::gpsnh(const std::uint8_t* bytes, int32_t length) const {
   return ret;
 }
 
-// config detail: {'name': 'gpsnl', 'offset': 0.0, 'precision': 1e-07, 'len': 24, 'is_signed_var': False, 'physical_range': '[0|1.6777215]', 'bit': 32, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
+// config detail: {'name': 'gpsnl', 'offset': 0.0, 'precision': 1e-07, 'len':
+// 24, 'is_signed_var': False, 'physical_range': '[0|1.6777215]', 'bit': 32,
+// 'type': 'double', 'order': 'intel', 'physical_unit': ''}
 double Id0x712::gpsnl(const std::uint8_t* bytes, int32_t length) const {
   Byte t0(bytes + 6);
   int32_t x = t0.get_byte(0, 8);
@@ -66,7 +70,9 @@ double Id0x712::gpsnl(const std::uint8_t* bytes, int32_t length) const {
   return ret;
 }
 
-// config detail: {'name': 'gpseh', 'offset': 0.0, 'precision': 1.0, 'len': 8, 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 24, 'type': 'int', 'order': 'intel', 'physical_unit': ''}
+// config detail: {'name': 'gpseh', 'offset': 0.0, 'precision': 1.0, 'len': 8,
+// 'is_signed_var': False, 'physical_range': '[0|255]', 'bit': 24, 'type':
+// 'int', 'order': 'intel', 'physical_unit': ''}
 int Id0x712::gpseh(const std::uint8_t* bytes, int32_t length) const {
   Byte t0(bytes + 3);
   int32_t x = t0.get_byte(0, 8);
@@ -75,7 +81,9 @@ int Id0x712::gpseh(const std::uint8_t* bytes, int32_t length) const {
   return ret;
 }
 
-// config detail: {'name': 'gpsel', 'offset': 0.0, 'precision': 1e-07, 'len': 24, 'is_signed_var': False, 'physical_range': '[0|1.6777215]', 'bit': 0, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
+// config detail: {'name': 'gpsel', 'offset': 0.0, 'precision': 1e-07, 'len':
+// 24, 'is_signed_var': False, 'physical_range': '[0|1.6777215]', 'bit': 0,
+// 'type': 'double', 'order': 'intel', 'physical_unit': ''}
 double Id0x712::gpsel(const std::uint8_t* bytes, int32_t length) const {
   Byte t0(bytes + 2);
   int32_t x = t0.get_byte(0, 8);

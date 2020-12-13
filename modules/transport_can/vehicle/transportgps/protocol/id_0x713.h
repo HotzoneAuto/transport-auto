@@ -29,25 +29,30 @@ class Id0x713 : public ::apollo::drivers::canbus::ProtocolData<
   static const int32_t ID;
   Id0x713();
   void Parse(const std::uint8_t* bytes, int32_t length,
-                     ChassisDetail* chassis) const override;
+             ChassisDetail* chassis) const override;
 
  private:
-
-  // config detail: {'name': 'HeadingAngle', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 48, 'type': 'double', 'order': 'intel', 'physical_unit': 'degree'}
+  // config detail: {'name': 'HeadingAngle', 'offset': 0.0, 'precision': 0.01,
+  // 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]',
+  // 'bit': 48, 'type': 'double', 'order': 'intel', 'physical_unit': 'degree'}
   double headingangle(const std::uint8_t* bytes, const int32_t length) const;
 
-  // config detail: {'name': 'YawRate', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 32, 'type': 'double', 'order': 'intel', 'physical_unit': 'degree'}
+  // config detail: {'name': 'YawRate', 'offset': 0.0, 'precision': 0.01, 'len':
+  // 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 32,
+  // 'type': 'double', 'order': 'intel', 'physical_unit': 'degree'}
   double yawrate(const std::uint8_t* bytes, const int32_t length) const;
 
-  // config detail: {'name': 'GPSvelocity', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': False, 'physical_range': '[0|655.35]', 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'GPSvelocity', 'offset': 0.0, 'precision': 0.01,
+  // 'len': 16, 'is_signed_var': False, 'physical_range': '[0|655.35]', 'bit':
+  // 16, 'type': 'double', 'order': 'intel', 'physical_unit': ''}
   double gpsvelocity(const std::uint8_t* bytes, const int32_t length) const;
 
-  // config detail: {'name': 'GPSstate', 'offset': 0.0, 'precision': 1.0, 'len': 16, 'is_signed_var': False, 'physical_range': '[0|65535]', 'bit': 0, 'type': 'int', 'order': 'intel', 'physical_unit': ''}
+  // config detail: {'name': 'GPSstate', 'offset': 0.0, 'precision': 1.0, 'len':
+  // 16, 'is_signed_var': False, 'physical_range': '[0|65535]', 'bit': 0,
+  // 'type': 'int', 'order': 'intel', 'physical_unit': ''}
   int gpsstate(const std::uint8_t* bytes, const int32_t length) const;
 };
 
-}  // namespace transportgps
+}  // namespace TransportGPS
 }  // namespace canbus
 }  // namespace apollo
-
-

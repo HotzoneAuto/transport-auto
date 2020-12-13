@@ -16,10 +16,9 @@
 
 #include "modules/transport_can/vehicle/transport/transport_message_manager.h"
 
-#include "modules/transport_can/vehicle/transport/protocol/id_0xc040b2b.h"
 #include "modules/transport_can/vehicle/transport/protocol/id_0x18ff4bd1.h"
 #include "modules/transport_can/vehicle/transport/protocol/id_0x4ef8480.h"
-
+#include "modules/transport_can/vehicle/transport/protocol/id_0xc040b2b.h"
 
 namespace apollo {
 namespace canbus {
@@ -40,6 +39,6 @@ TransportMessageManager::TransportMessageManager() {
 
 TransportMessageManager::~TransportMessageManager() {}
 
-}  // namespace guide
+}  // namespace Transport
 }  // namespace canbus
 }  // namespace apollo

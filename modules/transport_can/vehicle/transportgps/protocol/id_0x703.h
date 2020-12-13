@@ -29,22 +29,27 @@ class Id0x703 : public ::apollo::drivers::canbus::ProtocolData<
   static const int32_t ID;
   Id0x703();
   void Parse(const std::uint8_t* bytes, int32_t length,
-                     ChassisDetail* chassis) const override;
+             ChassisDetail* chassis) const override;
 
  private:
-
-  // config detail: {'name': 'VelocityDown', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 32, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s'}
+  // config detail: {'name': 'VelocityDown', 'offset': 0.0, 'precision': 0.01,
+  // 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]',
+  // 'bit': 32, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s'}
   double velocitydown(const std::uint8_t* bytes, const int32_t length) const;
 
-  // config detail: {'name': 'VelocityLateral', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 16, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s'}
+  // config detail: {'name': 'VelocityLateral', 'offset': 0.0, 'precision':
+  // 0.01, 'len': 16, 'is_signed_var': True, 'physical_range':
+  // '[-327.68|327.67]', 'bit': 16, 'type': 'double', 'order': 'intel',
+  // 'physical_unit': 'm/s'}
   double velocitylateral(const std::uint8_t* bytes, const int32_t length) const;
 
-  // config detail: {'name': 'VelocityForward', 'offset': 0.0, 'precision': 0.01, 'len': 16, 'is_signed_var': True, 'physical_range': '[-327.68|327.67]', 'bit': 0, 'type': 'double', 'order': 'intel', 'physical_unit': 'm/s'}
+  // config detail: {'name': 'VelocityForward', 'offset': 0.0, 'precision':
+  // 0.01, 'len': 16, 'is_signed_var': True, 'physical_range':
+  // '[-327.68|327.67]', 'bit': 0, 'type': 'double', 'order': 'intel',
+  // 'physical_unit': 'm/s'}
   double velocityforward(const std::uint8_t* bytes, const int32_t length) const;
 };
 
-}  // namespace transportgps
+}  // namespace TransportGPS
 }  // namespace canbus
 }  // namespace apollo
-
-

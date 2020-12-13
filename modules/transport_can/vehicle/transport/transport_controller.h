@@ -19,9 +19,9 @@
 #include <memory>
 #include "modules/common/proto/error_code.pb.h"
 
+#include "modules/transport_can/proto/control_command.pb.h"
 #include "modules/transport_can/vehicle/transport/protocol/id_0x4ef8480.h"
 #include "modules/transport_can/vehicle/transport/protocol/id_0xc040b2b.h"
-#include "modules/transport_can/proto/control_command.pb.h"
 
 #include "cyber/common/log.h"
 #include "modules/common/time/time.h"
