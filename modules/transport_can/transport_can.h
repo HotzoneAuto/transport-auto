@@ -1,6 +1,6 @@
+#include <iomanip>
 #include <iostream>
 #include <vector>
-#include <iomanip>
 
 #include "cyber/component/component.h"
 #include "cyber/component/timer_component.h"

@@ -18,11 +18,11 @@ class transport_Control : public apollo::cyber::Component<ChassisDetail> {
  public:
   bool Init() override;
   bool Proc(const std::shared_ptr<ChassisDetail>& msg0) override;
-  
+
  private:
   std::shared_ptr<Writer<ControlCommand> > writer;
   ControlCommand controlcmd;
-  double Stanley(double k,double v,int &ValidCheck);
+  double Stanley(double k, double v, int& ValidCheck);
   double Caculate_steer(const std::shared_ptr<ChassisDetail>& msg0);
   double Caculate_acc(const std::shared_ptr<ChassisDetail>& msg0);
   void ReadTraj();
@@ -33,9 +33,9 @@ class transport_Control : public apollo::cyber::Component<ChassisDetail> {
 
   fstream TrajFile;
   int TrajIndex;
-  struct ConfigInfo{
+  struct ConfigInfo {
     double LookAheadDis;
     double StanleyK;
-  }configinfo;
+  } configinfo;
 };
 CYBER_REGISTER_COMPONENT(transport_Control)
