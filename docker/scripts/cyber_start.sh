@@ -21,7 +21,7 @@ source "${APOLLO_ROOT_DIR}/scripts/apollo.bashrc"
 # CACHE_ROOT_DIR="${APOLLO_ROOT_DIR}/.cache"
 
 VERSION_X86_64="transport-auto-x86_64-18.04-20201213_1956"
-VERSION_AARCH64="diamond-auto-aarch64-18.04-20200723_2253"
+VERSION_AARCH64="diamond-auto-aarch64-18.04-20201217_1125"
 VERSION_LOCAL_CYBER="local_cyber_dev"
 CYBER_CONTAINER="transport_cyber_${USER}"
 CYBER_INSIDE="in_cyber_docker"
