@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <iomanip>
 
 #include "cyber/component/component.h"
 #include "cyber/component/timer_component.h"
@@ -15,6 +16,8 @@
 // transportgps
 #include "modules/transport_can/vehicle//transportgps/transportgps_message_manager.h"
 
+#define RecordMode 0
+#define ControlMode 1
 using apollo::canbus::ChassisDetail;
 using apollo::canbus::ControlCommand;
 using apollo::canbus::Transport::TransportMessageManager;
@@ -26,17 +29,21 @@ using apollo::drivers::canbus::CanReceiver;
 using apollo::drivers::canbus::CanSender;
 using ::apollo::drivers::canbus::MessageManager;
 using apollo::drivers::canbus::can::SocketCanClientRaw;
+using namespace std;
 class transport_Canbus : public apollo::cyber::TimerComponent {
  public:
  private:
   int SteerEnable;
   int AccEnable;
+  int Mode;
+  fstream TrajFile;
   bool Init() override;
   bool Proc() override;
   void Clear() override;
   void ReadConfig();
   void PublishChassisDetail();
   void OnControl(ControlCommand& msg);
+
   std::unique_ptr<SocketCanClientRaw> CanClient, CanClient_gps;
   std::unique_ptr<MessageManager<ChassisDetail> > message_manager,
       message_manager_gps;

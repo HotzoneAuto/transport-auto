@@ -63,6 +63,11 @@ bool transport_Canbus::Init() {
 
   // read config;
   ReadConfig();
+  if(Mode==RecordMode){
+    TrajFile.open("/apollo/modules/TrajFile.dat",ios::out);
+  }else if(Mode==ControlMode){
+
+  }
   return true;
 }
 
@@ -71,6 +76,7 @@ bool transport_Canbus::Proc() {  // Timer callback
   return true;
 }
 void transport_Canbus::Clear() {  // shutdown
+  if(TrajFile.is_open())  TrajFile.close();
   transport_controller.Stop();
   can_sender.Stop();
   can_receiver.Stop();
@@ -86,15 +92,12 @@ void transport_Canbus::PublishChassisDetail() {
   sensordata2.set_current_steer_angle(sensordata1.current_steer_angle());
   AINFO << sensordata2.DebugString();
   chassis_detail_writer_->Write(sensordata2);
-
-  /*
-    ControlCommand cmd;
-    cmd.set_control_steer(0);
-    cmd.set_control_acc(0.5);
-    transport_controller.ControlUpdate(cmd);
-    can_sender.Update();
-  */
-
+  //WriteTraj
+  TrajFile <<setprecision(3)<< sensordata2.gpsnh()<<" ";
+  TrajFile <<setprecision(8)<< sensordata2.gpsnl()<<" ";
+  TrajFile <<setprecision(3)<< sensordata2.gpseh()<<" ";
+  TrajFile <<setprecision(8)<< sensordata2.gpsel()<<" ";
+  TrajFile <<setprecision(5)<< sensordata2.gps_velocity()<<endl;
   return;
 }
 void transport_Canbus::OnControl(
@@ -111,21 +114,37 @@ void transport_Canbus::OnControl(
 
 void transport_Canbus::ReadConfig() {
   ifstream f;
-  f.open("/apollo/modules/transport_control/ControlSettings.config");
-  if (f.is_open()) {
-    AINFO << "Control Config File Opened";
+  // f.open("/apollo/modules/transport_control/ControlSettings.config");
+  // if (f.is_open()) {
+  //   AINFO << "Control Config File Opened";
+  //   while (!f.eof()) {
+  //     string SettingName;
+  //     f >> SettingName;
+  //     if (SettingName == "LonConSwitch") {
+  //       f >> AccEnable;
+  //       AINFO << "AccEnable= " << AccEnable;
+  //     } else if (SettingName == "LatConSwitch") {
+  //       f >> SteerEnable;
+  //       AINFO << "SteerEnable= " << SteerEnable;
+  //     }
+  //   }
+  //   f.close();
+  // } else
+  //   AERROR << "ControlSettings.config Missing";
+
+
+    f.open("/apollo/modules/transport_can/ModeSettings.config");
+    if (f.is_open()) {
+    AINFO << "Mode Config File Opened";
     while (!f.eof()) {
       string SettingName;
       f >> SettingName;
-      if (SettingName == "LonConSwitch") {
-        f >> AccEnable;
-        AINFO << "AccEnable= " << AccEnable;
-      } else if (SettingName == "LatConSwitch") {
-        f >> SteerEnable;
-        AINFO << "SteerEnable= " << SteerEnable;
-      }
+      if (SettingName == "Mode") {
+        f >> Mode;
+        AINFO << "Mode= " << Mode;
+      } 
     }
     f.close();
   } else
-    AERROR << "ControlSettings.config Missing";
+    AERROR << "ModeSettings.config Missing";
 }

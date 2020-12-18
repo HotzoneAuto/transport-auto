@@ -16,7 +16,7 @@
 # limitations under the License.
 ###############################################################################
 
-DOCKER_USER="nvidia"
+DOCKER_USER="${USER}"
 CYBER_CONTAINER="transport_cyber_${USER}"
 
 APOLLO_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
