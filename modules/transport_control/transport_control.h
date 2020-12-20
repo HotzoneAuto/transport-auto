@@ -26,6 +26,7 @@ class transport_Control : public apollo::cyber::Component<ChassisDetail> {
   double Caculate_steer(const std::shared_ptr<ChassisDetail>& msg0);
   double Caculate_acc(const std::shared_ptr<ChassisDetail>& msg0);
   void ReadTraj();
+  void ReadConfig();
   void UpdateTraj(const std::shared_ptr<ChassisDetail>& msg0);
   int FindLookahead(double totaldis);
   vector<double> trajinfo[6];
@@ -36,6 +37,9 @@ class transport_Control : public apollo::cyber::Component<ChassisDetail> {
   struct ConfigInfo {
     double LookAheadDis;
     double StanleyK;
+    double StanleyProp;
+    double DesiredSpeed;
+    int SpeedMode;
   } configinfo;
 };
 CYBER_REGISTER_COMPONENT(transport_Control)

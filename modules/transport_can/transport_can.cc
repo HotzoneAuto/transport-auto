@@ -8,15 +8,31 @@ using std::endl;
 using namespace std;
 
 bool transport_Canbus::Init() {
+  // read config;
+  ReadConfig();
   // CAN0 Open
-  CanClient = std::unique_ptr<SocketCanClientRaw>(new SocketCanClientRaw());
   CANCardParameter CanPara = CANCardParameter();
+
+  CanClient = std::unique_ptr<SocketCanClientRaw>(new SocketCanClientRaw());
   CanPara.set_type(CANCardParameter::PCI_CARD);
   CanPara.set_brand(CANCardParameter::SOCKET_CAN_RAW);
   CanPara.set_channel_id(CANCardParameter::CHANNEL_ID_ZERO);
   CanPara.set_interface(CANCardParameter::NATIVE);
   CanClient->Init(CanPara);
   CanClient->Start();
+  // Init can0 message_menager
+  message_manager = std::unique_ptr<MessageManager<ChassisDetail> >(
+      new TransportMessageManager);
+  message_manager->ClearSensorData();
+  // CAN0 receiver&sender
+  can_receiver.Init(CanClient.get(), message_manager.get(), 1);
+  can_receiver.Start();
+  can_sender.Init(CanClient.get(), 1);
+  can_sender.Start();
+  transport_controller.Init(&can_sender, message_manager.get());
+  transport_controller.Start();
+  // Init CAN0 Controller
+
   // CAN1 Open
   CanClient_gps = std::unique_ptr<SocketCanClientRaw>(new SocketCanClientRaw());
   CanPara.set_type(CANCardParameter::PCI_CARD);
@@ -25,46 +41,27 @@ bool transport_Canbus::Init() {
   CanPara.set_interface(CANCardParameter::NATIVE);
   CanClient_gps->Init(CanPara);
   CanClient_gps->Start();
-
-  // Init can0 message_menager
-  message_manager = std::unique_ptr<MessageManager<ChassisDetail> >(
-      new TransportMessageManager);
-  message_manager->ClearSensorData();
-
   // Init can1 message_menager
   message_manager_gps = std::unique_ptr<MessageManager<ChassisDetail> >(
       new TransportGPSMessageManager);
-  message_manager->ClearSensorData();
-
-  // CAN0 receiver&sender
-  can_receiver.Init(CanClient.get(), message_manager.get(), 1);
-  can_receiver.Start();
-  can_sender.Init(CanClient.get(), 1);
-  can_sender.Start();
-
+  message_manager_gps->ClearSensorData();
   // CAN1 receiver
   can_receiver_gps.Init(CanClient_gps.get(), message_manager_gps.get(), 1);
   can_receiver_gps.Start();
 
-  // Init receiver sender
-
-  transport_controller.Init(&can_sender, message_manager.get());
-  transport_controller.Start();
-  // Init CAN0 Controller
   AINFO << "Canbus Init";
 
   chassis_detail_writer_ =
-      node_->CreateWriter<ChassisDetail>("transport/ChassisDetailOrig");
+      node_->CreateWriter<ChassisDetail>("transport/ChassisDetail");
   // Create Writer
 
   control_command_reader_ = node_->CreateReader<ControlCommand>(
       "transport/ControlCommand",
       [this](const std::shared_ptr<ControlCommand>& msg) { OnControl(*msg); });
 
-  // read config;
-  ReadConfig();
   if (Mode == RecordMode) {
-    TrajFile.open("/apollo/modules/TrajFile.dat", ios::out);
+    TrajFile.open("/apollo/modules/transportTraj.record");
+    if (TrajFile.is_open()) AINFO << "TrajFileOpened";
   } else if (Mode == ControlMode) {
   }
   return true;
@@ -75,12 +72,16 @@ bool transport_Canbus::Proc() {  // Timer callback
   return true;
 }
 void transport_Canbus::Clear() {  // shutdown
-  if (TrajFile.is_open()) TrajFile.close();
+  if (TrajFile.is_open()) {
+    AINFO << "TrajFileClosed";
+    TrajFile.close();
+  }
   transport_controller.Stop();
   can_sender.Stop();
   can_receiver.Stop();
-  can_receiver_gps.Stop();
   CanClient->Stop();
+
+  can_receiver_gps.Stop();
   CanClient_gps->Stop();
   // std::cout<<"stopping and clearing"<<std::endl;
 }
@@ -91,12 +92,17 @@ void transport_Canbus::PublishChassisDetail() {
   sensordata2.set_current_steer_angle(sensordata1.current_steer_angle());
   AINFO << sensordata2.DebugString();
   chassis_detail_writer_->Write(sensordata2);
+  double vel =
+      sqrt(sensordata2.velocity_lateral() * sensordata2.velocity_lateral() +
+           sensordata2.velocity_forward() * sensordata2.velocity_forward());
   // WriteTraj
-  TrajFile << setprecision(3) << sensordata2.gpsnh() << " ";
-  TrajFile << setprecision(8) << sensordata2.gpsnl() << " ";
-  TrajFile << setprecision(3) << sensordata2.gpseh() << " ";
-  TrajFile << setprecision(8) << sensordata2.gpsel() << " ";
-  TrajFile << setprecision(5) << sensordata2.gps_velocity() << endl;
+  if (sensordata2.gpsnh() != 0) {
+    TrajFile << setprecision(3) << sensordata2.gpsnh() << " ";
+    TrajFile << setprecision(8) << sensordata2.gpsnl() << " ";
+    TrajFile << setprecision(3) << sensordata2.gpseh() << " ";
+    TrajFile << setprecision(8) << sensordata2.gpsel() << " ";
+    TrajFile << setprecision(5) << vel << endl;
+  }
   return;
 }
 void transport_Canbus::OnControl(
@@ -107,29 +113,29 @@ void transport_Canbus::OnControl(
   // cmd.set_control_steer(msg.control_steer());
   // cmd.set_control_acc(msg.control_acc());
   // transport_controller.ControlUpdate(cmd, SteerEnable, AccEnable);
-  can_sender.Update();
+  // can_sender.Update();
   return;
 }
 
 void transport_Canbus::ReadConfig() {
   ifstream f;
-  // f.open("/apollo/modules/transport_control/ControlSettings.config");
-  // if (f.is_open()) {
-  //   AINFO << "Control Config File Opened";
-  //   while (!f.eof()) {
-  //     string SettingName;
-  //     f >> SettingName;
-  //     if (SettingName == "LonConSwitch") {
-  //       f >> AccEnable;
-  //       AINFO << "AccEnable= " << AccEnable;
-  //     } else if (SettingName == "LatConSwitch") {
-  //       f >> SteerEnable;
-  //       AINFO << "SteerEnable= " << SteerEnable;
-  //     }
-  //   }
-  //   f.close();
-  // } else
-  //   AERROR << "ControlSettings.config Missing";
+  f.open("/apollo/modules/transport_control/ControlSettings.config");
+  if (f.is_open()) {
+    AINFO << "Control Config File Opened";
+    while (!f.eof()) {
+      string SettingName;
+      f >> SettingName;
+      if (SettingName == "LonConSwitch") {
+        f >> AccEnable;
+        AINFO << "AccEnable= " << AccEnable;
+      } else if (SettingName == "LatConSwitch") {
+        f >> SteerEnable;
+        AINFO << "SteerEnable= " << SteerEnable;
+      }
+    }
+    f.close();
+  } else
+    AERROR << "ControlSettings.config Missing";
 
   f.open("/apollo/modules/transport_can/ModeSettings.config");
   if (f.is_open()) {

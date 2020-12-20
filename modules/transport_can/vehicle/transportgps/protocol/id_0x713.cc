@@ -81,10 +81,10 @@ double Id0x713::yawrate(const std::uint8_t* bytes, int32_t length) const {
 // 'type': 'double', 'order': 'intel', 'physical_unit': ''}
 double Id0x713::gpsvelocity(const std::uint8_t* bytes, int32_t length) const {
   Byte t0(bytes + 3);
-  int32_t x = t0.get_byte(0, 8);
+  uint32_t x = t0.get_byte(0, 8);
 
   Byte t1(bytes + 2);
-  int32_t t = t1.get_byte(0, 8);
+  uint32_t t = t1.get_byte(0, 8);
   x <<= 8;
   x |= t;
 

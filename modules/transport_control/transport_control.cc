@@ -6,7 +6,7 @@
 #include <string>
 #define TRAJLENGTH 200
 #define MAXDIS 99999
-#define L 3
+#define L 2.4
 using namespace std;
 void transport_Control::ReadTraj() {
   //读取所有点的经纬度
@@ -22,6 +22,39 @@ void transport_Control::ReadTraj() {
     trajinfo[4].push_back(vel);
   }
   TrajIndex = 0;
+}
+
+void transport_Control::ReadConfig() {
+  using namespace std;
+  ifstream f;
+  f.open("/apollo/modules/transport_control/ControlSettings.config");
+  if (f.is_open()) {
+    AINFO << "Control Config File Opened";
+    while (!f.eof()) {
+      string SettingName;
+      f >> SettingName;
+      ConfigInfo& x = configinfo;
+      if (SettingName == "LookAheadDis") {
+        f >> x.LookAheadDis;
+        AINFO << "LookAheadDis = " << x.LookAheadDis;
+      } else if (SettingName == "StanleyK") {
+        f >> x.StanleyK;
+        AINFO << "StanleyK = " << x.StanleyK;
+      } else if (SettingName == "StanleyProp") {
+        f >> x.StanleyProp;
+        AINFO << "StanleyProp = " << x.StanleyProp;
+      } else if (SettingName == "SpeedMode") {
+        f >> x.SpeedMode;
+        AINFO << "SpeedMode = " << x.SpeedMode;
+      } else if (SettingName == "DesiredSpeed") {
+        f >> x.DesiredSpeed;
+        AINFO << "DesiredSpeed = " << x.DesiredSpeed;
+      }
+    }
+    f.close();
+  } else {
+    AERROR << "ControlSettings.config Missing";
+  }
 }
 void transport_Control::UpdateTraj(
     const std::shared_ptr<ChassisDetail>&
@@ -76,6 +109,7 @@ int transport_Control::FindLookahead(double totaldis) {
 bool transport_Control::Init() {
   using namespace std;
   AINFO << "Transport_Control init";
+  ReadConfig();
   writer = node_->CreateWriter<ControlCommand>("transport/ControlCommand");
   // Init ControlCommand Writer
   ReadTraj();
@@ -123,7 +157,10 @@ double transport_Control::Caculate_steer(
   stanley_angle =
       Stanley(configinfo.StanleyK, msg0->gps_velocity(), validcheck);
   // todo 增加前轮转角与方向盘转角的函数表达式。
-
+  double StanleyProp = configinfo.StanleyProp;
+  double front_wheel_angle =
+      follow_angle * (1 - StanleyProp) + stanley_angle * StanleyProp;
+  steer_wheel_angle = front_wheel_angle / 14.0 * 360.0;
   return steer_wheel_angle;
 }
 
@@ -158,5 +195,13 @@ double transport_Control::Stanley(
 double transport_Control::Caculate_acc(
     const std::shared_ptr<ChassisDetail>& msg0) {
   double control_acc = 0;
+  if (configinfo.SpeedMode == 0) {  // const speed mode;
+
+    control_acc = configinfo.DesiredSpeed;
+
+  } else if (configinfo.SpeedMode == 0) {
+    control_acc = trajinfo[4][TrajIndex];
+  }
+
   return control_acc;
 }

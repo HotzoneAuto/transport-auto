@@ -66,7 +66,7 @@ double Id0x712::gpsnl(const std::uint8_t* bytes, int32_t length) const {
   x <<= 8;
   x |= t;
 
-  double ret = x * 0.000000;
+  double ret = x * 0.0000001;
   return ret;
 }
 
@@ -98,7 +98,7 @@ double Id0x712::gpsel(const std::uint8_t* bytes, int32_t length) const {
   x <<= 8;
   x |= t;
 
-  double ret = x * 0.000000;
+  double ret = x * 0.0000001;
   return ret;
 }
 }  // namespace TransportGPS

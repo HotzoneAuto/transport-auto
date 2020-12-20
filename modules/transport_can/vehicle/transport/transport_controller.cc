@@ -87,11 +87,73 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     AERROR << "Controller didn't start";
     return;
   }
-  // if (SteerEnable == 1) {
-  //   id_0x4ef8480_->set_enable(SteerEnable);
-  //   id_0x4ef8480_->set_control_steer(cmd.control_steer());
-  // }
-  // if (AccEnable == 1) {
-  //   id_0xc040b2a_->set_control_acc(cmd.control_acc());
-  // }
+  if (SteerEnable == 1) {  //横向控制启用
+    static int lifecnt = 0;
+    lifecnt++;
+    if (lifecnt > 255) lifecnt = 0;
+    id_0x4ef8480_->set_steerenablecmd(1);
+    id_0x4ef8480_->set_steeranglespeedcmd(350);
+    id_0x4ef8480_->set_steeranglecmd(cmd.control_steer());
+    id_0x4ef8480_->set_lifecnt(lifecnt);
+  }
+  if (AccEnable == 1) {  //纵向控制启用
+    // double vol_exp=0;
+    // double vol_cur=0;//todo 后续有期望速度与踏板开度的标定
+    // static control_flag=1;
+    // if(vol_exp < 0){
+    //   control_flag=4;
+    // }
+
+    // switch(control_flag) {
+    // //start mode
+    // case 1:
+    // //zhi dong
+    //   id_0x0c040b2a_->set_xbr1_brkpedalopenreq(0);
+    //   for(int i = 0; i < 100; i++) {
+    //     //li he
+    //     id_0x0c040b2a_->set_xbr1_clupedalopenreq(i);
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    //     if(i < int(vol_exp)){
+    //       //you men
+    //       id_0x0c040b2a_->set_xbr1_accpedalopenreq(i);
+    //       std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    //     }
+    //   }
+    //   control_flag=2;//状态切换
+    //   break;
+    // //normal mode
+    // case 2:
+    //   if(vol_exp > vol_cur) {
+    //     for (int i = int(vol_cur); i < int(vol_exp); i++) {
+    //       id_0x0c040b2a_->set_xbr1_accpedalopenreq(i);
+    //       std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    //     }
+    //   } else {
+    //     for (int i = int(vol_cur); i > int(vol_exp); i++) {
+    //       id_0x0c040b2a_->set_xbr1_accpedalopenreq(i);
+    //       std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    //     }
+    //   }
+    //   break;
+    // //emergency mode
+    // case 3:
+    //   for(int i = 0; i < 100; i++) {
+    //     //li he
+    //     id_0x0c040b2a_->set_xbr1_brkpedalopenreq(i);
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    //   }
+    //   break;
+    // //stop mode
+    // case 4:
+    //   id_0x0c040b2a_->set_xbr1_clupedalopenreq(100);
+    //   id_0x0c040b2a_->set_xbr1_accpedalopenreq(0);
+    //   for(int i = 0; i < 100; i++) {
+    //     //li he
+    //     id_0x0c040b2a_->set_xbr1_brkpedalopenreq(i);
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    //   }
+    //   break;
+    //   default: break;
+    // }
+  }
 }

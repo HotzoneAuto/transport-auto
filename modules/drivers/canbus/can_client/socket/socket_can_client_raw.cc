@@ -85,29 +85,25 @@ ErrorCode SocketCanClientRaw::Start() {
       filter[i].can_mask = CAN_EFF_MASK;
     }*/
 
-    filter[0].can_id = 0xc040b2b;
+
+    filter[0].can_id = 0x18ff4bd1;
     filter[0].can_mask = CAN_EFF_MASK;
 
-    filter[1].can_id = 0x18ff4bd1;
-    filter[1].can_mask = CAN_EFF_MASK;
 
-    filter[2].can_id = 0x4ef8480;
-    filter[2].can_mask = CAN_EFF_MASK;
+    filter[1].can_id = 0x00000701;
+    filter[1].can_mask = CAN_SFF_MASK;
 
-    filter[3].can_id = 0x00000701;
+    filter[2].can_id = 0x00000703;
+    filter[2].can_mask = CAN_SFF_MASK;
+
+    filter[3].can_id = 0x00000710;
     filter[3].can_mask = CAN_SFF_MASK;
 
-    filter[4].can_id = 0x00000703;
+    filter[4].can_id = 0x00000712;
     filter[4].can_mask = CAN_SFF_MASK;
 
-    filter[5].can_id = 0x00000710;
+    filter[5].can_id = 0x00000713;
     filter[5].can_mask = CAN_SFF_MASK;
-
-    filter[6].can_id = 0x00000712;
-    filter[6].can_mask = CAN_SFF_MASK;
-
-    filter[7].can_id = 0x00000713;
-    filter[7].can_mask = CAN_SFF_MASK;
 
 
     ret = setsockopt(dev_handler_, SOL_CAN_RAW, CAN_RAW_FILTER, &filter,
