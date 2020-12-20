@@ -21,8 +21,8 @@
 
 #include "gtest/gtest.h"
 
-#include "modules/guide_can/proto/chassis_detail.pb.h"
 #include "modules/drivers/canbus/can_comm/protocol_data.h"
+#include "modules/guide_can/proto/chassis_detail.pb.h"
 
 namespace apollo {
 namespace drivers {

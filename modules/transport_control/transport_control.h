@@ -40,6 +40,7 @@ class transport_Control : public apollo::cyber::Component<ChassisDetail> {
     double StanleyProp;
     double DesiredSpeed;
     int SpeedMode;
+    double SpeedK;
   } configinfo;
 };
 CYBER_REGISTER_COMPONENT(transport_Control)

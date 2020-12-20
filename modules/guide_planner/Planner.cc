@@ -3,22 +3,22 @@
 #include <string>
 #define MAX_SEQV_SIZE 400
 using namespace std;
-void Planner::ReadConfig(){
+void Planner::ReadConfig() {
   ifstream f;
   f.open("/apollo/modules/guide_planner/PlannerSettings.config");
   if (f.is_open()) {
-    //AINFO << "Control Config File Opened";
+    // AINFO << "Control Config File Opened";
     while (!f.eof()) {
       string SettingName;
       f >> SettingName;
       if (SettingName == "YawSourceProp") {
-        f>>configinfo.YawSourceProp;
-        cout<<configinfo.YawSourceProp;
+        f >> configinfo.YawSourceProp;
+        cout << configinfo.YawSourceProp;
       }
     }
     f.close();
   }
-  //AERROR << "ControlSettings.config Missing";
+  // AERROR << "ControlSettings.config Missing";
 }
 bool Planner::Init(float rel_x, float rel_y, float rel_yaw) {
   ReadConfig();
@@ -40,10 +40,10 @@ void Planner::traj_seq_update(float rel_x, float rel_y, float vx_1,
                               float rel_yaw) {
   // delta_f_2表示后车前轮转角
   //参数定义
-  //float lf = 1.1, lr = 2.8;  //质心到前后轴距离
-  float L=3.975;
-  float delta_yaw=0;           //跟随车转动角度
-  float YawSourceProp=configinfo.YawSourceProp;
+  // float lf = 1.1, lr = 2.8;  //质心到前后轴距离
+  float L = 3.975;
+  float delta_yaw = 0;  //跟随车转动角度
+  float YawSourceProp = configinfo.YawSourceProp;
   TrajSeq traj_seq;
   TrajSeq &last_traj_seq = traj;
   if (!isinit()) {
@@ -51,27 +51,29 @@ void Planner::traj_seq_update(float rel_x, float rel_y, float vx_1,
   } else {
     delta_yaw =
         last_yaw_rate_2 * SampleTime / 180 * Pi;  // Sampletime里转动的角度
-    float R=0;
-    float x_0=0;
-    float y_0=0;
-    if( abs( delta_f_2 ) > 0.2){ //当前轮转角较大时采用弧形模型计算
-      R=L/tan(delta_f_2  * Pi / 180);
-      float delta_yaw_2 = last_vx_2 * SampleTime / R; 
-      cout<<"YawSourceProp:= "<<YawSourceProp<<"  delta_yaw:= "<<delta_yaw<<"  delta_yaw_2: "<<delta_yaw_2<<endl;
-      delta_yaw = (1-YawSourceProp)*delta_yaw + YawSourceProp*delta_yaw_2; //采用2种方法融合加权计算
-      
-      cout<<"R="<<R<<"  delta_yaw: "<<delta_yaw <<endl;
-      //x_0 =  abs( R * sin( delta_yaw) );  // Sampletime里x方向移动的距离
+    float R = 0;
+    float x_0 = 0;
+    float y_0 = 0;
+    if (abs(delta_f_2) > 0.2) {  //当前轮转角较大时采用弧形模型计算
+      R = L / tan(delta_f_2 * Pi / 180);
+      float delta_yaw_2 = last_vx_2 * SampleTime / R;
+      cout << "YawSourceProp:= " << YawSourceProp
+           << "  delta_yaw:= " << delta_yaw << "  delta_yaw_2: " << delta_yaw_2
+           << endl;
+      delta_yaw = (1 - YawSourceProp) * delta_yaw +
+                  YawSourceProp * delta_yaw_2;  //采用2种方法融合加权计算
+
+      cout << "R=" << R << "  delta_yaw: " << delta_yaw << endl;
+      // x_0 =  abs( R * sin( delta_yaw) );  // Sampletime里x方向移动的距离
       x_0 = last_vx_2 * SampleTime;
-      y_0 = R * (1-cos(delta_yaw));  // Sampletime里y方向移动的距离
-    }
-    else {
+      y_0 = R * (1 - cos(delta_yaw));  // Sampletime里y方向移动的距离
+    } else {
       x_0 = last_vx_2 * SampleTime;  // Sampletime里x方向移动的距离
       y_0 = 0;
-      //y_0 = x_0 * lr / (lf + lr) *
-         //       tan(delta_f_2 / 180 * Pi);  // Sampletime里y方向移动的距离
+      // y_0 = x_0 * lr / (lf + lr) *
+      //       tan(delta_f_2 / 180 * Pi);  // Sampletime里y方向移动的距离
     }
-    cout<<"x0: "<<x_0<<"  y0: "<<y_0<<endl;
+    cout << "x0: " << x_0 << "  y0: " << y_0 << endl;
     traj_seq = last_traj_seq;
     for (int i = 0; i < traj_seq.Seqv[0].size(); i++) {
       traj_seq.Seqv[0][i] = traj_seq.Seqv[0][i] - x_0;
@@ -98,12 +100,12 @@ void Planner::traj_seq_update(float rel_x, float rel_y, float vx_1,
         break;
       }
     }
-    cout<<"traj sz1=  :"<<traj_seq.Seqv[0].size()<<endl;
+    cout << "traj sz1=  :" << traj_seq.Seqv[0].size() << endl;
     //判断新点的距离
     float old_x = 0, old_y = 0;  //若没有点则默认为本车点
     if (traj_seq.Seqv[0].size() > 0) {
-      old_x = traj_seq.Seqv[0][ traj_seq.Seqv[0].size() - 1];
-      old_y = traj_seq.Seqv[1][ traj_seq.Seqv[0].size() - 1];
+      old_x = traj_seq.Seqv[0][traj_seq.Seqv[0].size() - 1];
+      old_y = traj_seq.Seqv[1][traj_seq.Seqv[0].size() - 1];
     }
     float dis = sqrt((old_x - rel_x) * (old_x - rel_x) +
                      (old_y - rel_y) * (old_y - rel_y));
@@ -121,11 +123,10 @@ void Planner::traj_seq_update(float rel_x, float rel_y, float vx_1,
       traj_seq.Seqv[2].push_back(rel_yaw);
       traj_seq.Seqv[3].push_back(vx_1);
       traj_seq.Seqv[4].push_back(yaw_rate_1);
-
     }
     traj = traj_seq;
   }
-  //cout<<"traj szzz2=  :"<<traj_seq.Seqv[0].size();
+  // cout<<"traj szzz2=  :"<<traj_seq.Seqv[0].size();
 }
 
 // TrajSeq Planner::truth_seq_update(int timestep, TrajSeq last_truth_seq,

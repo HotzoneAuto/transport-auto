@@ -91,17 +91,20 @@ void transport_Canbus::PublishChassisDetail() {
   message_manager_gps->GetSensorData(&sensordata2);
   sensordata2.set_current_steer_angle(sensordata1.current_steer_angle());
   AINFO << sensordata2.DebugString();
-  chassis_detail_writer_->Write(sensordata2);
-  double vel =
-      sqrt(sensordata2.velocity_lateral() * sensordata2.velocity_lateral() +
-           sensordata2.velocity_forward() * sensordata2.velocity_forward());
-  // WriteTraj
-  if (sensordata2.gpsnh() != 0) {
-    TrajFile << setprecision(3) << sensordata2.gpsnh() << " ";
-    TrajFile << setprecision(8) << sensordata2.gpsnl() << " ";
-    TrajFile << setprecision(3) << sensordata2.gpseh() << " ";
-    TrajFile << setprecision(8) << sensordata2.gpsel() << " ";
-    TrajFile << setprecision(5) << vel << endl;
+  if (Mode == RecordMode) {
+    double vel =
+        sqrt(sensordata2.velocity_lateral() * sensordata2.velocity_lateral() +
+             sensordata2.velocity_forward() * sensordata2.velocity_forward());
+    // WriteTraj
+    if (sensordata2.gpsnh() != 0) {
+      TrajFile << setprecision(3) << sensordata2.gpsnh() << " ";
+      TrajFile << setprecision(8) << sensordata2.gpsnl() << " ";
+      TrajFile << setprecision(3) << sensordata2.gpseh() << " ";
+      TrajFile << setprecision(8) << sensordata2.gpsel() << " ";
+      TrajFile << setprecision(5) << vel << endl;
+    }
+  } else if (Mode == ControlMode) {
+    chassis_detail_writer_->Write(sensordata2);
   }
   return;
 }
@@ -110,7 +113,7 @@ void transport_Canbus::OnControl(
         msg) {  // control callback function  will move to reader callback
   static ControlCommand cmd;
   // Write Control Here
-  // cmd.set_control_steer(msg.control_steer());
+  cmd.set_control_steer(msg.control_steer());
   // cmd.set_control_acc(msg.control_acc());
   // transport_controller.ControlUpdate(cmd, SteerEnable, AccEnable);
   // can_sender.Update();
@@ -131,24 +134,12 @@ void transport_Canbus::ReadConfig() {
       } else if (SettingName == "LatConSwitch") {
         f >> SteerEnable;
         AINFO << "SteerEnable= " << SteerEnable;
+      } else if (SettingName == "TrajMode") {
+        f >> Mode;
+        AINFO << "TrajMode= " << Mode;
       }
     }
     f.close();
   } else
     AERROR << "ControlSettings.config Missing";
-
-  f.open("/apollo/modules/transport_can/ModeSettings.config");
-  if (f.is_open()) {
-    AINFO << "Mode Config File Opened";
-    while (!f.eof()) {
-      string SettingName;
-      f >> SettingName;
-      if (SettingName == "Mode") {
-        f >> Mode;
-        AINFO << "Mode= " << Mode;
-      }
-    }
-    f.close();
-  } else
-    AERROR << "ModeSettings.config Missing";
 }

@@ -48,7 +48,11 @@ void transport_Control::ReadConfig() {
         AINFO << "SpeedMode = " << x.SpeedMode;
       } else if (SettingName == "DesiredSpeed") {
         f >> x.DesiredSpeed;
+        x.DesiredSpeed /= 3.6;
         AINFO << "DesiredSpeed = " << x.DesiredSpeed;
+      } else if (SettingName == "SpeedK") {
+        f >> x.SpeedK;
+        AINFO << "SpeedK = " << x.SpeedK;
       }
     }
     f.close();
@@ -62,7 +66,7 @@ void transport_Control::UpdateTraj(
   //寻找轨迹上一段范围内的距离本车最近的点
   double N_now = msg0->gpsnl() + msg0->gpsnh();
   double E_now = msg0->gpsel() + msg0->gpseh();
-  double Azi_now = msg0->heading_angle();
+  double Azi_now = msg0->heading_angle() / 180 * M_PI;
   int lastindex = TrajIndex;
   double min_dis = MAXDIS;
   for (int i = lastindex;
@@ -75,7 +79,7 @@ void transport_Control::UpdateTraj(
       TrajIndex = i;
     }
   }
-  //将该点附近的若干个点加入到自车坐标系中 ?有必要吗？
+  //将该点附近的若干个点加入到自车坐标系中
   rel_loc[0].clear();
   rel_loc[1].clear();
   rel_loc[2].clear();
@@ -185,21 +189,29 @@ double transport_Control::Stanley(
                 M_PI * 180;
   // X[i] and X[i+1] may be same?
 
-  // find y error at point X=L
+  // find y error at point X=0
   if (v <= 1) v = 1;
   float phi_y = atan(k * rel_loc[1][index] / v);
-  // v==0?
   return phi_e + phi_y;
 }
 
-double transport_Control::Caculate_acc(
+double transport_Control::Caculate_acc(  //设置纵向期望速度
     const std::shared_ptr<ChassisDetail>& msg0) {
   double control_acc = 0;
   if (configinfo.SpeedMode == 0) {  // const speed mode;
+    double N_now = msg0->gpsnl() + msg0->gpsnh();
+    double E_now = msg0->gpsel() + msg0->gpseh();
+    double N_start = trajinfo[0][0] + trajinfo[1][0];
+    double E_start = trajinfo[3][0] + trajinfo[4][0];
+    int length = trajinfo[0].size();
+    double N_end = trajinfo[0][length] + trajinfo[1][length];
+    double E_end = trajinfo[3][length] + trajinfo[4][length];
+    double DisToStart = SphereDis(E_now, N_now, E_start, N_start);
+    double DisToEnd = SphereDis(E_now, N_now, E_end, N_end);
+    control_acc = min(DisToStart, DisToEnd) * configinfo.SpeedK;
+    control_acc = min(configinfo.DesiredSpeed, control_acc);
 
-    control_acc = configinfo.DesiredSpeed;
-
-  } else if (configinfo.SpeedMode == 0) {
+  } else if (configinfo.SpeedMode == 0) {  // Traj speed mode
     control_acc = trajinfo[4][TrajIndex];
   }
 

@@ -100,14 +100,14 @@ void guide_Canbus::ReadConfig() {
       string SettingName;
       f >> SettingName;
       if (SettingName == "LonConSwitch") {
-        f>>AccEnable;
-        AINFO<<"AccEnable= "<<AccEnable;
-      }else if(SettingName == "LatConSwitch"){
-        f>>SteerEnable;
-        AINFO<<"SteerEnable= "<<SteerEnable;
+        f >> AccEnable;
+        AINFO << "AccEnable= " << AccEnable;
+      } else if (SettingName == "LatConSwitch") {
+        f >> SteerEnable;
+        AINFO << "SteerEnable= " << SteerEnable;
       }
     }
     f.close();
-  }else
-  AERROR << "ControlSettings.config Missing";
+  } else
+    AERROR << "ControlSettings.config Missing";
 }

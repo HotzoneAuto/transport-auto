@@ -24,13 +24,13 @@ class guide_Filter : public apollo::cyber::TimerComponent {
   void UpdateChassisDetail(const std::shared_ptr<ChassisDetail>& msg);
   std::shared_ptr<apollo::cyber::Writer<ChassisDetail> > chassis_detail_writer_;
   std::shared_ptr<apollo::cyber::Reader<ChassisDetail> >
-  chassis_detail_origin_reader_;
-  struct ConfigInfo{
-    int FilterLength;//均值滤波长度
+      chassis_detail_origin_reader_;
+  struct ConfigInfo {
+    int FilterLength;  //均值滤波长度
     float UWBCorrect;
     float LeaderBrakePedalCorrect;
     float LeaderAccPedalCorrect;
     float SteerAngleCorrect;
-  }configinfo;
+  } configinfo;
 };
 CYBER_REGISTER_COMPONENT(guide_Filter)

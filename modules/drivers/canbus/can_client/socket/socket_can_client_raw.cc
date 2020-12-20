@@ -85,10 +85,8 @@ ErrorCode SocketCanClientRaw::Start() {
       filter[i].can_mask = CAN_EFF_MASK;
     }*/
 
-
     filter[0].can_id = 0x18ff4bd1;
     filter[0].can_mask = CAN_EFF_MASK;
-
 
     filter[1].can_id = 0x00000701;
     filter[1].can_mask = CAN_SFF_MASK;
@@ -104,7 +102,6 @@ ErrorCode SocketCanClientRaw::Start() {
 
     filter[5].can_id = 0x00000713;
     filter[5].can_mask = CAN_SFF_MASK;
-
 
     ret = setsockopt(dev_handler_, SOL_CAN_RAW, CAN_RAW_FILTER, &filter,
                      sizeof(filter));

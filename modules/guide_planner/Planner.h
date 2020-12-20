@@ -33,7 +33,7 @@ class Planner {
 
  private:
   bool isInit;
-  struct ConfigInfo{
+  struct ConfigInfo {
     float YawSourceProp;
-  }configinfo;
+  } configinfo;
 };

@@ -31,10 +31,10 @@ class guide_Control : public apollo::cyber::Component<ChassisDetail, TrajInfo> {
   float err_lat = 0;
   float BezierX[251], BezierY[251];
   ControlCommand controlcmd;
-  float Stanley(float k,float v,int &ValidCheck);
+  float Stanley(float k, float v, int& ValidCheck);
   float Caculate_steer(const std::shared_ptr<ChassisDetail>& msg0,
                        const std::shared_ptr<TrajInfo>& msg1);
-  float Caculate_steer_purefollow(const std::shared_ptr<ChassisDetail>& msg0) ;
+  float Caculate_steer_purefollow(const std::shared_ptr<ChassisDetail>& msg0);
   float Caculate_acc(const std::shared_ptr<ChassisDetail>& msg0);
   void DealTraj(const std::shared_ptr<TrajInfo>& msg1);
   void BezierFitting(const std::shared_ptr<TrajInfo>& msg1);

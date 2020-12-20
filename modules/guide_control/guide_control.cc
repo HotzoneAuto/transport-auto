@@ -10,7 +10,7 @@ float Desired_speed = 0;
 // float Desired_distance = 20;
 constexpr float L = 3.975;
 constexpr float r = 1.0;
-constexpr int BezierLength=251;
+constexpr int BezierLength = 251;
 // constexpr float k_a = 0.1;
 // constexpr float k_v = 0.05;
 // constexpr float k_d = 0.05;
@@ -30,23 +30,23 @@ bool guide_Control::Init() {
 
 bool guide_Control::Proc(const std::shared_ptr<ChassisDetail>& msg0,
                          const std::shared_ptr<TrajInfo>& msg1) {
-  
   // calculate steer
   float distance = msg0->uwb_distance();
   float azimuth = msg0->uwb_azimuth();
   AINFO << "reveiced Chassis Detail UWBdistance:" << distance
         << "  azimuth:" << azimuth;
-  float control_steer=0;
-  if(msg1->rel_x_size()>0){
+  float control_steer = 0;
+  if (msg1->rel_x_size() > 0) {
     DealTraj(msg1);
     control_steer = Caculate_steer(msg0, msg1);
-  }
-  else{
+  } else {
     control_steer = Caculate_steer_purefollow(msg0);
-    AERROR<<"Traj missing";
+    AERROR << "Traj missing";
   }
-  
-  controlcmd.set_control_steer(control_steer - configinfo.ControlSteerCorrect); //Correct ControlSteerAngle
+
+  controlcmd.set_control_steer(
+      control_steer -
+      configinfo.ControlSteerCorrect);  // Correct ControlSteerAngle
 
   // calculate acc
   control_acc = Caculate_acc(msg0);
@@ -74,7 +74,8 @@ void guide_Control::DealTraj(const std::shared_ptr<TrajInfo>& msg1) {
   // Bezier Curve
   BezierFitting(msg1);
   // Lateral error
-  int index_la = FindLookAheadPointBezier(6); //Todo 此处需要增加车身长度的修改量。
+  int index_la =
+      FindLookAheadPointBezier(6);  // Todo 此处需要增加车身长度的修改量。
   err_lat = BezierX[index_la];
   AINFO << "Lateral Error is: " << err_lat;
 }
@@ -125,58 +126,68 @@ float guide_Control::CalBezierLoc(int n, float t, float p[]) {
   return loc;
 }
 
-float guide_Control::CalculateUnstableCoefficient(){
-  float KErrY=configinfo.KErrY;
-  float KErrTheta=configinfo.KErrTheta;
-  float ErrY2Eff=configinfo.ErrY2Eff;
-  float ErrTheta2Eff=configinfo.ErrTheta2Eff;
+float guide_Control::CalculateUnstableCoefficient() {
+  float KErrY = configinfo.KErrY;
+  float KErrTheta = configinfo.KErrTheta;
+  float ErrY2Eff = configinfo.ErrY2Eff;
+  float ErrTheta2Eff = configinfo.ErrTheta2Eff;
 
-
-  float ErrorY=abs(BezierY[0]);
-  float ErrorTheta=0;
-  //CalculateErrorTheta by slope     degree
-  if(BezierX[1]!=0){
-    ErrorTheta=abs( atan( (BezierY[1]-BezierY[0])/(BezierX[1]-BezierX[0]) ) /M_PI*180);
+  float ErrorY = abs(BezierY[0]);
+  float ErrorTheta = 0;
+  // CalculateErrorTheta by slope     degree
+  if (BezierX[1] != 0) {
+    ErrorTheta =
+        abs(atan((BezierY[1] - BezierY[0]) / (BezierX[1] - BezierX[0])) / M_PI *
+            180);
   }
-  float Du=0;
-  if(ErrorY>ErrY2Eff) Du=Du+KErrY*(ErrorY-ErrY2Eff);
-  if(ErrorTheta>ErrTheta2Eff) Du=Du+KErrTheta*(ErrorTheta-ErrTheta2Eff);
-  if(Du>1) Du=1;
-  AINFO<< "ErrorY = "<< ErrorY <<" ErrorTheta = " << ErrorTheta;
-  AINFO<< "UnstableCoefficient = "<< Du;
+  float Du = 0;
+  if (ErrorY > ErrY2Eff) Du = Du + KErrY * (ErrorY - ErrY2Eff);
+  if (ErrorTheta > ErrTheta2Eff)
+    Du = Du + KErrTheta * (ErrorTheta - ErrTheta2Eff);
+  if (Du > 1) Du = 1;
+  AINFO << "ErrorY = " << ErrorY << " ErrorTheta = " << ErrorTheta;
+  AINFO << "UnstableCoefficient = " << Du;
   return Du;
 }
 
-float guide_Control::Stanley(float k,float v,int &ValidCheck){ // use stanley method to calculate steer angle.
-  ValidCheck=1;
-// find point X=L
-  int index=BezierLength-1;
-  for(int i=0;i<BezierLength-1;i++){
-    if(BezierX[i]<=L && BezierX[i+1]>L){
-      index=i;
+float guide_Control::Stanley(
+    float k, float v,
+    int& ValidCheck) {  // use stanley method to calculate steer angle.
+  ValidCheck = 1;
+  // find point X=L
+  int index = BezierLength - 1;
+  for (int i = 0; i < BezierLength - 1; i++) {
+    if (BezierX[i] <= L && BezierX[i + 1] > L) {
+      index = i;
       break;
     }
   }
-  //maybe no such point?
-  if(BezierX[index]>L || BezierX[index+1]<=L) {
-    ValidCheck=0;
+  // maybe no such point?
+  if (BezierX[index] > L || BezierX[index + 1] <= L) {
+    ValidCheck = 0;
     return 0;
   }
-// find angle at point X=L 
-  float phi_e=atan( (BezierY[index+1]-BezierY[index]) / (BezierX[index+1]-BezierX[index]))/M_PI*180;
-  //X[i] and X[i+1] may be same?
+  // find angle at point X=L
+  float phi_e = atan((BezierY[index + 1] - BezierY[index]) /
+                     (BezierX[index + 1] - BezierX[index])) /
+                M_PI * 180;
+  // X[i] and X[i+1] may be same?
 
-// find y error at point X=L
-  if(v<=3) v=3;
-  float phi_y=atan( k*( BezierY[index] + (BezierY[index+1]-BezierY[index]) *
-                           (L-BezierX[index]) / (BezierX[index+1]-BezierX[index]) )/v );
-  //v==0?
-  return phi_e+phi_y;
+  // find y error at point X=L
+  if (v <= 3) v = 3;
+  float phi_y =
+      atan(k *
+           (BezierY[index] + (BezierY[index + 1] - BezierY[index]) *
+                                 (L - BezierX[index]) /
+                                 (BezierX[index + 1] - BezierX[index])) /
+           v);
+  // v==0?
+  return phi_e + phi_y;
 }
 
 //纯跟踪预瞄
-float guide_Control::Caculate_steer_purefollow(const std::shared_ptr<ChassisDetail>& msg0) {
-
+float guide_Control::Caculate_steer_purefollow(
+    const std::shared_ptr<ChassisDetail>& msg0) {
   // get config in current speed
   float distance = msg0->uwb_distance();
   float azimuth_angle = msg0->uwb_azimuth();
@@ -190,8 +201,7 @@ float guide_Control::Caculate_steer_purefollow(const std::shared_ptr<ChassisDeta
   AINFO << "purefollow y is: " << lat_distance;
 
   float frontwheel_steer_angle =
-      atan(2 * L * lat_distance / (long_distance * long_distance)) * 180 /
-          M_PI;
+      atan(2 * L * lat_distance / (long_distance * long_distance)) * 180 / M_PI;
   if (frontwheel_steer_angle > 20)
     frontwheel_steer_angle = 20;
   else if (frontwheel_steer_angle < -20)
@@ -212,11 +222,11 @@ float guide_Control::Caculate_steer_purefollow(const std::shared_ptr<ChassisDeta
 
 float guide_Control::Caculate_steer(const std::shared_ptr<ChassisDetail>& msg0,
                                     const std::shared_ptr<TrajInfo>& msg1) {
-  //Read ConfigInfo
+  // Read ConfigInfo
   float CurrentSpeed = msg0->x_speed();
   float LookAheadDistance = 0;
   float steerK, steer_stanley_prop;
-  float LatAccLimit=configinfo.LatAccLimit;
+  float LatAccLimit = configinfo.LatAccLimit;
   int SpeedStage = 0;
   if (CurrentSpeed <= configinfo.Speed[1])
     SpeedStage = 0;
@@ -231,7 +241,7 @@ float guide_Control::Caculate_steer(const std::shared_ptr<ChassisDetail>& msg0,
   steer_stanley_prop = configinfo.SteerStanleyProportion;
   // get config in current speed
 
-  //Find LookAhead Point in Bezier Curve
+  // Find LookAhead Point in Bezier Curve
   int index_la = FindLookAheadPointBezier(LookAheadDistance);
   float long_distance;
   long_distance = BezierX[index_la];
@@ -240,42 +250,50 @@ float guide_Control::Caculate_steer(const std::shared_ptr<ChassisDetail>& msg0,
 
   AINFO << "lookahead x is: " << long_distance;
   AINFO << "lookahead y is: " << lat_distance;
-  //Calculate Pid Control FrontWheel Angle
-  //PID pid_steer(steer_PID_kp, steer_PID_ki, steer_PID_kd);  // todo delete PID Class
-  int ValidCheck=0;
-  float stanley_angle=-Stanley(steerK,CurrentSpeed,ValidCheck);   //stanley method
-  if(ValidCheck==0){//invalid then only use follow
-    steer_stanley_prop=0;
+  // Calculate Pid Control FrontWheel Angle
+  // PID pid_steer(steer_PID_kp, steer_PID_ki, steer_PID_kd);  // todo delete
+  // PID Class
+  int ValidCheck = 0;
+  float stanley_angle =
+      -Stanley(steerK, CurrentSpeed, ValidCheck);  // stanley method
+  if (ValidCheck == 0) {  // invalid then only use follow
+    steer_stanley_prop = 0;
   }
   float frontwheel_steer_angle1 =
       -(1 - steer_stanley_prop) *
           atan(2 * L * lat_distance / (long_distance * long_distance)) * 180 /
           M_PI +
       steer_stanley_prop * stanley_angle;
-  
-  //Calculate FrontWheelAngle Pure Follow
+
+  // Calculate FrontWheelAngle Pure Follow
   float distance = msg0->uwb_distance();
   float azimuth_angle = msg0->uwb_azimuth();
 
   long_distance = distance * cos(azimuth_angle / 180 * M_PI);  // m
-  lat_distance = distance * sin(azimuth_angle / 180 * M_PI);  // m
-  float frontwheel_steer_angle2 =0;
-  if (long_distance == 0) frontwheel_steer_angle2 = 0;
-  else  frontwheel_steer_angle2 = atan(2 * L * lat_distance / (long_distance * long_distance)) * 180 / M_PI;
+  lat_distance = distance * sin(azimuth_angle / 180 * M_PI);   // m
+  float frontwheel_steer_angle2 = 0;
+  if (long_distance == 0)
+    frontwheel_steer_angle2 = 0;
+  else
+    frontwheel_steer_angle2 =
+        atan(2 * L * lat_distance / (long_distance * long_distance)) * 180 /
+        M_PI;
 
-  //sum frontwheel angle from 2 sources
-  float Du=CalculateUnstableCoefficient();
-  float frontwheel_steer_angle = frontwheel_steer_angle1*(1-Du) + frontwheel_steer_angle2*Du;
+  // sum frontwheel angle from 2 sources
+  float Du = CalculateUnstableCoefficient();
+  float frontwheel_steer_angle =
+      frontwheel_steer_angle1 * (1 - Du) + frontwheel_steer_angle2 * Du;
 
-  //Calculate Lateral Acc Limit
+  // Calculate Lateral Acc Limit
   float frontwheel_angle_limit;
-  frontwheel_angle_limit = atan(LatAccLimit*L/CurrentSpeed/CurrentSpeed)/M_PI*180;
-  if(frontwheel_angle_limit < 0){
-      frontwheel_angle_limit = -frontwheel_angle_limit;
-  }else if(frontwheel_angle_limit > 20){
-      frontwheel_angle_limit=20;
+  frontwheel_angle_limit =
+      atan(LatAccLimit * L / CurrentSpeed / CurrentSpeed) / M_PI * 180;
+  if (frontwheel_angle_limit < 0) {
+    frontwheel_angle_limit = -frontwheel_angle_limit;
+  } else if (frontwheel_angle_limit > 20) {
+    frontwheel_angle_limit = 20;
   }
-  
+
   if (frontwheel_steer_angle > frontwheel_angle_limit)
     frontwheel_steer_angle = frontwheel_angle_limit;
   else if (frontwheel_steer_angle < -frontwheel_angle_limit)
@@ -379,7 +397,7 @@ float guide_Control::Caculate_acc(const std::shared_ptr<ChassisDetail>& msg0) {
   AINFO << "contorl_acc= " << control_acc;
   return control_acc;
 }
-//no use
+// no use
 int guide_Control::FindLookAheadPoint(float LookAheadDis,
                                       const std::shared_ptr<TrajInfo>& msg1) {
   int index_max = 0;  // The possible max index of LA point
@@ -446,9 +464,9 @@ void guide_Control::ReadConfig() {
       } else if (SettingName == "SteerKd") {
         f >> x.SteerKd[0] >> x.SteerKd[1] >> x.SteerKd[2];
       } */
-      else if(SettingName == "SteerK"){
-        f>>x.SteerK;
-      }else if (SettingName == "LookAheadDistance") {
+      else if (SettingName == "SteerK") {
+        f >> x.SteerK;
+      } else if (SettingName == "LookAheadDistance") {
         f >> x.LookAheadDistance[0] >> x.LookAheadDistance[1] >>
             x.LookAheadDistance[2];
       } else if (SettingName == "SteerStanleyProportion") {
@@ -487,23 +505,23 @@ void guide_Control::ReadConfig() {
         f >> x.AccCorrectMax;
       } else if (SettingName == "BrakeCorrectMax") {
         f >> x.BrakeCorrectMax;
-      } else if (SettingName == "ControlSteerCorrect"){
-        f>>x.ControlSteerCorrect;
-      } else if(SettingName == "LatAccLimit"){
-        f>>x.LatAccLimit;
-        AINFO<<"LatAccLimit= " << x.LatAccLimit;
-      } else if(SettingName == "KErrY"){
-        f>>x.KErrY;
-        AINFO<<"KErrY= " << x.KErrY;
-      } else if(SettingName == "KErrTheta"){
-        f>>x.KErrTheta;
-        AINFO<<"KErrTheta= " << x.KErrTheta;
-      } else if(SettingName == "ErrY2Eff"){
-        f>>x.ErrY2Eff;
-        AINFO<<"ErrY2Eff= " << x.ErrY2Eff;
-      } else if(SettingName == "ErrTheta2Eff"){
-        f>>x.ErrTheta2Eff;
-        AINFO<<"ErrTheta2Eff= " << x.ErrTheta2Eff;
+      } else if (SettingName == "ControlSteerCorrect") {
+        f >> x.ControlSteerCorrect;
+      } else if (SettingName == "LatAccLimit") {
+        f >> x.LatAccLimit;
+        AINFO << "LatAccLimit= " << x.LatAccLimit;
+      } else if (SettingName == "KErrY") {
+        f >> x.KErrY;
+        AINFO << "KErrY= " << x.KErrY;
+      } else if (SettingName == "KErrTheta") {
+        f >> x.KErrTheta;
+        AINFO << "KErrTheta= " << x.KErrTheta;
+      } else if (SettingName == "ErrY2Eff") {
+        f >> x.ErrY2Eff;
+        AINFO << "ErrY2Eff= " << x.ErrY2Eff;
+      } else if (SettingName == "ErrTheta2Eff") {
+        f >> x.ErrTheta2Eff;
+        AINFO << "ErrTheta2Eff= " << x.ErrTheta2Eff;
       }
     }
     f.close();
@@ -514,13 +532,13 @@ void guide_Control::ReadConfig() {
   AINFO << "Desireddistance" << configinfo.DesiredDistance;
   AINFO << "Speed " << configinfo.Speed[0] << " " << configinfo.Speed[1] << " "
         << configinfo.Speed[2];
-        /*
-  AINFO << "SteerKp " << configinfo.SteerKp[0] << " " << configinfo.SteerKp[1]
-        << " " << configinfo.SteerKp[2];
-  AINFO << "SteerKi " << configinfo.SteerKi[0] << " " << configinfo.SteerKi[1]
-        << " " << configinfo.SteerKi[2];
-  AINFO << "SteerKc " << configinfo.SteerKd[0] << " " << configinfo.SteerKd[1]
-        << " " << configinfo.SteerKd[2];*/
+  /*
+AINFO << "SteerKp " << configinfo.SteerKp[0] << " " << configinfo.SteerKp[1]
+  << " " << configinfo.SteerKp[2];
+AINFO << "SteerKi " << configinfo.SteerKi[0] << " " << configinfo.SteerKi[1]
+  << " " << configinfo.SteerKi[2];
+AINFO << "SteerKc " << configinfo.SteerKd[0] << " " << configinfo.SteerKd[1]
+  << " " << configinfo.SteerKd[2];*/
   AINFO << "SteerK" << configinfo.SteerK;
   AINFO << "LookAheadDistance" << configinfo.LookAheadDistance[0] << " "
         << configinfo.LookAheadDistance[1] << " "

@@ -1,0 +1,12 @@
+<cyber>
+    <module>
+        <name>transport_can</name>
+        <dag_conf>/apollo/modules/transport_can/dag/transport_can.dag</dag_conf>
+        <process_name>guide_can</process_name>
+    </module>
+    <module>
+        <name>guide_control</name>
+        <dag_conf>/apollo/modules/transport_can_control/dag/transport_can_control.dag</dag_conf>
+        <process_name>guide_control</process_name>
+    </module>
+</cyber>

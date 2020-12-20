@@ -68,7 +68,6 @@ void guide_Canbus::PublishChassisDetail() {
   ChassisDetail sensordata;
   message_manager->GetSensorData(&sensordata);
 
-
   AINFO << "uwb distance is :" << sensordata.uwb_distance() << endl;
   AINFO << "uwb azimuth is :" << sensordata.uwb_azimuth() << endl;
   AINFO << "yaw rate is : " << sensordata.follower_yaw_rate() << endl;
