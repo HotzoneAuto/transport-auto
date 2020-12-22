@@ -17,17 +17,22 @@
 #pragma once
 
 #include <memory>
+#include <chrono>
+#include <memory>
 #include "modules/common/proto/error_code.pb.h"
 
 #include "modules/transport_can/proto/control_command.pb.h"
+#include "modules/transport_can/proto/transport_can_conf.pb.h"
 #include "modules/transport_can/vehicle/transport/protocol/id_0x4ef8480.h"
 #include "modules/transport_can/vehicle/transport/protocol/id_0xc040b2b.h"
 
+#include "cyber/cyber.h"
 #include "cyber/common/log.h"
 #include "modules/common/time/time.h"
 #include "modules/drivers/canbus/can_comm/can_sender.h"
 #include "modules/drivers/canbus/can_comm/protocol_data.h"
 #include "modules/transport_can/vehicle/transport/transport_message_manager.h"
+
 using ::apollo::canbus::ControlCommand;
 using ::apollo::canbus::Transport::Id0x4ef8480;
 using ::apollo::canbus::Transport::Id0xc040b2b;
@@ -35,7 +40,7 @@ using ::apollo::common::ErrorCode;
 using ::apollo::drivers::canbus::CanSender;
 using ::apollo::drivers::canbus::ProtocolData;
 
-class TransportController {
+class TransportController : public apollo::cyber::Component<>{
  public:
   explicit TransportController(){};
 
@@ -45,16 +50,21 @@ class TransportController {
       CanSender<::apollo::canbus::ChassisDetail> *const can_sender_,
       MessageManager<::apollo::canbus::ChassisDetail> *const message_manager);
   void ControlUpdate(ControlCommand cmd, const int SteerEnable,
-                     const int AccEnable);
+                     const int AccEnable, float vol_cur, float vol_exp,
+                     int brakeSet, int clutchSet, int speedSet);
   void Start();
   void Stop();
+  bool Init() override;
 
  private:
   bool is_initialized_ = false;
   bool is_start = false;
+  int count_flag = 0;
   // control protocol
   CanSender<::apollo::canbus::ChassisDetail> *can_sender_;
   MessageManager<::apollo::canbus::ChassisDetail> *message_manager_;
   Id0x4ef8480 *id_0x4ef8480_ = nullptr;
   Id0xc040b2b *id_0xc040b2b_ = nullptr;
+  apollo::canbus::TransportCanConf transport_can_conf_;
 };
+CYBER_REGISTER_COMPONENT(TransportController)

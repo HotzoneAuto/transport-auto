@@ -24,6 +24,7 @@ cc_library(
         "//modules/drivers/canbus/can_comm:can_sender",
         "//modules/drivers/canbus/common:canbus_common",
         "//modules/transport_can/proto:control_command_cc_proto",
+        "//modules/transport_can/proto:transport_can_conf_cc_proto",
         "//modules/transport_can/vehicle/transport/protocol:canbus_transport_protocol",
     ],
 )

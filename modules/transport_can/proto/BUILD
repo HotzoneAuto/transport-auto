@@ -44,3 +44,22 @@ py_proto_library(
         ":control_command_proto",
     ],
 )
+
+cc_proto_library(
+    name = "transport_can_conf_cc_proto",
+    deps = [
+        ":transport_can_conf_proto",
+    ],
+)
+
+proto_library(
+    name = "transport_can_conf_proto",
+    srcs = ["transport_can_conf.proto"],
+)
+
+py_proto_library(
+    name = "transport_can_conf_py_pb2",
+    deps = [
+        ":transport_can_conf_proto",
+    ],
+)
