@@ -90,7 +90,7 @@ void transport_Control::UpdateTraj(
     double dis = SphereDis(E_now, N_now, E_point, N_point);
     double azi = SphereAzimuth(E_now, N_now, E_point, N_point);
     double rel_x = dis * cos(azi - Azi_now);
-    double rel_y = dis * cos(azi - Azi_now);
+    double rel_y = dis * sin(azi - Azi_now);
     double vel = trajinfo[5][i];
     rel_loc[0].push_back(rel_x);
     rel_loc[1].push_back(rel_y);
