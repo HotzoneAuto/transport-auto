@@ -18,11 +18,11 @@ cc_library(
         "//cyber",
         "//modules/drivers/canbus/can_client/socket:socket_can_client_raw",
         "//modules/drivers/canbus/proto:can_card_parameter_cc_proto",
-	"//modules/drivers/canbus/can_comm:can_receiver",
-	"//modules/drivers/canbus/can_comm:can_sender",
-	"//modules/transport_can/vehicle/transport:transport_message_manager",
+	    "//modules/drivers/canbus/can_comm:can_receiver",
+	    "//modules/drivers/canbus/can_comm:can_sender",
+	    "//modules/transport_can/vehicle/transport:transport_message_manager",
         "//modules/transport_can/vehicle/transport:transport_controller",
-	"//modules/transport_can/vehicle/transportgps:transportgps_message_manager",
+	    "//modules/transport_can/vehicle/transportgps:transportgps_message_manager",
     ],
 )
 

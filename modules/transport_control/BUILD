@@ -18,7 +18,7 @@ cc_library(
         "//cyber",
 	"//modules/transport_can/proto:chassis_detail_cc_proto",
 	"//modules/transport_can/proto:control_command_cc_proto",
-	"//modules/transport_control/gps:GPSproto",
+	"//modules/drivers/gps:GPSproto",
     ],
 )
 

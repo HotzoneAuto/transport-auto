@@ -19,6 +19,7 @@
 #include <memory>
 #include <chrono>
 #include <memory>
+#include <fstream>
 #include "modules/common/proto/error_code.pb.h"
 
 #include "modules/transport_can/proto/control_command.pb.h"
@@ -39,8 +40,9 @@ using ::apollo::canbus::Transport::Id0xc040b2b;
 using ::apollo::common::ErrorCode;
 using ::apollo::drivers::canbus::CanSender;
 using ::apollo::drivers::canbus::ProtocolData;
+using namespace std;
 
-class TransportController : public apollo::cyber::Component<>{
+class TransportController{
  public:
   explicit TransportController(){};
 
@@ -50,11 +52,9 @@ class TransportController : public apollo::cyber::Component<>{
       CanSender<::apollo::canbus::ChassisDetail> *const can_sender_,
       MessageManager<::apollo::canbus::ChassisDetail> *const message_manager);
   void ControlUpdate(ControlCommand cmd, const int SteerEnable,
-                     const int AccEnable, float vol_cur, float vol_exp,
-                     int brakeSet, int clutchSet, int speedSet);
+                     const int AccEnable, float vol_cur, float vol_exp);
   void Start();
   void Stop();
-  bool Init() override;
 
  private:
   bool is_initialized_ = false;
@@ -65,6 +65,18 @@ class TransportController : public apollo::cyber::Component<>{
   MessageManager<::apollo::canbus::ChassisDetail> *message_manager_;
   Id0x4ef8480 *id_0x4ef8480_ = nullptr;
   Id0xc040b2b *id_0xc040b2b_ = nullptr;
-  apollo::canbus::TransportCanConf transport_can_conf_;
+
+  ifstream f;
+  int ClutchSet_;
+  int BrakeSet_;
+  int SpeedSet_;
+  int ClutchReleaseRate_;
+  int BrakeApplyRate_;
+  int IdleSpeed_;
+  int SpeedThreshold_;
+  int SpeedErrorThreshold_;
+  int KSpeedThrottle_;
+  int KDrive_;
+  int KBrake_;
 };
-CYBER_REGISTER_COMPONENT(TransportController)
+

@@ -1,0 +1,486 @@
+Log file created at: 2020/12/24 16:36:21
+Running on machine: in_cyber_docker
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+W1224 16:36:21.317485 26834 scheduler_factory.cc:63] No sched conf found, use default conf.
+I1224 16:36:21.393116 26836 processor.cc:41] processor_tid: 26836
+I1224 16:36:21.393355 26837 processor.cc:41] processor_tid: 26837
+I1224 16:36:21.393676 26838 processor.cc:41] processor_tid: 26838
+I1224 16:36:21.393956 26839 processor.cc:41] processor_tid: 26839
+I1224 16:36:21.394204 26840 processor.cc:41] processor_tid: 26840
+I1224 16:36:21.394448 26841 processor.cc:41] processor_tid: 26841
+I1224 16:36:21.395081 26842 processor.cc:41] processor_tid: 26842
+I1224 16:36:21.395282 26843 processor.cc:41] processor_tid: 26843
+I1224 16:36:21.395498 26844 processor.cc:41] processor_tid: 26844
+I1224 16:36:21.395727 26845 processor.cc:41] processor_tid: 26845
+I1224 16:36:21.395893 26846 processor.cc:41] processor_tid: 26846
+I1224 16:36:21.396050 26847 processor.cc:41] processor_tid: 26847
+I1224 16:36:21.396219 26848 processor.cc:41] processor_tid: 26848
+I1224 16:36:21.396380 26849 processor.cc:41] processor_tid: 26849
+I1224 16:36:21.396540 26850 processor.cc:41] processor_tid: 26850
+I1224 16:36:21.396698 26851 processor.cc:41] processor_tid: 26851
+I1224 16:36:21.453578 26834 init.cc:103] Register exit handle succ.
+I1224 16:36:21.499505 26834 module_controller.cc:65] Start initialize dag: /apollo/modules/transport_can/dag/transport_can.dag
+I1224 16:36:21.499852 26834 class_loader.cc:37] Begin LoadLibrary: /apollo/bazel-bin/modules/transport_can/transport_can.so
+I1224 16:36:22.220907 26834 class_loader_utility.h:78] registerclass:transport_Canbus,apollo::cyber::ComponentBase,/apollo/bazel-bin/modules/transport_can/transport_can.so
+I1224 16:36:22.473955 26834 transport_can.cc:127] Control Config File Opened
+I1224 16:36:22.474275 26834 transport_can.cc:133] AccEnable= 1
+I1224 16:36:22.474328 26834 transport_can.cc:136] SteerEnable= 1
+I1224 16:36:22.474356 26834 transport_can.cc:139] TrajMode= 0
+E1224 16:36:22.495833 26834 socket_can_client_raw.cc:135] ioctl error
+I1224 16:36:22.498301 26834 scheduler.cc:54] create croutine: /internal/task0
+I1224 16:36:22.498531 26834 scheduler.cc:54] create croutine: /internal/task1
+I1224 16:36:22.498682 26834 scheduler.cc:54] create croutine: /internal/task2
+I1224 16:36:22.498829 26834 scheduler.cc:54] create croutine: /internal/task3
+I1224 16:36:22.498996 26834 scheduler.cc:54] create croutine: /internal/task4
+I1224 16:36:22.499121 26834 scheduler.cc:54] create croutine: /internal/task5
+I1224 16:36:22.499230 26834 scheduler.cc:54] create croutine: /internal/task6
+I1224 16:36:22.499347 26834 scheduler.cc:54] create croutine: /internal/task7
+I1224 16:36:22.499454 26834 scheduler.cc:54] create croutine: /internal/task8
+I1224 16:36:22.499648 26834 scheduler.cc:54] create croutine: /internal/task9
+I1224 16:36:22.499773 26834 scheduler.cc:54] create croutine: /internal/task10
+I1224 16:36:22.499908 26834 scheduler.cc:54] create croutine: /internal/task11
+I1224 16:36:22.500020 26834 scheduler.cc:54] create croutine: /internal/task12
+I1224 16:36:22.500131 26834 scheduler.cc:54] create croutine: /internal/task13
+I1224 16:36:22.500236 26834 scheduler.cc:54] create croutine: /internal/task14
+I1224 16:36:22.500339 26834 scheduler.cc:54] create croutine: /internal/task15
+I1224 16:36:22.501132 26842 can_receiver.h:135] Can client receiver thread starts.
+E1224 16:36:22.501181 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.501782 26858 can_sender.h:287] Can client sender thread starts.
+E1224 16:36:22.501785 26834 socket_can_client_raw.cc:135] ioctl error
+I1224 16:36:22.502125 26838 can_receiver.h:135] Can client receiver thread starts.
+E1224 16:36:22.502168 26838 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.502434 26834 transport_can.cc:52] Canbus Init
+I1224 16:36:22.552870 26834 scheduler.cc:54] create croutine: transport_Canbus_transport/ControlCommand
+E1224 16:36:22.553212 26848 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.553342 26848 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.554128 26834 transport_can.cc:64] TrajFileOpened
+I1224 16:36:22.594785 26834 timer.cc:135] start timer [0]
+E1224 16:36:22.615247 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.615262 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.615377 26841 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.635151 26845 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.635213 26838 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.635152 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.655123 26843 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.655135 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.655195 26845 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.675216 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.675236 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.675355 26838 transport_can.cc:93] current_steer_angle: 0
+W1224 16:36:22.680481 26860 rate.cc:95] Detect forward jumps in time
+E1224 16:36:22.698673 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.698726 26836 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.698693 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.716604 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.716604 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.716647 26836 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.736641 26843 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.736641 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.736681 26838 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.756641 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.756641 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.756664 26837 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.776661 26850 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.776661 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.776705 26843 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.796717 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.796782 26840 can_receiver.h:150] Received 12 error messages.
+E1224 16:36:22.796734 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.796761 26845 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.816756 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.816756 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.816851 26851 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.836766 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.836769 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.836809 26850 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.856725 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.856725 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.856781 26844 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.876765 26845 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.876768 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.876823 26840 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.896780 26850 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.896782 26848 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.896818 26845 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.916834 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.916834 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.916880 26836 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.934713 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.934713 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.934746 26837 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.956768 26843 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.956768 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.956876 26841 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.974913 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.974915 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:22.974994 26843 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.994905 26851 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:22.995096 26851 can_receiver.h:150] Received 22 error messages.
+I1224 16:36:22.994966 26847 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:22.994938 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.014911 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.014945 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.015071 26843 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.034704 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.034710 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.034791 26844 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.056787 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.056810 26843 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.056788 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.076750 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.076792 26851 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.076843 26841 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.096791 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.096906 26844 can_receiver.h:150] Received 27 error messages.
+E1224 16:36:23.096784 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.096865 26851 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.116784 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.116784 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.116906 26841 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.134709 26843 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.134734 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.134778 26849 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.156774 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.156870 26850 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.156805 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.174739 26845 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.174739 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.174788 26846 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.196705 26848 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.196821 26848 can_receiver.h:150] Received 32 error messages.
+E1224 16:36:23.196720 26843 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.196759 26850 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.217133 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.217226 26844 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.217134 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.235316 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.235316 26850 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.235374 26848 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.254686 26843 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.254686 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.254766 26845 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.276749 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.276753 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.276808 26843 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.296788 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.296900 26844 can_receiver.h:150] Received 37 error messages.
+E1224 16:36:23.296766 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.296851 26851 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.316869 26838 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.316869 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.316923 26836 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.334775 26850 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.334789 26838 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.335039 26837 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.354806 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.354836 26845 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.354939 26849 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.374733 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.374768 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.374905 26839 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.396682 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.396781 26840 can_receiver.h:150] Received 42 error messages.
+I1224 16:36:23.396744 26843 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.396682 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.416714 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.416714 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.416738 26841 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.436653 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.436653 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.436691 26844 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.456665 26845 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.456665 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.456689 26848 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.476665 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.476671 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.476686 26850 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.496634 26838 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.496701 26838 can_receiver.h:150] Received 47 error messages.
+E1224 16:36:23.496652 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.496680 26840 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.516788 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.516777 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.516929 26845 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.534965 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.535019 26838 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.534965 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.554906 26845 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.555007 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.555061 26846 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.574690 26850 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.574690 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.574728 26837 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.596673 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.596743 26839 can_receiver.h:150] Received 52 error messages.
+E1224 16:36:23.596673 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.596702 26843 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.616612 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.616621 26845 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.616662 26844 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.636646 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.636673 26839 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.636648 26838 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.657078 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.657078 26851 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.657223 26837 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.674647 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.674647 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.674674 26845 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.696671 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.696753 26842 can_receiver.h:150] Received 57 error messages.
+E1224 16:36:23.696671 26848 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.696689 26850 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.716702 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.716702 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.716784 26837 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.736704 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.736709 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.736775 26843 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.756736 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.756754 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.756774 26838 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.776727 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.776819 26850 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.776765 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.796697 26845 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.796795 26845 can_receiver.h:150] Received 62 error messages.
+E1224 16:36:23.796710 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.796752 26838 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.816711 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.816711 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.816756 26836 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.836717 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.836727 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.836777 26837 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.856740 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.856778 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.856809 26841 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.876807 26848 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.876888 26839 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.876812 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.894800 26848 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.894995 26848 can_receiver.h:150] Received 67 error messages.
+E1224 16:36:23.894805 26851 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.894932 26845 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.914821 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.914834 26838 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.914904 26847 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.936811 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.936878 26840 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.936842 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.954816 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.954818 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.954898 26841 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.976752 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:23.976835 26851 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:23.976752 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.996795 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.996841 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:23.996917 26847 can_receiver.h:150] Received 72 error messages.
+I1224 16:36:23.996960 26848 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.014825 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.014919 26840 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.014834 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.034808 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.034898 26851 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.034968 26848 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.054836 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.054922 26851 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.054836 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.074664 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.074664 26838 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.074692 26845 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.096776 26850 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.096786 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.096817 26846 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.116865 26843 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.116865 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.116909 26837 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.134824 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.134958 26839 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.134824 26838 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.155333 26845 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.155334 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.155413 26851 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.174794 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.174795 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.174912 26847 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.196833 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.196977 26841 can_receiver.h:150] Received 82 error messages.
+I1224 16:36:24.196909 26842 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.196839 26843 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.214818 26838 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.214818 26845 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.214927 26841 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.234763 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.234776 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.234838 26846 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.257436 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.257436 26845 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.257611 26848 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.274752 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.274778 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.274838 26847 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.296811 26850 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.297215 26850 can_receiver.h:150] Received 87 error messages.
+I1224 16:36:24.296947 26846 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.296813 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.314805 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.314805 26845 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.314847 26849 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.336719 26843 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.336719 26838 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.336735 26836 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.356608 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.356619 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.356650 26846 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.376641 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.376686 26849 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.376679 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.396625 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.396646 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.396672 26836 can_receiver.h:150] Received 92 error messages.
+I1224 16:36:24.396683 26850 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.417004 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.417004 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.417035 26838 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.434883 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.434893 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.434935 26839 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.454804 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.454914 26836 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.454829 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.474761 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.474799 26848 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.474846 26844 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.496791 26850 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.496858 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.496913 26850 can_receiver.h:150] Received 97 error messages.
+I1224 16:36:24.496908 26838 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.514750 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.514786 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.514844 26849 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.536773 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.536823 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.536919 26850 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.554800 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.554848 26848 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.554811 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.576752 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.576752 26843 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.576872 26847 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.594746 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.594919 26840 can_receiver.h:150] Received 102 error messages.
+I1224 16:36:24.594880 26851 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.594774 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.616791 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.616791 26850 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.616892 26851 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.634820 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.634917 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.634976 26842 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.654803 26843 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.654803 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.654927 26839 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.674768 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.674782 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.674885 26843 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.696699 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.696785 26844 can_receiver.h:150] Received 107 error messages.
+E1224 16:36:24.696717 26842 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.696741 26848 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.716724 26838 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.716815 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.716918 26844 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.734728 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.734762 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.734788 26842 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.756707 26851 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.756757 26838 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.756707 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.776592 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.776592 26850 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.776628 26842 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.796602 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.796633 26843 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.796651 26841 can_receiver.h:150] Received 112 error messages.
+I1224 16:36:24.796656 26842 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.816900 26840 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.816900 26845 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.816915 26836 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.834661 26851 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.834661 26848 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.834679 26838 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.856634 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.856655 26851 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.856634 26843 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.876675 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.876684 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.876721 26839 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.896667 26838 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.896730 26838 can_receiver.h:150] Received 117 error messages.
+E1224 16:36:24.896668 26850 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.896689 26842 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.916697 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.916718 26848 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.916744 26836 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.936820 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.936964 26838 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.936832 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.954825 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.954905 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.954993 26851 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.974629 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.974644 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.974671 26851 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:24.996649 26844 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:24.996722 26844 can_receiver.h:150] Received 122 error messages.
+E1224 16:36:24.996652 26845 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:24.996692 26848 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:25.016636 26836 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:25.016655 26843 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:25.016636 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:25.036700 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:25.036744 26836 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:25.036698 26846 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:25.056645 26850 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:25.056672 26843 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:25.056730 26850 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:25.076735 26850 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:25.076735 26838 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:25.076754 26844 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:25.096679 26848 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:25.096722 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:25.096771 26848 can_receiver.h:150] Received 127 error messages.
+I1224 16:36:25.096760 26851 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:25.116688 26839 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:25.116688 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:25.116772 26848 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:25.136823 26851 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:25.136823 26837 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:25.136868 26839 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:25.156638 26847 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:25.156631 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:25.156682 26842 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:25.176647 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:25.176653 26845 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:25.176688 26836 transport_can.cc:93] current_steer_angle: 0
+I1224 16:36:25.195984 26834 transport_can.cc:76] TrajFileClosed
+I1224 16:36:25.196020 26834 can_sender.h:378] Stopping can sender ...
+E1224 16:36:25.196672 26849 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:36:25.196720 26849 can_receiver.h:150] Received 132 error messages.
+I1224 16:36:25.196770 26844 transport_can.cc:93] current_steer_angle: 0
+E1224 16:36:25.196664 26838 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:25.198690 26858 can_sender.h:323] Can client sender thread stopped!
+I1224 16:36:25.198902 26834 can_sender.h:388] Can client sender stopped [ok].
+I1224 16:36:25.198925 26834 can_receiver.h:206] Stopping can client receiver ...
+E1224 16:36:25.216645 26841 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:36:25.216666 26848 can_receiver.h:184] Can client receiver thread stopped.
+I1224 16:36:25.216789 26834 can_receiver.h:212] Can client receiver stopped [ok].
+I1224 16:36:25.216807 26834 can_receiver.h:206] Stopping can client receiver ...
+I1224 16:36:25.216732 26851 transport_can.cc:93] current_steer_angle: 0
+I1224 16:36:25.236650 26846 can_receiver.h:184] Can client receiver thread stopped.
+I1224 16:36:25.236693 26834 can_receiver.h:212] Can client receiver stopped [ok].
+I1224 16:36:25.236668 26841 transport_can.cc:93] current_steer_angle: 0
+I1224 16:36:25.236739 26834 class_loader.cc:46] There are still classobjs have not been deleted, classobj_ref_count_: 1
+I1224 16:36:25.236749 26834 mainboard.cc:45] exit mainboard.

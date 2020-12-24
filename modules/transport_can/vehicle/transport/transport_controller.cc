@@ -16,10 +16,6 @@
 
 #include "modules/transport_can/vehicle/transport/transport_controller.h"
 
-bool Init() {
-  return true;
-}
-
 ErrorCode TransportController::Init(
     CanSender<::apollo::canbus::ChassisDetail> *const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail> *const message_manager) {
@@ -27,10 +23,40 @@ ErrorCode TransportController::Init(
     AINFO << "TransportController has already been initiated.";
     return ErrorCode::CANBUS_ERROR;
   }
-  
-  if(!GetProtoConfig(&transport_can_conf_)) {
-    AERROR << "Unable to load lidar pointcloud conf file: " << ConfigFilePath();
-    return ErrorCode::CANBUS_ERROR;
+
+  f.open("/apollo/modules/transport_can/conf/transport_can.conf");
+  if (f.is_open()) {
+    AINFO << "Control Config File Opened";
+    while (!f.eof()) {
+      string SettingName;
+      f >> SettingName;
+      if (SettingName == "ClutchSet") {
+        f >> ClutchSet_;
+      } else if (SettingName == "BrakeSet") {
+        f >> BrakeSet_;
+      } else if (SettingName == "SpeedSet") {
+        f >> SpeedSet_;
+      } else if (SettingName == "ClutchReleaseRate") {
+        f >> ClutchReleaseRate_;
+      } else if (SettingName == "BrakeApplyRate") {
+        f >> BrakeApplyRate_;
+      } else if (SettingName == "IdleSpeed") {
+        f >> IdleSpeed_;
+      } else if (SettingName == "SpeedThreshold") {
+        f >> SpeedThreshold_;
+      } else if (SettingName == "SpeedErrorThreshold") {
+        f >> SpeedErrorThreshold_;
+      } else if (SettingName == "KSpeedThrottle") {
+        f >> KSpeedThrottle_;
+      } else if (SettingName == "KDrive") {
+        f >> KDrive_;
+      } else if (SettingName == "KBrake") {
+        f >> KBrake_;
+      }
+    }
+    f.close();
+  } else {
+    AERROR << "ControlSettings.config Missing";
   }
 
   if (can_sender == nullptr) {
@@ -92,9 +118,7 @@ void TransportController::Stop() {
 void TransportController::ControlUpdate(ControlCommand cmd,
                                         const int SteerEnable,
                                         const int AccEnable, 
-                                        float vol_cur, float vol_exp,
-                                        int brakeSet, int clutchSet, 
-                                        int speedSet) {
+                                        float vol_cur, float vol_exp) {
   if (!is_start) {
     AERROR << "Controller didn't start";
     return;
@@ -110,8 +134,8 @@ void TransportController::ControlUpdate(ControlCommand cmd,
   }
   if (AccEnable == 1) {  //纵向控制启用
     int control_flag = 0;
-    float ths_dif = transport_can_conf_.speederrorthreshold();
-    float ths_exp = transport_can_conf_.speedthreshold();
+    float ths_dif = SpeedErrorThreshold_;
+    float ths_exp = SpeedThreshold_;
 
     if((vol_cur == 0) && (vol_exp > ths_exp)) {
       control_flag = 1;
@@ -119,7 +143,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
       control_flag = 2;
     } else if ((vol_exp - vol_cur) < ths_dif && (vol_cur > ths_exp)) {
       control_flag = 3;
-    } else if (vol_exp < transport_can_conf_.idlespeed()) {
+    } else if (vol_exp < IdleSpeed_) {
       control_flag = 4;
     }
     
@@ -129,10 +153,11 @@ void TransportController::ControlUpdate(ControlCommand cmd,
         case 1:
         //brake set
           id_0xc040b2b_->set_xbr1_brkpedalopenreq(0);
-          for(int i = clutchSet; i >= 0; i++) {
+          // for(int i = clutchSet; i >= 0; i++) {
+          for(int i = 100; i >= 0; i++) {
             //li he
             id_0xc040b2b_->set_xbr1_clupedalopenreq(i);
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000 / transport_can_conf_.clutchreleaserate()));
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000 / ClutchReleaseRate_));
           }
           break;
         //normal mode
@@ -140,14 +165,14 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           //P control
           if(vol_exp > vol_cur) {
             while(vol_exp > vol_cur) {
-              vol_cur = vol_cur + (vol_exp - vol_cur) * transport_can_conf_.kdrive();
-              id_0xc040b2b_->set_xbr1_accpedalopenreq(int(vol_cur / transport_can_conf_.kspeedthrottle()));
+              vol_cur = vol_cur + (vol_exp - vol_cur) * KDrive_;
+              id_0xc040b2b_->set_xbr1_accpedalopenreq(int(vol_cur / KSpeedThrottle_));
               std::this_thread::sleep_for(std::chrono::milliseconds(100)); 
             }
           } else {
             while(vol_cur > vol_exp) {
-              vol_cur = vol_cur - (vol_cur - vol_exp) * transport_can_conf_.kdrive();
-              id_0xc040b2b_->set_xbr1_accpedalopenreq(int(vol_cur / transport_can_conf_.kspeedthrottle()));
+              vol_cur = vol_cur - (vol_cur - vol_exp) * KDrive_;
+              id_0xc040b2b_->set_xbr1_accpedalopenreq(int(vol_cur / KSpeedThrottle_));
               std::this_thread::sleep_for(std::chrono::milliseconds(100));
             }
           }
@@ -156,18 +181,20 @@ void TransportController::ControlUpdate(ControlCommand cmd,
         case 3:
           //P control
           while(vol_cur > vol_exp) {
-            vol_cur = vol_cur + (vol_exp - vol_cur) * transport_can_conf_.kbrake();
-            id_0xc040b2b_->set_xbr1_brkpedalopenreq(int(vol_cur / transport_can_conf_.kspeedthrottle()));
+            vol_cur = vol_cur + (vol_exp - vol_cur) * KBrake_;
+            id_0xc040b2b_->set_xbr1_brkpedalopenreq(int(vol_cur / KSpeedThrottle_));
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
           }
           break;
         //stop mode
         case 4:
           //li he
-          id_0xc040b2b_->set_xbr1_brkpedalopenreq(clutchSet);
-          for(int i = brakeSet; i <= 100; i++) {
+          // id_0xc040b2b_->set_xbr1_brkpedalopenreq(clutchSet);
+          id_0xc040b2b_->set_xbr1_brkpedalopenreq(0);
+          // for(int i = brakeSet; i <= 100; i++) {
+          for(int i = 0; i <= 100; i++) {
             id_0xc040b2b_->set_xbr1_clupedalopenreq(i);
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000 / transport_can_conf_.brakeapplyrate()));
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000 / BrakeApplyRate_));
           }
           break;
         default: break;
