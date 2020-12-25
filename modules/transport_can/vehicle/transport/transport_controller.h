@@ -20,6 +20,7 @@
 #include <chrono>
 #include <memory>
 #include <fstream>
+#include <string>
 #include "modules/common/proto/error_code.pb.h"
 
 #include "modules/transport_can/proto/control_command.pb.h"
@@ -29,6 +30,7 @@
 
 #include "cyber/cyber.h"
 #include "cyber/common/log.h"
+#include "cyber/common/file.h"
 #include "modules/common/time/time.h"
 #include "modules/drivers/canbus/can_comm/can_sender.h"
 #include "modules/drivers/canbus/can_comm/protocol_data.h"
@@ -63,6 +65,7 @@ class TransportController{
   // control protocol
   CanSender<::apollo::canbus::ChassisDetail> *can_sender_;
   MessageManager<::apollo::canbus::ChassisDetail> *message_manager_;
+  apollo::canbus::TransportCanConf transport_can_conf_;
   Id0x4ef8480 *id_0x4ef8480_ = nullptr;
   Id0xc040b2b *id_0xc040b2b_ = nullptr;
 
