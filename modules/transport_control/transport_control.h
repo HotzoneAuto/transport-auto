@@ -7,7 +7,7 @@
 
 #include "modules/transport_can/proto/chassis_detail.pb.h"
 #include "modules/transport_can/proto/control_command.pb.h"
-#include "modules/transport_control/gps/GPSproto.h"
+#include "modules/drivers/gps/GPSproto.h"
 
 using apollo::canbus::ChassisDetail;
 using apollo::canbus::ControlCommand;

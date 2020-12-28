@@ -37,6 +37,8 @@ class transport_Canbus : public apollo::cyber::TimerComponent {
   int AccEnable;
   int Mode;
   ofstream TrajFile;
+  int vol_cur_;
+  int vol_exp_;
   bool Init() override;
   bool Proc() override;
   void Clear() override;

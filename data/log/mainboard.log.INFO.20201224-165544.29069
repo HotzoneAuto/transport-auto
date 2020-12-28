@@ -1,0 +1,1216 @@
+Log file created at: 2020/12/24 16:55:44
+Running on machine: in_cyber_docker
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+W1224 16:55:44.104990 29069 scheduler_factory.cc:63] No sched conf found, use default conf.
+I1224 16:55:44.105175 29071 processor.cc:41] processor_tid: 29071
+I1224 16:55:44.105252 29072 processor.cc:41] processor_tid: 29072
+I1224 16:55:44.105419 29073 processor.cc:41] processor_tid: 29073
+I1224 16:55:44.105468 29074 processor.cc:41] processor_tid: 29074
+I1224 16:55:44.105509 29075 processor.cc:41] processor_tid: 29075
+I1224 16:55:44.105554 29076 processor.cc:41] processor_tid: 29076
+I1224 16:55:44.105607 29077 processor.cc:41] processor_tid: 29077
+I1224 16:55:44.105655 29078 processor.cc:41] processor_tid: 29078
+I1224 16:55:44.105723 29079 processor.cc:41] processor_tid: 29079
+I1224 16:55:44.105764 29080 processor.cc:41] processor_tid: 29080
+I1224 16:55:44.105811 29081 processor.cc:41] processor_tid: 29081
+I1224 16:55:44.105863 29082 processor.cc:41] processor_tid: 29082
+I1224 16:55:44.105906 29083 processor.cc:41] processor_tid: 29083
+I1224 16:55:44.105952 29084 processor.cc:41] processor_tid: 29084
+I1224 16:55:44.105993 29085 processor.cc:41] processor_tid: 29085
+I1224 16:55:44.106030 29086 processor.cc:41] processor_tid: 29086
+I1224 16:55:44.106045 29069 init.cc:103] Register exit handle succ.
+I1224 16:55:44.108040 29069 module_controller.cc:65] Start initialize dag: /apollo/modules/transport_can/dag/transport_can.dag
+I1224 16:55:44.108121 29069 class_loader.cc:37] Begin LoadLibrary: /apollo/bazel-bin/modules/transport_can/transport_can.so
+I1224 16:55:44.154047 29069 class_loader_utility.h:78] registerclass:transport_Canbus,apollo::cyber::ComponentBase,/apollo/bazel-bin/modules/transport_can/transport_can.so
+I1224 16:55:44.158432 29069 transport_can.cc:127] Control Config File Opened
+I1224 16:55:44.158490 29069 transport_can.cc:133] AccEnable= 1
+I1224 16:55:44.158496 29069 transport_can.cc:136] SteerEnable= 1
+I1224 16:55:44.158499 29069 transport_can.cc:139] TrajMode= 0
+E1224 16:55:44.158560 29069 socket_can_client_raw.cc:135] ioctl error
+I1224 16:55:44.158934 29069 scheduler.cc:54] create croutine: /internal/task0
+I1224 16:55:44.158982 29069 scheduler.cc:54] create croutine: /internal/task1
+I1224 16:55:44.159009 29069 scheduler.cc:54] create croutine: /internal/task2
+I1224 16:55:44.159036 29069 scheduler.cc:54] create croutine: /internal/task3
+I1224 16:55:44.159060 29069 scheduler.cc:54] create croutine: /internal/task4
+I1224 16:55:44.159085 29069 scheduler.cc:54] create croutine: /internal/task5
+I1224 16:55:44.159104 29069 scheduler.cc:54] create croutine: /internal/task6
+I1224 16:55:44.159134 29069 scheduler.cc:54] create croutine: /internal/task7
+I1224 16:55:44.159154 29069 scheduler.cc:54] create croutine: /internal/task8
+I1224 16:55:44.159175 29069 scheduler.cc:54] create croutine: /internal/task9
+I1224 16:55:44.159205 29069 scheduler.cc:54] create croutine: /internal/task10
+I1224 16:55:44.159233 29069 scheduler.cc:54] create croutine: /internal/task11
+I1224 16:55:44.159261 29069 scheduler.cc:54] create croutine: /internal/task12
+I1224 16:55:44.159291 29069 scheduler.cc:54] create croutine: /internal/task13
+I1224 16:55:44.159322 29069 scheduler.cc:54] create croutine: /internal/task14
+I1224 16:55:44.159353 29069 scheduler.cc:54] create croutine: /internal/task15
+I1224 16:55:44.159456 29071 can_receiver.h:135] Can client receiver thread starts.
+E1224 16:55:44.159476 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.159654 29094 can_sender.h:287] Can client sender thread starts.
+I1224 16:55:44.159660 29069 transport_controller.cc:29] Control Config File Opened
+I1224 16:55:44.186847 29069 can_sender.h:353] Add send message:4ef8480
+I1224 16:55:44.186946 29069 can_sender.h:353] Add send message:c040b2b
+I1224 16:55:44.186955 29069 transport_controller.cc:92] TransportController is initialized.
+E1224 16:55:44.187042 29069 socket_can_client_raw.cc:135] ioctl error
+E1224 16:55:44.187359 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.187384 29078 can_receiver.h:135] Can client receiver thread starts.
+E1224 16:55:44.187489 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.187916 29069 transport_can.cc:52] Canbus Init
+I1224 16:55:44.191130 29069 scheduler.cc:54] create croutine: transport_Canbus_transport/ControlCommand
+I1224 16:55:44.191715 29069 transport_can.cc:64] TrajFileOpened
+I1224 16:55:44.192052 29069 timer.cc:135] start timer [0]
+E1224 16:55:44.205555 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.205598 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.205621 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.205636 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.212225 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.212239 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.212257 29073 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.225900 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.225931 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.225952 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.225963 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.232612 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.232612 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.232667 29074 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.246243 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.246317 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.246366 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.246395 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.252398 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.252418 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.252466 29079 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.266749 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.266892 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.267000 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.267058 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.272440 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.272495 29083 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.272440 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.287261 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.287401 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.287508 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.287556 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.292371 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.292371 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.292482 29085 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.307657 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.307734 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.307792 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.307837 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.312201 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.312203 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.312244 29072 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.328048 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.328104 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.328141 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.328161 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.332571 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.332571 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.332592 29077 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.348462 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.348507 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.348528 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.348539 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.352196 29085 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.352238 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.352262 29076 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.368847 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.368917 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.368943 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.368958 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.372243 29085 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.372243 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.372279 29074 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.389148 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.389190 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.389212 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.389223 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.392251 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.392256 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.392414 29073 can_receiver.h:150] Received 12 error messages.
+I1224 16:55:44.392282 29085 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.409505 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.409554 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.409579 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.409595 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.412320 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.412336 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.412361 29086 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.429965 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.430045 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.430092 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.430137 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.432349 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.432376 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.432399 29072 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.450369 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.450467 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.450531 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.450577 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.452348 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.452364 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.452461 29071 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.470850 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.471024 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.471094 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.471139 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.472376 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.472440 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.472491 29079 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.491216 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.491317 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.491398 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.491447 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.492368 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.492468 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.492552 29086 can_receiver.h:150] Received 16 error messages.
+I1224 16:55:44.492527 29072 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.511576 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.511682 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.511751 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.511790 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.512346 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.512346 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.512426 29078 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.532109 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.532228 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.532322 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.532354 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.532459 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.532500 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.532879 29086 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.552356 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.552428 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.552423 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.552475 29077 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.552618 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.552861 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.552925 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.572381 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.572443 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.572469 29081 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.572973 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.573081 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.573179 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.573266 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.592408 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.592411 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.592491 29076 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.592717 29073 can_receiver.h:150] Received 21 error messages.
+E1224 16:55:44.593331 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.593420 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.593492 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.593546 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.612432 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.612437 29077 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.612529 29082 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.613739 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.613819 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.613895 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.613955 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.632427 29085 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.632561 29081 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.632442 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.634238 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.634497 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.634809 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.635049 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.652396 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.652422 29077 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.652508 29073 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.654618 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.654692 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.654752 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.654791 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.672456 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.672462 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.672535 29078 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.675144 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.675226 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.675287 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.675323 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.692337 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.692448 29072 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.692337 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.692746 29083 can_receiver.h:150] Received 26 error messages.
+E1224 16:55:44.695514 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.695629 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.695714 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.695780 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.712399 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.712399 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.712522 29075 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.716012 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.716099 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.716173 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.716238 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.732326 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.732326 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.732374 29077 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.736380 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.736460 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.736519 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.736555 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.752239 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.752238 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.752264 29078 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.756945 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.756986 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.757007 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.757019 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.772265 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.772265 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.772301 29080 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.777354 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.777384 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.777412 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.777427 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.792254 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.792254 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.792384 29074 can_receiver.h:150] Received 32 error messages.
+I1224 16:55:44.792304 29078 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.797683 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.797730 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.797763 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.797783 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.812237 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.812237 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.812263 29071 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.817945 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.817984 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.818009 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.818025 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.832319 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.832337 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.832376 29077 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.838378 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.838505 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.838608 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.838665 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.852331 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.852468 29076 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.852380 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.858892 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.858985 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.859066 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.859109 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.872354 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.872388 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.872431 29073 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.879241 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.879339 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.879439 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.879496 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.892402 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.892402 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.892499 29077 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.892678 29080 can_receiver.h:150] Received 36 error messages.
+E1224 16:55:44.899682 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.899799 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.899884 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.899932 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.912429 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.912473 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.912593 29083 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.920058 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.920154 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.920233 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.920275 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.932372 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.932412 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.932459 29084 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.940413 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.940523 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.940619 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.940654 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.952363 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.952381 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.952528 29082 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.960875 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.960975 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.961063 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.961122 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.972342 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.972354 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:44.972411 29072 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:44.981247 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.981349 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:44.981420 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:44.981487 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:44.992419 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.992426 29077 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:44.992749 29077 can_receiver.h:150] Received 42 error messages.
+I1224 16:55:44.992482 29079 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.001736 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.001870 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.001937 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.001976 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.012370 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.012449 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.012557 29085 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.022121 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.022200 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.022281 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.022353 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.032559 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.032616 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.032763 29075 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.042579 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.042680 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.042737 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.042774 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.052408 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.052474 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.052559 29081 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.062988 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.063086 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.063185 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.063236 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.072348 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.072386 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.072448 29074 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.083288 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.083367 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.083437 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.083475 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.092345 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.092362 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.092566 29080 can_receiver.h:150] Received 46 error messages.
+I1224 16:55:45.092487 29073 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.103742 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.103855 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.103922 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.103971 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.112411 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.112424 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.112445 29078 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.124095 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.124182 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.124256 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.124295 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.132843 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.132871 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.132997 29081 transport_can.cc:93] current_steer_angle: 0
+W1224 16:55:45.134063 29096 rate.cc:95] Detect forward jumps in time
+E1224 16:55:45.144443 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.144544 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.144606 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.144639 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.150436 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.150436 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.150498 29077 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.164866 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.164971 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.165050 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.165102 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.172397 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.172397 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.172497 29083 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.185271 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.185350 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.185413 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.185446 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.192379 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.192381 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.192610 29084 can_receiver.h:150] Received 51 error messages.
+I1224 16:55:45.192478 29072 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.205648 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.205708 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.205754 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.205783 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.212222 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.212239 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.212289 29073 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.226024 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.226070 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.226092 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.226102 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.232198 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.232203 29085 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.232255 29083 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.246359 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.246405 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.246475 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.246496 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.252179 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.252238 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.252264 29082 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.266888 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.266983 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.267030 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.267045 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.272245 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.272276 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.272297 29072 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.287259 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.287328 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.287387 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.287416 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.292335 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.292387 29077 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.292534 29077 can_receiver.h:150] Received 56 error messages.
+I1224 16:55:45.292428 29084 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.307758 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.307832 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.307879 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.307912 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.312409 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.312410 29085 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.312516 29076 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.328281 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.328379 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.328433 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.328488 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.332510 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.332536 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.332643 29071 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.348771 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.348871 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.348923 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.348961 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.352403 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.352413 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.352581 29083 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.369326 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.369478 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.369590 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.369626 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.372392 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.372426 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.372469 29086 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.389746 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.389837 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.389894 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.389927 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.392367 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.392423 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.392751 29072 can_receiver.h:150] Received 61 error messages.
+I1224 16:55:45.392467 29080 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.410085 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.410194 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.410315 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.410360 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.412423 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.412438 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.412470 29082 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.430447 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.430547 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.430619 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.430650 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.432806 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.433009 29077 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.432806 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.450448 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.450498 29081 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.450453 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.450954 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.451079 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.451179 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.451244 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.471446 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.471544 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.471621 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.471676 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.472415 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.472431 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.472474 29083 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.491765 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.491858 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.491922 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.491969 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.492307 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.492341 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.492552 29075 can_receiver.h:150] Received 66 error messages.
+I1224 16:55:45.492425 29078 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.512204 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.512320 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.512396 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.512447 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.512583 29081 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.512454 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.512856 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.532686 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.532913 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.532920 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.533105 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.533547 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+I1224 16:55:45.533135 29074 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.533751 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+W1224 16:55:45.534075 29096 rate.cc:95] Detect forward jumps in time
+E1224 16:55:45.550405 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.550418 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.550473 29075 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.552973 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.553051 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.553115 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.553181 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.572405 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.572409 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.572515 29076 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.573354 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.573437 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.573503 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.573549 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.592304 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.592361 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.592402 29072 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.592636 29082 can_receiver.h:150] Received 71 error messages.
+E1224 16:55:45.593717 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.593804 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.593883 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.593915 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.612421 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.612479 29079 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.612421 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.614245 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.614323 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.614387 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.614419 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.632470 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.632470 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.632519 29076 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.634629 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.634802 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.634927 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.634989 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.652421 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.652446 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.652542 29078 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.655040 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.655136 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.655218 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.655282 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.672443 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.672443 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.672526 29086 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.675495 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.675586 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.675665 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.675717 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.692373 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.692390 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.692478 29085 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.692701 29081 can_receiver.h:150] Received 76 error messages.
+E1224 16:55:45.696044 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.696163 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.696267 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.696331 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.712353 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.712353 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.712416 29071 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.716527 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.716653 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.716737 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.716773 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.732367 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.732468 29083 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.732367 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.737069 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.737263 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.737375 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.737426 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.752365 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.752394 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.752442 29078 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.757488 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.757580 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.757675 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.757735 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.772298 29085 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.772306 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.772343 29077 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.777858 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.777902 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.777928 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.777967 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.792243 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.792269 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.792307 29086 can_receiver.h:150] Received 81 error messages.
+I1224 16:55:45.792285 29073 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.798224 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.798269 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.798286 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.798295 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.812220 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.812220 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.812263 29085 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.818527 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.818554 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.818583 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.818604 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.832372 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.832372 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.832422 29086 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.838840 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.838903 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.838929 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.838945 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.852437 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.852438 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.852473 29080 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.859182 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.859259 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.859304 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.859345 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.872356 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.872356 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.872407 29074 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.879660 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.879735 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.879791 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.879825 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.892269 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.892275 29077 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.892379 29071 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.892572 29077 can_receiver.h:150] Received 86 error messages.
+E1224 16:55:45.900104 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.900202 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.900300 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.900332 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.912405 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.912425 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.912497 29082 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.920433 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.920527 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.920593 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.920634 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.932389 29085 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.932438 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.932482 29084 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.940871 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.940964 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.941016 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.941047 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.952425 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.952443 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.952497 29071 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.961216 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.961278 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.961318 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.961349 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.972244 29085 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.972265 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:45.972292 29078 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:45.981492 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.981539 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:45.981571 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:45.981588 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:45.992195 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.992211 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:45.992266 29075 can_receiver.h:150] Received 91 error messages.
+I1224 16:55:45.992245 29085 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.001822 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.001868 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.001897 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.001914 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.012188 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.012205 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.012235 29083 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.022146 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.022192 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.022240 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.022272 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.032377 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.032454 29084 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.032410 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.042520 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.042637 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.042708 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.042758 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.052341 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.052341 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.052405 29079 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.063282 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.063388 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.063472 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.063514 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.072371 29085 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.072441 29080 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.072371 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.083663 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.083742 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.083818 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.083863 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.092348 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.092360 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.092391 29085 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.092576 29078 can_receiver.h:150] Received 96 error messages.
+E1224 16:55:46.104099 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.104189 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.104238 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.104266 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.112388 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.112402 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.112469 29084 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.124529 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.124619 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.124672 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.124703 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.132385 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.132397 29077 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.132463 29072 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.144964 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.145059 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.145153 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.145224 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.152428 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.152482 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.152539 29075 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.165375 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.165469 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.165525 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.165570 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.172389 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.172415 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.172513 29079 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.185928 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.186033 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.186084 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.186154 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.192306 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.192334 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.192560 29081 can_receiver.h:150] Received 101 error messages.
+I1224 16:55:46.192448 29083 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.206372 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.206463 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.206516 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.206542 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.212397 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.212446 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.212508 29080 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.226754 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.226887 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.226981 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.227041 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.232404 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.232434 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.232470 29086 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.247184 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.247303 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.247361 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.247392 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.252422 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.252393 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.252511 29079 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.267520 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.267609 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.267657 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.267686 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.272471 29077 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.272482 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.272538 29076 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.287850 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.287947 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.288028 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.288087 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.292369 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.292395 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.292546 29074 can_receiver.h:150] Received 106 error messages.
+I1224 16:55:46.292465 29081 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.308239 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.308331 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.308382 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.308416 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.312340 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.312402 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.312438 29079 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.328701 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.328789 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.328845 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.328889 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.332351 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.332382 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.332448 29072 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.349309 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.349566 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.349699 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.349778 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.352411 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.352411 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.352545 29075 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.369633 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.369760 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.369856 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.369923 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.372371 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.372371 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.372452 29084 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.390152 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.390244 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.390300 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.390350 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.392311 29077 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.392313 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.392499 29071 can_receiver.h:150] Received 111 error messages.
+I1224 16:55:46.392376 29078 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.410589 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.410725 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.410804 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.410892 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.412392 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.412520 29074 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.412422 29077 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.431099 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.431190 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.431274 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.431334 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.432315 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.432337 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.432376 29085 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.451578 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.451829 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.451901 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.451951 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.452368 29085 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.452370 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.452425 29083 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.471940 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.472052 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.472110 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.472219 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.472357 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.472420 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.472460 29084 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.492358 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.492429 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.492431 29085 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.492456 29073 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.492683 29085 can_receiver.h:150] Received 116 error messages.
+E1224 16:55:46.492604 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.492794 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.492921 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.512614 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.512801 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+I1224 16:55:46.512660 29075 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.512904 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.512989 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.512614 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.513074 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.532393 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.532431 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.532461 29079 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.533090 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.533160 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.533252 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.533339 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.552428 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.552445 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.552479 29084 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.553432 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.553514 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.553601 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.553629 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.572348 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.572424 29075 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.572348 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.573837 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.573915 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.573987 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.574045 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.592288 29085 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.592337 29071 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.592308 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.592527 29080 can_receiver.h:150] Received 121 error messages.
+E1224 16:55:46.594219 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.594267 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.594322 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.594362 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.612223 29085 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.612238 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.612267 29081 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.614526 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.614567 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.614606 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.614639 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.632266 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.632306 29077 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.632352 29076 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.634841 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.634896 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.634932 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.634958 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.652303 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.652323 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.652371 29085 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.655197 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.655246 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.655290 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.655331 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.672397 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.672443 29079 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.672410 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.675715 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.675814 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.675866 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.675976 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.692380 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.692380 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.692473 29079 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.692629 29086 can_receiver.h:150] Received 126 error messages.
+E1224 16:55:46.696197 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.696316 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.696398 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.696441 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.712419 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.712430 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.712517 29076 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.716609 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.716773 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.716871 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.716919 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.732336 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.732375 29085 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.732482 29082 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.737033 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.737119 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.737215 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.737259 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.752490 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.752490 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.752550 29081 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.757601 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.757689 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.757758 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.757824 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.772545 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.772545 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.772634 29086 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.778002 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.778079 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.778137 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.778189 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.792413 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.792418 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.792460 29076 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.792660 29080 can_receiver.h:150] Received 131 error messages.
+E1224 16:55:46.798359 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.798449 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.798516 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.798558 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.812402 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.812516 29071 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.812438 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.818919 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.819031 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.819118 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.819147 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.832443 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.832494 29082 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.832455 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.839318 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.839424 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.839550 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.839603 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.852807 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.852807 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.852891 29083 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.859755 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.859836 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.859902 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.859951 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.870419 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.870450 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.870468 29072 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.880175 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.880290 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.880383 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.880816 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.892441 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.892441 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.892834 29074 can_receiver.h:150] Received 137 error messages.
+I1224 16:55:46.892525 29085 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.900758 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.900876 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.900974 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.901031 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.912417 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.912425 29073 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.912500 29086 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.921030 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.921130 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.921221 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.921267 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.932358 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.932379 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.932415 29079 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.941527 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.941634 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.941710 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.941757 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.952436 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.952541 29084 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.952436 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.962009 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.962142 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.962252 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.962307 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.972411 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.972411 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.972461 29075 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.982386 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.982493 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:46.982571 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:46.982620 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:46.992400 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:46.992398 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:46.992581 29078 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:46.992799 29076 can_receiver.h:150] Received 142 error messages.
+E1224 16:55:47.002784 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.002950 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.003051 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.003108 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.012446 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.012446 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.012504 29085 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.023094 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.023193 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.023259 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.023298 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.032524 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.032524 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.032591 29084 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.043663 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.043782 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.043876 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.043946 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.052335 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.052353 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.052444 29071 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.064194 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.064309 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.064450 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.064494 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.072392 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.072434 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.072502 29078 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.084650 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.084751 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.084837 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.084887 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.092386 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.092435 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.092578 29079 can_receiver.h:150] Received 146 error messages.
+I1224 16:55:47.092531 29071 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.105072 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.105190 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.105311 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.105429 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.112392 29075 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.112437 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.112498 29077 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.125469 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.125560 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.125622 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.125686 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.132544 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.132544 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.132730 29075 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.145821 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.145931 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.146003 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.146042 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.152426 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.152477 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.152531 29079 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.166380 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.166621 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.166815 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.166930 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.172384 29082 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.172449 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.172580 29081 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.186796 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.186918 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.186990 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.187043 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.192354 29076 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.192389 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.192564 29072 can_receiver.h:150] Received 151 error messages.
+I1224 16:55:47.192566 29076 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.207262 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.207366 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.207428 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.207469 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.212431 29072 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.212450 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.212496 29082 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.227613 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.227720 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.227815 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.227885 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.232461 29081 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.232470 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.232545 29082 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.248121 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.248224 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.248309 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.248363 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.252447 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.252473 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.252538 29085 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.268442 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.268656 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.268766 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.268843 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.272306 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.272328 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.272374 29072 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.288806 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.288923 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.288981 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.289021 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.292367 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.292420 29084 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.292551 29084 can_receiver.h:150] Received 156 error messages.
+I1224 16:55:47.292508 29081 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.309327 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.309432 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.309494 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.309547 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.312362 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.312440 29083 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.312512 29080 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.329706 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.329826 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.329910 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.329959 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.332351 29071 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.332367 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.332465 29075 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.350216 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.350419 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.350528 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.350579 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.352443 29078 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.352521 29079 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.352586 29080 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.370566 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.370666 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.370723 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.370756 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.372859 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.372862 29077 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.372905 29072 transport_can.cc:93] current_steer_angle: 0
+E1224 16:55:47.391026 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.391144 29094 can_sender.h:305] Send msg failed:id:0x04EF8480,len:8,data:007DFE7F00000000,
+E1224 16:55:47.391253 29094 socket_can_client_raw.cc:175] Nvidia can client has not been initiated! Please init first!
+E1224 16:55:47.391299 29094 can_sender.h:305] Send msg failed:id:0x0C040B2B,len:8,data:0000960000000000,
+E1224 16:55:47.392364 29086 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.392352 29080 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+E1224 16:55:47.392585 29080 can_receiver.h:150] Received 162 error messages.
+I1224 16:55:47.392457 29076 transport_can.cc:93] current_steer_angle: 0
+I1224 16:55:47.393545 29069 transport_can.cc:76] TrajFileClosed
+I1224 16:55:47.393654 29069 can_sender.h:378] Stopping can sender ...
+I1224 16:55:47.396077 29094 can_sender.h:323] Can client sender thread stopped!
+I1224 16:55:47.396378 29069 can_sender.h:388] Can client sender stopped [ok].
+I1224 16:55:47.396410 29069 can_receiver.h:206] Stopping can client receiver ...
+E1224 16:55:47.412426 29074 socket_can_client_raw.cc:205] Nvidia can client is not init! Please init first!
+I1224 16:55:47.412407 29077 can_receiver.h:184] Can client receiver thread stopped.
+I1224 16:55:47.412693 29069 can_receiver.h:212] Can client receiver stopped [ok].
+I1224 16:55:47.412765 29069 can_receiver.h:206] Stopping can client receiver ...
+I1224 16:55:47.412537 29086 transport_can.cc:93] current_steer_angle: 0
+I1224 16:55:47.432395 29074 can_receiver.h:184] Can client receiver thread stopped.
+I1224 16:55:47.432540 29069 can_receiver.h:212] Can client receiver stopped [ok].
+I1224 16:55:47.432395 29071 transport_can.cc:93] current_steer_angle: 0
+I1224 16:55:47.432778 29069 class_loader.cc:46] There are still classobjs have not been deleted, classobj_ref_count_: 1
+I1224 16:55:47.432817 29069 mainboard.cc:45] exit mainboard.

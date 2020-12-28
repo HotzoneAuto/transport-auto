@@ -1,0 +1,23 @@
+Log file created at: 2020/12/24 14:58:19
+Running on machine: in_cyber_docker
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+W1224 14:58:19.942436 13615 scheduler_factory.cc:63] No sched conf found, use default conf.
+I1224 14:58:19.944242 13617 processor.cc:41] processor_tid: 13617
+I1224 14:58:19.944448 13618 processor.cc:41] processor_tid: 13618
+I1224 14:58:19.944674 13619 processor.cc:41] processor_tid: 13619
+I1224 14:58:19.944881 13620 processor.cc:41] processor_tid: 13620
+I1224 14:58:19.945078 13621 processor.cc:41] processor_tid: 13621
+I1224 14:58:19.945238 13622 processor.cc:41] processor_tid: 13622
+I1224 14:58:19.945470 13623 processor.cc:41] processor_tid: 13623
+I1224 14:58:19.945799 13624 processor.cc:41] processor_tid: 13624
+I1224 14:58:19.946082 13625 processor.cc:41] processor_tid: 13625
+I1224 14:58:19.946712 13626 processor.cc:41] processor_tid: 13626
+I1224 14:58:19.946957 13627 processor.cc:41] processor_tid: 13627
+I1224 14:58:19.947232 13628 processor.cc:41] processor_tid: 13628
+I1224 14:58:19.947727 13629 processor.cc:41] processor_tid: 13629
+I1224 14:58:19.949187 13630 processor.cc:41] processor_tid: 13630
+I1224 14:58:19.949420 13631 processor.cc:41] processor_tid: 13631
+I1224 14:58:19.951651 13632 processor.cc:41] processor_tid: 13632
+I1224 14:58:19.951704 13615 init.cc:103] Register exit handle succ.
+I1224 14:58:19.952749 13615 module_controller.cc:65] Start initialize dag: /apollo/modules/transport_can/
+I1224 14:58:22.755790 13615 mainboard.cc:45] exit mainboard.

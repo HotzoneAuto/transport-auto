@@ -1,0 +1,29 @@
+Log file created at: 2020/12/24 14:58:36
+Running on machine: in_cyber_docker
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+W1224 14:58:36.387387 13635 scheduler_factory.cc:63] No sched conf found, use default conf.
+I1224 14:58:36.387511 13637 processor.cc:41] processor_tid: 13637
+I1224 14:58:36.387601 13638 processor.cc:41] processor_tid: 13638
+I1224 14:58:36.388614 13639 processor.cc:41] processor_tid: 13639
+I1224 14:58:36.388739 13640 processor.cc:41] processor_tid: 13640
+I1224 14:58:36.388785 13641 processor.cc:41] processor_tid: 13641
+I1224 14:58:36.388833 13642 processor.cc:41] processor_tid: 13642
+I1224 14:58:36.388875 13643 processor.cc:41] processor_tid: 13643
+I1224 14:58:36.388928 13644 processor.cc:41] processor_tid: 13644
+I1224 14:58:36.388981 13645 processor.cc:41] processor_tid: 13645
+I1224 14:58:36.389201 13646 processor.cc:41] processor_tid: 13646
+I1224 14:58:36.389245 13647 processor.cc:41] processor_tid: 13647
+I1224 14:58:36.389284 13648 processor.cc:41] processor_tid: 13648
+I1224 14:58:36.389319 13649 processor.cc:41] processor_tid: 13649
+I1224 14:58:36.389362 13650 processor.cc:41] processor_tid: 13650
+I1224 14:58:36.389400 13651 processor.cc:41] processor_tid: 13651
+I1224 14:58:36.389441 13652 processor.cc:41] processor_tid: 13652
+I1224 14:58:36.389487 13635 init.cc:103] Register exit handle succ.
+I1224 14:58:36.408968 13635 module_controller.cc:65] Start initialize dag: /apollo/modules/transport_can/dag/transport_can.dag
+I1224 14:58:36.409183 13635 class_loader.cc:37] Begin LoadLibrary: /apollo/bazel-bin/modules/transport_can/transport_can.so
+E1224 14:58:36.538980 13635 class_loader_utility.cc:220] poco LibraryLoadException: /apollo/bazel-bin/modules/transport_can/../../_solib_k8/libmodules_Stransport_Ucan_Svehicle_Stransport_Slibtransport_Ucontroller.so: undefined symbol: _ZN19TransportController4InitEv
+E1224 14:58:36.539167 13635 class_loader_utility.cc:236] poco shared library failed: /apollo/bazel-bin/modules/transport_can/transport_can.so
+E1224 14:58:36.539270 13635 class_loader_manager.h:70] Invalid class name: transport_Canbus
+E1224 14:58:36.539336 13635 module_controller.cc:67] Failed to load module: /apollo/modules/transport_can/dag/transport_can.dag
+E1224 14:58:36.539388 13635 class_loader_utility.cc:258] Attempt to UnloadLibrary lib, but can't find lib: /apollo/bazel-bin/modules/transport_can/transport_can.so
+E1224 14:58:36.539436 13635 mainboard.cc:39] module start error.

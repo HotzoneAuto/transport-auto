@@ -95,6 +95,7 @@ void transport_Canbus::PublishChassisDetail() {
     double vel =
         sqrt(sensordata2.velocity_lateral() * sensordata2.velocity_lateral() +
              sensordata2.velocity_forward() * sensordata2.velocity_forward());
+    vol_cur_ = vel;
     // WriteTraj
     if (sensordata2.gpsnh() != 0) {
       TrajFile << setprecision(3) << sensordata2.gpsnh() << " ";
@@ -115,8 +116,8 @@ void transport_Canbus::OnControl(
   // Write Control Here
   cmd.set_control_steer(msg.control_steer());
   // cmd.set_control_acc(msg.control_acc());
-  // transport_controller.ControlUpdate(cmd, SteerEnable, AccEnable);
-  // can_sender.Update();
+  transport_controller.ControlUpdate(cmd, SteerEnable, AccEnable, vol_cur_, msg.control_acc());
+  can_sender.Update();
   return;
 }
 

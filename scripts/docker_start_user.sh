@@ -22,6 +22,8 @@ function _create_user_account() {
     local uid="$2"
     local group_name="$3"
     local gid="$4"
+    userdel -r "edu002"
+    userdel -r "nvidia"
     addgroup --gid "${gid}" "${group_name}"
 
     adduser --disabled-password --force-badname --gecos '' \
