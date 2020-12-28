@@ -1,5 +1,0 @@
-Log file created at: 2020/12/24 16:36:22
-Running on machine: in_cyber_docker
-Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
-E1224 16:36:22.896874 26850 can_receiver.h:150] Received 17 error messages.
-E1224 16:36:24.096869 26850 can_receiver.h:150] Received 77 error messages.
