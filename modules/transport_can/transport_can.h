@@ -44,16 +44,9 @@ class transport_Canbus : public apollo::cyber::TimerComponent {
   void PublishChassisDetail();
   void OnControl(ControlCommand& msg);
 
-<<<<<<< HEAD
   std::unique_ptr<SocketCanClientRaw> CanClient;
   std::unique_ptr<MessageManager<ChassisDetail> > message_manager;
   CanReceiver<ChassisDetail> can_receiver;
-=======
-  std::unique_ptr<SocketCanClientRaw> CanClient, CanClient_gps;
-  std::unique_ptr<MessageManager<ChassisDetail>> message_manager,
-      message_manager_gps;
-  CanReceiver<ChassisDetail> can_receiver, can_receiver_gps;
->>>>>>> e420433daf3a81757d492cb485f2e59b3c3baa49
   CanSender<ChassisDetail> can_sender;
   TransportController transport_controller;
   std::shared_ptr<apollo::cyber::Writer<ChassisDetail>> chassis_detail_writer_;
