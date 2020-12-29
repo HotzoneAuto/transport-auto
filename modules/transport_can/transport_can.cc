@@ -89,7 +89,7 @@ void transport_Canbus::OnControl(
 
 void transport_Canbus::ReadConfig() {
   ifstream f;
-  f.open("/apollo/modules/transport_control/ControlSettings.config");
+  f.open("/apollo/modules/control/conf/ControlSettings.config");
   if (f.is_open()) {
     AINFO << "Control Config File Opened";
     while (!f.eof()) {

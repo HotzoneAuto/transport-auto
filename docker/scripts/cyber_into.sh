@@ -54,7 +54,7 @@ elif [ "${TARGET_ARCH}" == "aarch64" ]; then
     # warning "! To exit, please use 'ctrl+p ctrl+q' !"
     # docker attach "${CYBER_CONTAINER}"
     docker exec \
-        -u root \
+        -u "${DOCKER_USER}" \
         -it "${CYBER_CONTAINER}" \
         /bin/bash
 else
