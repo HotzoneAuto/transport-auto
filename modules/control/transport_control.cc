@@ -74,7 +74,7 @@ void transport_Control::ReadConfig() {
     AERROR << "ControlSettings.config Missing";
   }
 }
-void transport_Control::UpdateTraj(const std::shared_ptr<ChassisDetail>& msg0) {
+void transport_Control::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
   //将靠近的若干个点转移到车辆的坐标系中
   //寻找轨迹上一段范围内的距离本车最近的点
   double N_now = msg0->gpsnl() + msg0->gpsnh();
@@ -127,7 +127,7 @@ int transport_Control::FindLookahead(double totaldis) {
 /*
   Reader Callback function
 */
-bool transport_Control::Proc(const std::shared_ptr<ChassisDetail>& msg0) {
+bool transport_Control::Proc(const std::shared_ptr<Gps>& msg0) {
   double control_steer = 0;
   double control_acc = 0;
   // TODO(FZB)@STARLI:PROC api ONLY CALL ONCE ?
@@ -146,11 +146,11 @@ bool transport_Control::Proc(const std::shared_ptr<ChassisDetail>& msg0) {
 }
 
 /*
-  Input ChassisDetail message
+  Input Gps message
   Output Control_steer degree
 */
 double transport_Control::CaculateSteer(
-    const std::shared_ptr<ChassisDetail>& msg0) {
+    const std::shared_ptr<Gps>& msg0) {
   double steer_wheel_angle = 0;
   //根据预瞄点计算横向转角
   int LookAheadIndex = FindLookahead(configinfo.LookAheadDis);
@@ -199,7 +199,7 @@ double transport_Control::Stanley(double k, double v, int& ValidCheck) {
 
 //设置纵向期望速度
 double transport_Control::CaculateAcc(
-    const std::shared_ptr<ChassisDetail>& msg0) {
+    const std::shared_ptr<Gps>& msg0) {
   double control_acc = 0;
   if (configinfo.SpeedMode == 0) {
     // const speed mode;
