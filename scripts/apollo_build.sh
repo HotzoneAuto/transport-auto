@@ -21,7 +21,7 @@ function determine_disabled_bazel_targets() {
         # Skip msf for non-x86_64 platforms
         disabled="${disabled} except //modules/localization/msf/..."
     fi
-    disabled="${disabled} except //modules/tools/visualizer/..."
+    disabled="${disabled} except //modules/tools/visualizer/... except //modules/common/math/..."
 
     echo "${disabled}"
     # DISABLED_CYBER_MODULES="except //cyber/record:record_file_integration_test"
