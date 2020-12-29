@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/transport_can/vehicle/transportgps/protocol/id_0x712.h"
+#include "modules/drivers/gps/protocol/id_0x712.h"
 
 #include "glog/logging.h"
 
@@ -31,7 +31,7 @@ Id0x712::Id0x712() {}
 const int32_t Id0x712::ID = 0x712;
 
 void Id0x712::Parse(const std::uint8_t* bytes, int32_t length,
-                    ChassisDetail* chassis) const {
+                    apollo::drivers::Gps* chassis) const {
   chassis->set_gpsnh(gpsnh(bytes, length));
   chassis->set_gpsnl(gpsnl(bytes, length));
   chassis->set_gpseh(gpseh(bytes, length));

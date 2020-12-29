@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/transport_can/vehicle/transportgps/protocol/id_0x703.h"
+#include "modules/drivers/gps/protocol/id_0x703.h"
 
 #include "glog/logging.h"
 
@@ -31,7 +31,7 @@ Id0x703::Id0x703() {}
 const int32_t Id0x703::ID = 0x703;
 
 void Id0x703::Parse(const std::uint8_t* bytes, int32_t length,
-                    ChassisDetail* chassis) const {
+                    apollo::drivers::Gps* chassis) const {
   chassis->set_velocity_down(velocitydown(bytes, length));
   chassis->set_velocity_lateral(velocitylateral(bytes, length));
   chassis->set_velocity_forward(velocityforward(bytes, length));

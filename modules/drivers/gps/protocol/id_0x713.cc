@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/transport_can/vehicle/transportgps/protocol/id_0x713.h"
+#include "modules/drivers/gps/protocol/id_0x713.h"
 
 #include "glog/logging.h"
 
@@ -31,7 +31,7 @@ Id0x713::Id0x713() {}
 const int32_t Id0x713::ID = 0x713;
 
 void Id0x713::Parse(const std::uint8_t* bytes, int32_t length,
-                    ChassisDetail* chassis) const {
+                    apollo::drivers::Gps* chassis) const {
   chassis->set_heading_angle(headingangle(bytes, length));
   chassis->set_yaw_rate(yawrate(bytes, length));
   chassis->set_gps_velocity(gpsvelocity(bytes, length));

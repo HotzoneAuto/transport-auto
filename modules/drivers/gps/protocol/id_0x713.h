@@ -17,19 +17,19 @@
 #pragma once
 
 #include "modules/drivers/canbus/can_comm/protocol_data.h"
-#include "modules/transport_can/proto/chassis_detail.pb.h"
+#include "modules/drivers/gps/proto/gps.pb.h"
 
 namespace apollo {
 namespace canbus {
 namespace TransportGPS {
 
-class Id0x713 : public ::apollo::drivers::canbus::ProtocolData<
-                    ::apollo::canbus::ChassisDetail> {
+class Id0x713
+    : public ::apollo::drivers::canbus::ProtocolData< ::apollo::drivers::Gps> {
  public:
   static const int32_t ID;
   Id0x713();
   void Parse(const std::uint8_t* bytes, int32_t length,
-             ChassisDetail* chassis) const override;
+             apollo::drivers::Gps* chassis) const override;
 
  private:
   // config detail: {'name': 'HeadingAngle', 'offset': 0.0, 'precision': 0.01,

@@ -1,0 +1,21 @@
+syntax = "proto2";
+
+package apollo.drivers;
+message Gps{
+    optional double gpsnh =1;
+    optional double gpsnl =2;
+    optional double gpseh =3;
+    optional double gpsel =4;
+    optional double heading_angle =5;
+    optional double yaw_rate =6;
+    optional double gps_state =7;
+    optional double gps_velocity =8;
+    optional double acceleration_forward =9;
+    optional double acceleration_lateral =10;
+    optional double acceleration_down =11;
+    optional double pitch_angle =12;
+    optional double velocity_down =13;
+    optional double velocity_lateral =14;
+    optional double velocity_forward =15;
+    optional double roll_angle =16;
+};

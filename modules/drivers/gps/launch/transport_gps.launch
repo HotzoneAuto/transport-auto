@@ -1,0 +1,7 @@
+<cyber>
+    <module>
+        <name>transport_gps</name>
+        <dag_conf>/apollo/modules/drivers/gps/dag/transport_gps.dag</dag_conf>
+        <process_name>transport_gps</process_name>
+    </module>
+</cyber>

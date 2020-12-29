@@ -33,22 +33,6 @@ bool transport_Canbus::Init() {
   transport_controller.Start();
   // Init CAN0 Controller
 
-  // CAN1 Open
-  CanClient_gps = std::unique_ptr<SocketCanClientRaw>(new SocketCanClientRaw());
-  CanPara.set_type(CANCardParameter::PCI_CARD);
-  CanPara.set_brand(CANCardParameter::SOCKET_CAN_RAW);
-  CanPara.set_channel_id(CANCardParameter::CHANNEL_ID_ONE);
-  CanPara.set_interface(CANCardParameter::NATIVE);
-  CanClient_gps->Init(CanPara);
-  CanClient_gps->Start();
-  // Init can1 message_menager
-  message_manager_gps = std::unique_ptr<MessageManager<ChassisDetail> >(
-      new TransportGPSMessageManager);
-  message_manager_gps->ClearSensorData();
-  // CAN1 receiver
-  can_receiver_gps.Init(CanClient_gps.get(), message_manager_gps.get(), 1);
-  can_receiver_gps.Start();
-
   AINFO << "Canbus Init";
 
   chassis_detail_writer_ =
@@ -81,34 +65,15 @@ void transport_Canbus::Clear() {  // shutdown
   can_receiver.Stop();
   CanClient->Stop();
 
-  can_receiver_gps.Stop();
-  CanClient_gps->Stop();
   // std::cout<<"stopping and clearing"<<std::endl;
 }
 void transport_Canbus::PublishChassisDetail() {
-  ChassisDetail sensordata1, sensordata2;
-  message_manager->GetSensorData(&sensordata1);
-  message_manager_gps->GetSensorData(&sensordata2);
-  sensordata2.set_current_steer_angle(sensordata1.current_steer_angle());
-  AINFO << sensordata2.DebugString();
-  if (Mode == RecordMode) {
-    double vel =
-        sqrt(sensordata2.velocity_lateral() * sensordata2.velocity_lateral() +
-             sensordata2.velocity_forward() * sensordata2.velocity_forward());
-    vol_cur_ = vel;
-    // WriteTraj
-    if (sensordata2.gpsnh() != 0) {
-      TrajFile << setprecision(3) << sensordata2.gpsnh() << " ";
-      TrajFile << setprecision(8) << sensordata2.gpsnl() << " ";
-      TrajFile << setprecision(3) << sensordata2.gpseh() << " ";
-      TrajFile << setprecision(8) << sensordata2.gpsel() << " ";
-      TrajFile << setprecision(5) << vel << endl;
-    }
-  } else if (Mode == ControlMode) {
-    chassis_detail_writer_->Write(sensordata2);
-  }
+  message_manager->GetSensorData(&sensordata);
+  sensordata.set_current_steer_angle(sensordata.current_steer_angle());
+  chassis_detail_writer_->Write(sensordata);
   return;
 }
+
 void transport_Canbus::OnControl(
     ControlCommand&
         msg) {  // control callback function  will move to reader callback

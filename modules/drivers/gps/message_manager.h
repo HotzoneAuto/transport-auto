@@ -17,8 +17,7 @@
 #pragma once
 
 #include "modules/drivers/canbus/can_comm/message_manager.h"
-#include "modules/transport_can/proto/chassis_detail.pb.h"
-using ::apollo::drivers::canbus::MessageManager;
+#include "modules/drivers/gps/proto/gps.pb.h"
 
 namespace apollo {
 namespace canbus {
@@ -27,7 +26,7 @@ namespace TransportGPS {
 using ::apollo::drivers::canbus::MessageManager;
 
 class TransportGPSMessageManager
-    : public MessageManager<::apollo::canbus::ChassisDetail> {
+    : public MessageManager<::apollo::drivers::Gps> {
  public:
   TransportGPSMessageManager();
   virtual ~TransportGPSMessageManager();

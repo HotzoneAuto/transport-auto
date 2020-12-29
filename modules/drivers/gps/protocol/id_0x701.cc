@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/transport_can/vehicle/transportgps/protocol/id_0x701.h"
+#include "modules/drivers/gps/protocol/id_0x701.h"
 
 #include "glog/logging.h"
 
@@ -31,7 +31,7 @@ Id0x701::Id0x701() {}
 const int32_t Id0x701::ID = 0x701;
 
 void Id0x701::Parse(const std::uint8_t* bytes, int32_t length,
-                    ChassisDetail* chassis) const {
+                    apollo::drivers::Gps* chassis) const {
   chassis->set_acceleration_down(accelerationdown(bytes, length));
   chassis->set_acceleration_lateral(accelerationlateral(bytes, length));
   chassis->set_acceleration_forward(accelerationforward(bytes, length));

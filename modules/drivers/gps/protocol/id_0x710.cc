@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/transport_can/vehicle/transportgps/protocol/id_0x710.h"
+#include "modules/drivers/gps/protocol/id_0x710.h"
 
 #include "glog/logging.h"
 
@@ -31,7 +31,7 @@ Id0x710::Id0x710() {}
 const int32_t Id0x710::ID = 0x710;
 
 void Id0x710::Parse(const std::uint8_t* bytes, int32_t length,
-                    ChassisDetail* chassis) const {
+                    apollo::drivers::Gps* chassis) const {
   chassis->set_pitch_angle(pitchangle(bytes, length));
   chassis->set_roll_angle(rollangle(bytes, length));
 }

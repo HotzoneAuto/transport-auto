@@ -12,7 +12,7 @@ cc_library(
     ]),
     deps = [
         "//modules/drivers/canbus/common:canbus_common",
-        "//modules/transport_can/proto:chassis_detail_cc_proto",
+        "//modules/drivers/gps/proto:gps_cc_proto",
         "//modules/drivers/canbus/can_comm:message_manager_base",
     ],
 )

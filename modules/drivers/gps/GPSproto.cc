@@ -1,5 +1,5 @@
-#include <iostream>
 #include "GPSproto.h"
+#include <iostream>
 
 using namespace std;
 GPSinfo::GPSinfo() {
