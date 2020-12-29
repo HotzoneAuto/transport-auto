@@ -23,7 +23,7 @@ source "${APOLLO_ROOT_DIR}/scripts/apollo.bashrc"
 VERSION_X86_64="transport-auto-x86_64-18.04-20201219_2014"
 VERSION_AARCH64="transport-auto-aarch64-18.04-20200729_1004"
 VERSION_LOCAL_CYBER="local_cyber_dev"
-CYBER_CONTAINER="apollo_cyber_${USER}"
+CYBER_CONTAINER="transport_cyber_${USER}"
 CYBER_INSIDE="in_cyber_docker"
 
 DOCKER_REPO="hotzoneauto2020/transport-auto"

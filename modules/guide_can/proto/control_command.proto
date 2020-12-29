@@ -1,7 +1,0 @@
-syntax = "proto2";
-
-package apollo.canbus;
-message ControlCommand{
-    optional double control_steer = 1;
-    optional double control_acc = 2;
-};

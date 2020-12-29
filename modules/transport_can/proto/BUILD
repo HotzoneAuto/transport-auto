@@ -24,8 +24,6 @@ py_proto_library(
     ],
 )
 
-
-
 cc_proto_library(
     name = "control_command_cc_proto",
     deps = [

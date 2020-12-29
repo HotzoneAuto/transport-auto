@@ -16,10 +16,9 @@
 
 #pragma once
 
-#include <memory>
 #include <chrono>
-#include <memory>
 #include <fstream>
+#include <memory>
 #include <string>
 #include "modules/common/proto/error_code.pb.h"
 
@@ -28,9 +27,9 @@
 #include "modules/transport_can/vehicle/transport/protocol/id_0x4ef8480.h"
 #include "modules/transport_can/vehicle/transport/protocol/id_0xc040b2b.h"
 
-#include "cyber/cyber.h"
-#include "cyber/common/log.h"
 #include "cyber/common/file.h"
+#include "cyber/common/log.h"
+#include "cyber/cyber.h"
 #include "modules/common/time/time.h"
 #include "modules/drivers/canbus/can_comm/can_sender.h"
 #include "modules/drivers/canbus/can_comm/protocol_data.h"
@@ -44,7 +43,7 @@ using ::apollo::drivers::canbus::CanSender;
 using ::apollo::drivers::canbus::ProtocolData;
 using namespace std;
 
-class TransportController{
+class TransportController {
  public:
   explicit TransportController(){};
 
@@ -82,4 +81,3 @@ class TransportController{
   int KDrive_;
   int KBrake_;
 };
-

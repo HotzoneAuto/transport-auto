@@ -22,7 +22,6 @@ cc_library(
         "//modules/drivers/canbus/can_comm:can_sender",
         "//modules/transport_can/vehicle/transport:transport_message_manager",
         "//modules/transport_can/vehicle/transport:transport_controller",
-	"//modules/transport_can/vehicle/transportgps:transportgps_message_manager",
     ],
 )
 
