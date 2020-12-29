@@ -1,22 +1,22 @@
 syntax = "proto2";
 
 package apollo.canbus;
-message ChassisDetail{
-    optional double current_steer_angle = 1;
-    optional double acceleration_forward =2;
-    optional double acceleration_lateral =3;
-    optional double acceleration_down =4;
-    optional double velocity_down =5;
-    optional double velocity_lateral =6;
-    optional double velocity_forward =7;
-    optional double pitch_angle =8;
-    optional double roll_angle =9;
-    optional double gpsnh =10;
-    optional double gpsnl =11;
-    optional double gpseh =12;
-    optional double gpsel =13;
-    optional double heading_angle =14;
-    optional double yaw_rate =15;
-    optional double gps_state =16;
-    optional double gps_velocity =17;
+message ChassisDetail {
+  optional double current_steer_angle = 1;
+  optional double acceleration_forward = 2;
+  optional double acceleration_lateral = 3;
+  optional double acceleration_down = 4;
+  optional double velocity_down = 5;
+  optional double velocity_lateral = 6;
+  optional double velocity_forward = 7;
+  optional double pitch_angle = 8;
+  optional double roll_angle = 9;
+  optional double gpsnh = 10;
+  optional double gpsnl = 11;
+  optional double gpseh = 12;
+  optional double gpsel = 13;
+  optional double heading_angle = 14;
+  optional double yaw_rate = 15;
+  optional double gps_state = 16;
+  optional double gps_velocity = 17;
 };
