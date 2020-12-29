@@ -30,41 +30,6 @@ ErrorCode TransportController::Init(
     AERROR << "Unbale to load transport can conf file!";
   }
 
-  // f.open("/apollo/modules/transport_can/conf/transport_can.conf");
-  // if (f.is_open()) {
-  //   AINFO << "Control Config File Opened";
-  //   while (!f.eof()) {
-  //     string SettingName;
-  //     f >> SettingName;
-  //     if (SettingName == "ClutchSet") {
-  //       f >> ClutchSet_;
-  //     } else if (SettingName == "BrakeSet") {
-  //       f >> BrakeSet_;
-  //     } else if (SettingName == "SpeedSet") {
-  //       f >> SpeedSet_;
-  //     } else if (SettingName == "ClutchReleaseRate") {
-  //       f >> ClutchReleaseRate_;
-  //     } else if (SettingName == "BrakeApplyRate") {
-  //       f >> BrakeApplyRate_;
-  //     } else if (SettingName == "IdleSpeed") {
-  //       f >> IdleSpeed_;
-  //     } else if (SettingName == "SpeedThreshold") {
-  //       f >> SpeedThreshold_;
-  //     } else if (SettingName == "SpeedErrorThreshold") {
-  //       f >> SpeedErrorThreshold_;
-  //     } else if (SettingName == "KSpeedThrottle") {
-  //       f >> KSpeedThrottle_;
-  //     } else if (SettingName == "KDrive") {
-  //       f >> KDrive_;
-  //     } else if (SettingName == "KBrake") {
-  //       f >> KBrake_;
-  //     }
-  //   }
-  //   f.close();
-  // } else {
-  //   AERROR << "ControlSettings.config Missing";
-  // }
-
   if (can_sender == nullptr) {
     return ErrorCode::CANBUS_ERROR;
   }
@@ -100,8 +65,6 @@ ErrorCode TransportController::Init(
   is_initialized_ = true;
   return ErrorCode::OK;
 }
-
-TransportController::~TransportController() {}
 
 void TransportController::Start() {
   if (!is_initialized_) {
@@ -224,3 +187,5 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     }
   }
 }
+
+TransportController::~TransportController() {}

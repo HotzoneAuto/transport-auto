@@ -1,6 +1,6 @@
 # Define all coms in DAG streaming.
     module_config {
-    module_library : "/apollo/bazel-bin/modules/transport_control/transport_control.so"
+    module_library : "/apollo/bazel-bin/modules/control/transport_control.so"
     components {
         class_name : "transport_Control"
         config {

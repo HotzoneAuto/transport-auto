@@ -39,8 +39,9 @@ void transport_Control::ReadTraj() {
 }
 
 void transport_Control::ReadConfig() {
+  //　TODO(FZB)@ZENGPENG: REDESIGN BY apollo::cyber::common::GetProtoFromFile
   ifstream f;
-  f.open("/apollo/modules/transport_control/conf/ControlSettings.config");
+  f.open("/apollo/modules/control/conf/ControlSettings.config");
   if (f.is_open()) {
     AINFO << "Control Config File Opened";
     while (!f.eof()) {
@@ -129,7 +130,7 @@ int transport_Control::FindLookahead(double totaldis) {
 bool transport_Control::Proc(const std::shared_ptr<ChassisDetail>& msg0) {
   double control_steer = 0;
   double control_acc = 0;
-  // TODO(FZB):PROC api ONLY CALL ONCE ?
+  // TODO(FZB)@STARLI:PROC api ONLY CALL ONCE ?
   UpdateTraj(msg0);
   // calculate steer
   control_steer = CaculateSteer(msg0);
