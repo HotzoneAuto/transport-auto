@@ -6,7 +6,7 @@
         config {
             name : "transport_Control"
             readers {
-                channel: "transport/ChassisDetail"
+                channel: "/transport/chassisdetail"
             }
         }
       }

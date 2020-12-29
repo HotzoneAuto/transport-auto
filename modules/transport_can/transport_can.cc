@@ -52,11 +52,11 @@ bool transport_Canbus::Init() {
   AINFO << "Canbus Init";
 
   chassis_detail_writer_ =
-      node_->CreateWriter<ChassisDetail>("transport/ChassisDetail");
+      node_->CreateWriter<ChassisDetail>("/transport/chassisdetail");
   // Create Writer
 
   control_command_reader_ = node_->CreateReader<ControlCommand>(
-      "transport/ControlCommand",
+      "/transport/control",
       [this](const std::shared_ptr<ControlCommand>& msg) { OnControl(*msg); });
 
   if (Mode == RecordMode) {
@@ -116,7 +116,8 @@ void transport_Canbus::OnControl(
   // Write Control Here
   cmd.set_control_steer(msg.control_steer());
   // cmd.set_control_acc(msg.control_acc());
-  transport_controller.ControlUpdate(cmd, SteerEnable, AccEnable, vol_cur_, msg.control_acc());
+  transport_controller.ControlUpdate(cmd, SteerEnable, AccEnable, vol_cur_,
+                                     msg.control_acc());
   can_sender.Update();
   return;
 }

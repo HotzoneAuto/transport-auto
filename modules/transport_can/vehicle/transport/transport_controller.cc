@@ -25,8 +25,7 @@ ErrorCode TransportController::Init(
   }
 
   bool openconfig = apollo::cyber::common::GetProtoFromFile(
-                                        "/apollo/modules/transport_can/conf", 
-                                        &transport_can_conf_);
+      "/apollo/modules/transport_can/conf", &transport_can_conf_);
   if (!openconfig) {
     AERROR << "Unbale to load transport can conf file!";
   }
@@ -124,8 +123,8 @@ void TransportController::Stop() {
 
 void TransportController::ControlUpdate(ControlCommand cmd,
                                         const int SteerEnable,
-                                        const int AccEnable, 
-                                        float vol_cur, float vol_exp) {
+                                        const int AccEnable, float vol_cur,
+                                        float vol_exp) {
   if (!is_start) {
     AERROR << "Controller didn't start";
     return;
@@ -144,7 +143,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     float ths_dif = SpeedErrorThreshold_;
     float ths_exp = SpeedThreshold_;
 
-    if((vol_cur == 0) && (vol_exp > ths_exp)) {
+    if ((vol_cur == 0) && (vol_exp > ths_exp)) {
       control_flag = 1;
     } else if ((vol_cur < ths_exp) || (vol_exp - vol_cur) > ths_dif) {
       control_flag = 2;
@@ -153,58 +152,67 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     } else if (vol_exp < IdleSpeed_) {
       control_flag = 4;
     }
-    
+
     if (control_flag) {
-      switch(control_flag) {
-        //start mode
+      switch (control_flag) {
+        // start mode
         case 1:
-        //brake set
+          // brake set
           id_0xc040b2b_->set_xbr1_brkpedalopenreq(0);
           // for(int i = clutchSet; i >= 0; i++) {
-          for(int i = 100; i >= 0; i++) {
-            //li he
+          for (int i = 100; i >= 0; i++) {
+            // li he
             id_0xc040b2b_->set_xbr1_clupedalopenreq(i);
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000 / transport_can_conf_.clutchreleaserate()));
+            std::this_thread::sleep_for(std::chrono::milliseconds(
+                1000 / transport_can_conf_.clutchreleaserate()));
           }
           break;
-        //normal mode
+        // normal mode
         case 2:
-          //P control
-          if(vol_exp > vol_cur) {
-            while(vol_exp > vol_cur) {
-              vol_cur = vol_cur + (vol_exp - vol_cur) * transport_can_conf_.kdrive();
-              id_0xc040b2b_->set_xbr1_accpedalopenreq(int(vol_cur / transport_can_conf_.kspeedthrottle()));
-              std::this_thread::sleep_for(std::chrono::milliseconds(100)); 
+          // P control
+          if (vol_exp > vol_cur) {
+            while (vol_exp > vol_cur) {
+              vol_cur =
+                  vol_cur + (vol_exp - vol_cur) * transport_can_conf_.kdrive();
+              id_0xc040b2b_->set_xbr1_accpedalopenreq(
+                  int(vol_cur / transport_can_conf_.kspeedthrottle()));
+              std::this_thread::sleep_for(std::chrono::milliseconds(100));
             }
           } else {
-            while(vol_cur > vol_exp) {
-              vol_cur = vol_cur - (vol_cur - vol_exp) * transport_can_conf_.kdrive();
-              id_0xc040b2b_->set_xbr1_accpedalopenreq(int(vol_cur / transport_can_conf_.kspeedthrottle()));
+            while (vol_cur > vol_exp) {
+              vol_cur =
+                  vol_cur - (vol_cur - vol_exp) * transport_can_conf_.kdrive();
+              id_0xc040b2b_->set_xbr1_accpedalopenreq(
+                  int(vol_cur / transport_can_conf_.kspeedthrottle()));
               std::this_thread::sleep_for(std::chrono::milliseconds(100));
             }
           }
           break;
-        //emergency mode
+        // emergency mode
         case 3:
-          //P control
-          while(vol_cur > vol_exp) {
-            vol_cur = vol_cur + (vol_exp - vol_cur) * transport_can_conf_.kbrake();
-            id_0xc040b2b_->set_xbr1_brkpedalopenreq(int(vol_cur / transport_can_conf_.kspeedthrottle()));
+          // P control
+          while (vol_cur > vol_exp) {
+            vol_cur =
+                vol_cur + (vol_exp - vol_cur) * transport_can_conf_.kbrake();
+            id_0xc040b2b_->set_xbr1_brkpedalopenreq(
+                int(vol_cur / transport_can_conf_.kspeedthrottle()));
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
           }
           break;
-        //stop mode
+        // stop mode
         case 4:
-          //li he
+          // li he
           // id_0xc040b2b_->set_xbr1_brkpedalopenreq(clutchSet);
           id_0xc040b2b_->set_xbr1_brkpedalopenreq(0);
           // for(int i = brakeSet; i <= 100; i++) {
-          for(int i = 0; i <= 100; i++) {
+          for (int i = 0; i <= 100; i++) {
             id_0xc040b2b_->set_xbr1_clupedalopenreq(i);
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000 / transport_can_conf_.brakeapplyrate()));
+            std::this_thread::sleep_for(std::chrono::milliseconds(
+                1000 / transport_can_conf_.brakeapplyrate()));
           }
           break;
-        default: break;
+        default:
+          break;
       }
 
       if (count_flag == 15) {

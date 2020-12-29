@@ -1,6 +1,6 @@
-#include "GPSproto.h"
-// using namespace std;
 #include <iostream>
+#include "GPSproto.h"
+
 using namespace std;
 GPSinfo::GPSinfo() {
   GPSString = "";

@@ -1,13 +1,28 @@
 #include "transport_control.h"
+
 #include <cstdio>
+
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <string>
+
+using namespace std;
+
 #define TRAJLENGTH 200
 #define MAXDIS 99999
 #define L 2.4
-using namespace std;
+
+bool transport_Control::Init() {
+  using namespace std;
+  AINFO << "Transport_Control init";
+  ReadConfig();
+  writer = node_->CreateWriter<ControlCommand>("/transport/control");
+  // Init ControlCommand Writer
+  ReadTraj();
+  return true;
+}
+
 void transport_Control::ReadTraj() {
   //读取所有点的经纬度
   TrajFile.open("/apollo/modules/TrajFile.dat", ios::in);
@@ -25,9 +40,8 @@ void transport_Control::ReadTraj() {
 }
 
 void transport_Control::ReadConfig() {
-  using namespace std;
   ifstream f;
-  f.open("/apollo/modules/transport_control/ControlSettings.config");
+  f.open("/apollo/modules/transport_control/conf/ControlSettings.config");
   if (f.is_open()) {
     AINFO << "Control Config File Opened";
     while (!f.eof()) {
@@ -109,15 +123,6 @@ int transport_Control::FindLookahead(double totaldis) {
     }
   }
   return i;
-}
-bool transport_Control::Init() {
-  using namespace std;
-  AINFO << "Transport_Control init";
-  ReadConfig();
-  writer = node_->CreateWriter<ControlCommand>("transport/ControlCommand");
-  // Init ControlCommand Writer
-  ReadTraj();
-  return true;
 }
 
 /*

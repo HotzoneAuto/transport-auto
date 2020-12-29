@@ -14,13 +14,14 @@ using apollo::canbus::ControlCommand;
 using apollo::cyber::Component;
 using apollo::cyber::ComponentBase;
 using apollo::cyber::Writer;
+
 class transport_Control : public apollo::cyber::Component<ChassisDetail> {
  public:
   bool Init() override;
   bool Proc(const std::shared_ptr<ChassisDetail>& msg0) override;
 
  private:
-  std::shared_ptr<Writer<ControlCommand> > writer;
+  std::shared_ptr<Writer<ControlCommand>> writer;
   ControlCommand controlcmd;
   double Stanley(double k, double v, int& ValidCheck);
   double Caculate_steer(const std::shared_ptr<ChassisDetail>& msg0);

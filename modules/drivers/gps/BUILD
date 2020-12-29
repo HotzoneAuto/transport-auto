@@ -15,7 +15,7 @@ cc_library(
 )
 cc_library(
     name = "GPSproto",
-    srcs = ["GPSproto.cpp"],
+    srcs = ["GPSproto.cc"],
     hdrs = ["GPSproto.h"],
     deps = [
         "//cyber",

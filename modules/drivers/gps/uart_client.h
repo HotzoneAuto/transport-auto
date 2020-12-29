@@ -1,4 +1,3 @@
-#define BUFF_LENGTH 300
 #include <iostream>
 #include <mutex>
 #include <vector>
@@ -6,6 +5,8 @@
 #include "cyber/component/timer_component.h"
 #include "cyber/cyber.h"
 #include "modules/common/uart.h"
+
+#define BUFF_LENGTH 300
 
 using apollo::cyber::Async;
 using apollo::cyber::Yield;
