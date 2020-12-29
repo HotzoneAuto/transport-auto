@@ -109,9 +109,8 @@ void transport_Canbus::PublishChassisDetail() {
   }
   return;
 }
-void transport_Canbus::OnControl(
-    ControlCommand&
-        msg) {  // control callback function  will move to reader callback
+void transport_Canbus::OnControl(ControlCommand& msg) {
+  // control callback function  will move to reader callback
   static ControlCommand cmd;
   // Write Control Here
   cmd.set_control_steer(msg.control_steer());

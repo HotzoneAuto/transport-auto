@@ -14,7 +14,6 @@ using namespace std;
 #define L 2.4
 
 bool transport_Control::Init() {
-  using namespace std;
   AINFO << "Transport_Control init";
   ReadConfig();
   writer = node_->CreateWriter<ControlCommand>("/transport/control");
@@ -74,9 +73,8 @@ void transport_Control::ReadConfig() {
     AERROR << "ControlSettings.config Missing";
   }
 }
-void transport_Control::UpdateTraj(
-    const std::shared_ptr<ChassisDetail>&
-        msg0) {  //将靠近的若干个点转移到车辆的坐标系中
+void transport_Control::UpdateTraj(const std::shared_ptr<ChassisDetail>& msg0) {
+  //将靠近的若干个点转移到车辆的坐标系中
   //寻找轨迹上一段范围内的距离本车最近的点
   double N_now = msg0->gpsnl() + msg0->gpsnh();
   double E_now = msg0->gpsel() + msg0->gpseh();
@@ -128,17 +126,17 @@ int transport_Control::FindLookahead(double totaldis) {
 /*
   Reader Callback function
 */
-
 bool transport_Control::Proc(const std::shared_ptr<ChassisDetail>& msg0) {
   double control_steer = 0;
   double control_acc = 0;
+  // TODO(FZB):PROC api ONLY CALL ONCE ?
   UpdateTraj(msg0);
   // calculate steer
-  control_steer = Caculate_steer(msg0);
+  control_steer = CaculateSteer(msg0);
   controlcmd.set_control_steer(control_steer);
 
   // calculate acc
-  control_acc = Caculate_acc(msg0);
+  control_acc = CaculateAcc(msg0);
   controlcmd.set_control_acc(control_acc);
   AINFO << controlcmd.DebugString();
 
@@ -150,8 +148,7 @@ bool transport_Control::Proc(const std::shared_ptr<ChassisDetail>& msg0) {
   Input ChassisDetail message
   Output Control_steer degree
 */
-
-double transport_Control::Caculate_steer(
+double transport_Control::CaculateSteer(
     const std::shared_ptr<ChassisDetail>& msg0) {
   double steer_wheel_angle = 0;
   //根据预瞄点计算横向转角
@@ -173,9 +170,8 @@ double transport_Control::Caculate_steer(
   return steer_wheel_angle;
 }
 
-double transport_Control::Stanley(
-    double k, double v,
-    int& ValidCheck) {  // use stanley method to calculate steer angle.
+double transport_Control::Stanley(double k, double v, int& ValidCheck) {
+  // use stanley method to calculate steer angle.
   ValidCheck = 1;
   // find point X=0
   int index = 0;
@@ -200,10 +196,12 @@ double transport_Control::Stanley(
   return phi_e + phi_y;
 }
 
-double transport_Control::Caculate_acc(  //设置纵向期望速度
+//设置纵向期望速度
+double transport_Control::CaculateAcc(
     const std::shared_ptr<ChassisDetail>& msg0) {
   double control_acc = 0;
-  if (configinfo.SpeedMode == 0) {  // const speed mode;
+  if (configinfo.SpeedMode == 0) {
+    // const speed mode;
     double N_now = msg0->gpsnl() + msg0->gpsnh();
     double E_now = msg0->gpsel() + msg0->gpseh();
     double N_start = trajinfo[0][0] + trajinfo[1][0];
@@ -216,7 +214,8 @@ double transport_Control::Caculate_acc(  //设置纵向期望速度
     control_acc = min(DisToStart, DisToEnd) * configinfo.SpeedK;
     control_acc = min(configinfo.DesiredSpeed, control_acc);
 
-  } else if (configinfo.SpeedMode == 0) {  // Traj speed mode
+  } else if (configinfo.SpeedMode == 0) {
+    // Traj speed mode
     control_acc = trajinfo[4][TrajIndex];
   }
 

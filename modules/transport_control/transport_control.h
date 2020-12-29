@@ -5,9 +5,9 @@
 #include "cyber/component/timer_component.h"
 #include "cyber/cyber.h"
 
+#include "modules/drivers/gps/GPSproto.h"
 #include "modules/transport_can/proto/chassis_detail.pb.h"
 #include "modules/transport_can/proto/control_command.pb.h"
-#include "modules/drivers/gps/GPSproto.h"
 
 using apollo::canbus::ChassisDetail;
 using apollo::canbus::ControlCommand;
@@ -24,8 +24,8 @@ class transport_Control : public apollo::cyber::Component<ChassisDetail> {
   std::shared_ptr<Writer<ControlCommand>> writer;
   ControlCommand controlcmd;
   double Stanley(double k, double v, int& ValidCheck);
-  double Caculate_steer(const std::shared_ptr<ChassisDetail>& msg0);
-  double Caculate_acc(const std::shared_ptr<ChassisDetail>& msg0);
+  double CaculateSteer(const std::shared_ptr<ChassisDetail>& msg0);
+  double CaculateAcc(const std::shared_ptr<ChassisDetail>& msg0);
   void ReadTraj();
   void ReadConfig();
   void UpdateTraj(const std::shared_ptr<ChassisDetail>& msg0);
