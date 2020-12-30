@@ -15,6 +15,10 @@ using namespace std;
 
 bool transport_Control::Init() {
   AINFO << "Transport_Control init";
+  if(!GetProtoConfig(&control_setting_conf_)) {
+    AERROR << "Unable to load conf file" << ConfigFilePath();
+    return false;
+  }
   ReadConfig();
   writer = node_->CreateWriter<ControlCommand>("/transport/control");
   // Init ControlCommand Writer
@@ -40,39 +44,12 @@ void transport_Control::ReadTraj() {
 
 void transport_Control::ReadConfig() {
   //　TODO(FZB)@ZENGPENG: REDESIGN BY apollo::cyber::common::GetProtoFromFile
-  ifstream f;
-  f.open("/apollo/modules/control/conf/ControlSettings.config");
-  if (f.is_open()) {
-    AINFO << "Control Config File Opened";
-    while (!f.eof()) {
-      string SettingName;
-      f >> SettingName;
-      ConfigInfo& x = configinfo;
-      if (SettingName == "LookAheadDis") {
-        f >> x.LookAheadDis;
-        AINFO << "LookAheadDis = " << x.LookAheadDis;
-      } else if (SettingName == "StanleyK") {
-        f >> x.StanleyK;
-        AINFO << "StanleyK = " << x.StanleyK;
-      } else if (SettingName == "StanleyProp") {
-        f >> x.StanleyProp;
-        AINFO << "StanleyProp = " << x.StanleyProp;
-      } else if (SettingName == "SpeedMode") {
-        f >> x.SpeedMode;
-        AINFO << "SpeedMode = " << x.SpeedMode;
-      } else if (SettingName == "DesiredSpeed") {
-        f >> x.DesiredSpeed;
-        x.DesiredSpeed /= 3.6;
-        AINFO << "DesiredSpeed = " << x.DesiredSpeed;
-      } else if (SettingName == "SpeedK") {
-        f >> x.SpeedK;
-        AINFO << "SpeedK = " << x.SpeedK;
-      }
-    }
-    f.close();
-  } else {
-    AERROR << "ControlSettings.config Missing";
-  }
+  configinfo.look_ahead_dis = control_setting_conf_.lookaheaddis();
+  configinfo.stanley_k = control_setting_conf_.stanleyk();
+  configinfo.stanley_prop = control_setting_conf_.stanleyprop();
+  configinfo.speed_mode = control_setting_conf_.speedmode();
+  configinfo.desired_speed = control_setting_conf_.desiredspeed();
+  configinfo.speed_k = control_setting_conf_.speedk();
 }
 void transport_Control::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
   //将靠近的若干个点转移到车辆的坐标系中
@@ -99,12 +76,12 @@ void transport_Control::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
   for (int i = TrajIndex;
        i < min(TrajIndex + TRAJLENGTH, (int)trajinfo[0].size()); i++) {
     double N_point = trajinfo[0][i] + trajinfo[1][i];
-    double E_point = trajinfo[3][i] + trajinfo[4][i];
+    double E_point = trajinfo[2][i] + trajinfo[3][i];
     double dis = SphereDis(E_now, N_now, E_point, N_point);
     double azi = SphereAzimuth(E_now, N_now, E_point, N_point);
     double rel_x = dis * cos(azi - Azi_now);
     double rel_y = dis * sin(azi - Azi_now);
-    double vel = trajinfo[5][i];
+    double vel = trajinfo[4][i];
     rel_loc[0].push_back(rel_x);
     rel_loc[1].push_back(rel_y);
     rel_loc[2].push_back(vel);
@@ -153,7 +130,7 @@ double transport_Control::CaculateSteer(
     const std::shared_ptr<Gps>& msg0) {
   double steer_wheel_angle = 0;
   //根据预瞄点计算横向转角
-  int LookAheadIndex = FindLookahead(configinfo.LookAheadDis);
+  int LookAheadIndex = FindLookahead(configinfo.look_ahead_dis);
   double long_distance = rel_loc[0][LookAheadIndex];
   double lat_distance = rel_loc[1][LookAheadIndex];
   double follow_angle =
@@ -162,9 +139,9 @@ double transport_Control::CaculateSteer(
   double stanley_angle = 0;
   int validcheck = 0;
   stanley_angle =
-      Stanley(configinfo.StanleyK, msg0->gps_velocity(), validcheck);
+      Stanley(configinfo.stanley_k, msg0->gps_velocity(), validcheck);
   // todo 增加前轮转角与方向盘转角的函数表达式。
-  double StanleyProp = configinfo.StanleyProp;
+  double StanleyProp = configinfo.stanley_prop;
   double front_wheel_angle =
       follow_angle * (1 - StanleyProp) + stanley_angle * StanleyProp;
   steer_wheel_angle = front_wheel_angle / 14.0 * 360.0;
@@ -201,21 +178,21 @@ double transport_Control::Stanley(double k, double v, int& ValidCheck) {
 double transport_Control::CaculateAcc(
     const std::shared_ptr<Gps>& msg0) {
   double control_acc = 0;
-  if (configinfo.SpeedMode == 0) {
+  if (configinfo.speed_mode == 0) {
     // const speed mode;
     double N_now = msg0->gpsnl() + msg0->gpsnh();
     double E_now = msg0->gpsel() + msg0->gpseh();
     double N_start = trajinfo[0][0] + trajinfo[1][0];
-    double E_start = trajinfo[3][0] + trajinfo[4][0];
+    double E_start = trajinfo[2][0] + trajinfo[3][0];
     int length = trajinfo[0].size();
     double N_end = trajinfo[0][length] + trajinfo[1][length];
-    double E_end = trajinfo[3][length] + trajinfo[4][length];
+    double E_end = trajinfo[2][length] + trajinfo[3][length];
     double DisToStart = SphereDis(E_now, N_now, E_start, N_start);
     double DisToEnd = SphereDis(E_now, N_now, E_end, N_end);
-    control_acc = min(DisToStart, DisToEnd) * configinfo.SpeedK;
-    control_acc = min(configinfo.DesiredSpeed, control_acc);
+    control_acc = min(DisToStart, DisToEnd) * configinfo.speed_k;
+    control_acc = min(configinfo.desired_speed, control_acc);
 
-  } else if (configinfo.SpeedMode == 0) {
+  } else if (configinfo.speed_mode == 0) {
     // Traj speed mode
     control_acc = trajinfo[4][TrajIndex];
   }

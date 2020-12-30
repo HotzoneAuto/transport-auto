@@ -8,6 +8,7 @@
 #include "modules/drivers/gps/GPSproto.h"
 #include "modules/drivers/gps/proto/gps.pb.h"
 #include "modules/transport_can/proto/control_command.pb.h"
+#include "modules/control/proto/control_setting_conf.pb.h"
 
 using apollo::drivers::Gps;
 using apollo::canbus::ControlCommand;
@@ -33,15 +34,17 @@ class transport_Control : public apollo::cyber::Component<Gps> {
   vector<double> trajinfo[6];
   vector<double> rel_loc[3];
 
+  apollo::control::ControlSettingConf control_setting_conf_;
   fstream TrajFile;
   int TrajIndex;
+
   struct ConfigInfo {
-    double LookAheadDis;
-    double StanleyK;
-    double StanleyProp;
-    double DesiredSpeed;
-    int SpeedMode;
-    double SpeedK;
+    double look_ahead_dis;
+    double stanley_k;
+    double stanley_prop;
+    double desired_speed;
+    int speed_mode;
+    double speed_k;
   } configinfo;
 };
 CYBER_REGISTER_COMPONENT(transport_Control)
