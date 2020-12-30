@@ -18,7 +18,7 @@ cc_library(
         "//cyber",
         "//modules/drivers/gps:GPSproto",
         "//modules/drivers/gps/proto:gps_cc_proto",
-        "//modules/transport_can/proto:control_command_cc_proto",
+        "//modules/control/proto:control_command_cc_proto",
         "//modules/control/proto:control_setting_conf_cc_proto",
     ],
 )

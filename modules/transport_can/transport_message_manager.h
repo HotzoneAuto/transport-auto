@@ -14,31 +14,24 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/transport_can/vehicle/transport/transport_message_manager.h"
+#pragma once
 
-#include "modules/transport_can/vehicle/transport/protocol/id_0x18ff4bd1.h"
-#include "modules/transport_can/vehicle/transport/protocol/id_0x4ef8480.h"
-#include "modules/transport_can/vehicle/transport/protocol/id_0xc040b2b.h"
+#include "modules/drivers/canbus/can_comm/message_manager.h"
+#include "modules/transport_can/proto/chassis_detail.pb.h"
 
 namespace apollo {
 namespace canbus {
-namespace Transport {
+namespace transport {
 
-TransportMessageManager::TransportMessageManager() {
-  // Control Messages
-  AddSendProtocolData<Id0xc040b2b, true>();
-  AddSendProtocolData<Id0x4ef8480, true>();
-  // ::apollo::drivers::canbus::ProtocolData<apollo::canbus::ChassisDetail>
-  //     *id8480 = GetMutableProtocolDataById(0x04ef8480);
-  // id8480->SetDataLength(4);
-  // set steer data_length
+using ::apollo::drivers::canbus::MessageManager;
 
-  // Report Messages
-  AddRecvProtocolData<Id0x18ff4bd1, true>();
-}
+class TransportMessageManager
+    : public MessageManager<::apollo::canbus::ChassisDetail> {
+ public:
+  TransportMessageManager();
+  virtual ~TransportMessageManager();
+};
 
-TransportMessageManager::~TransportMessageManager() {}
-
-}  // namespace Transport
+}  // namespace transport
 }  // namespace canbus
 }  // namespace apollo

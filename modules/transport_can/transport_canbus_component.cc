@@ -1,38 +1,39 @@
-#include "transport_can.h"
+#include "transport_canbus_component.h"
 
 #include <cstdio>
 #include <iostream>
 #include <string>
-using std::cout;
-using std::endl;
-using namespace std;
 
 bool transport_Canbus::Init() {
   // read config;
   ReadConfig();
-  // CAN0 Open
+  // Open CAN0 
   CANCardParameter CanPara = CANCardParameter();
 
   CanClient = std::unique_ptr<SocketCanClientRaw>(new SocketCanClientRaw());
+  // TODO(ZENGPENG):CONFIG CAN INIT PARAMETERS
   CanPara.set_type(CANCardParameter::PCI_CARD);
   CanPara.set_brand(CANCardParameter::SOCKET_CAN_RAW);
   CanPara.set_channel_id(CANCardParameter::CHANNEL_ID_ZERO);
   CanPara.set_interface(CANCardParameter::NATIVE);
   CanClient->Init(CanPara);
   CanClient->Start();
+  
   // Init can0 message_menager
   message_manager = std::unique_ptr<MessageManager<ChassisDetail> >(
       new TransportMessageManager);
   message_manager->ClearSensorData();
+  
   // CAN0 receiver&sender
   can_receiver.Init(CanClient.get(), message_manager.get(), 1);
   can_receiver.Start();
   can_sender.Init(CanClient.get(), 1);
   can_sender.Start();
+  
+  // Init CAN0 Controller
   transport_controller.Init(&can_sender, message_manager.get());
   transport_controller.Start();
-  // Init CAN0 Controller
-
+  
   AINFO << "Canbus Init";
 
   chassis_detail_writer_ =
@@ -43,6 +44,7 @@ bool transport_Canbus::Init() {
       "/transport/control",
       [this](const std::shared_ptr<ControlCommand>& msg) { OnControl(*msg); });
 
+  // TODO(ZENGPENG): SPLIT DATA RECORD FROM CHASSIS 
   if (Mode == RecordMode) {
     TrajFile.open("/apollo/modules/transportTraj.record");
     if (TrajFile.is_open()) AINFO << "TrajFileOpened";
@@ -51,11 +53,14 @@ bool transport_Canbus::Init() {
   return true;
 }
 
-bool transport_Canbus::Proc() {  // Timer callback
+// Timer callback　API
+bool transport_Canbus::Proc() {
   PublishChassisDetail();
   return true;
 }
-void transport_Canbus::Clear() {  // shutdown
+
+// shutdown
+void transport_Canbus::Clear() {
   if (TrajFile.is_open()) {
     AINFO << "TrajFileClosed";
     TrajFile.close();
@@ -64,9 +69,8 @@ void transport_Canbus::Clear() {  // shutdown
   can_sender.Stop();
   can_receiver.Stop();
   CanClient->Stop();
-
-  // std::cout<<"stopping and clearing"<<std::endl;
 }
+
 void transport_Canbus::PublishChassisDetail() {
   message_manager->GetSensorData(&sensordata);
   sensordata.set_current_steer_angle(sensordata.current_steer_angle());
@@ -74,9 +78,8 @@ void transport_Canbus::PublishChassisDetail() {
   return;
 }
 
-void transport_Canbus::OnControl(
-    ControlCommand&
-        msg) {  // control callback function  will move to reader callback
+// control callback function  will move to reader callback
+void transport_Canbus::OnControl(ControlCommand& msg) {
   static ControlCommand cmd;
   // Write Control Here
   cmd.set_control_steer(msg.control_steer());
@@ -87,13 +90,14 @@ void transport_Canbus::OnControl(
   return;
 }
 
+// TODO(ZENGPENG):CONFIG
 void transport_Canbus::ReadConfig() {
-  ifstream f;
+  std::ifstream f;
   f.open("/apollo/modules/control/conf/ControlSettings.config");
   if (f.is_open()) {
     AINFO << "Control Config File Opened";
     while (!f.eof()) {
-      string SettingName;
+      std::string SettingName;
       f >> SettingName;
       if (SettingName == "LonConSwitch") {
         f >> AccEnable;

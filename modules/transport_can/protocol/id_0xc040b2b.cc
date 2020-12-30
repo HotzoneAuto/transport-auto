@@ -14,13 +14,13 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/transport_can/vehicle/transport/protocol/id_0xc040b2b.h"
+#include "modules/transport_can/protocol/id_0xc040b2b.h"
 
 #include "modules/drivers/canbus/common/byte.h"
 
 namespace apollo {
 namespace canbus {
-namespace Transport {
+namespace transport {
 
 using ::apollo::drivers::canbus::Byte;
 
@@ -229,6 +229,6 @@ void Id0xc040b2b::set_p_xbr1_sysctrlmode(uint8_t* data, int xbr1_sysctrlmode) {
   to_set.set_value(x, 0, 4);
 }
 
-}  // namespace Transport
+}  // namespace transport
 }  // namespace canbus
 }  // namespace apollo

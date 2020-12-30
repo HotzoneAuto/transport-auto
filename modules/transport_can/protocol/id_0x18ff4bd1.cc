@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/transport_can/vehicle/transport/protocol/id_0x18ff4bd1.h"
+#include "modules/transport_can/protocol/id_0x18ff4bd1.h"
 
 #include "glog/logging.h"
 
@@ -23,7 +23,7 @@
 
 namespace apollo {
 namespace canbus {
-namespace Transport {
+namespace transport {
 
 using ::apollo::drivers::canbus::Byte;
 
@@ -80,6 +80,6 @@ double Id0x18ff4bd1::currentsteerangle(const std::uint8_t* bytes,
   double ret = x * 0.100000 + -3276.700000;
   return ret;
 }
-}  // namespace Transport
+}  // namespace transport
 }  // namespace canbus
 }  // namespace apollo

@@ -1,8 +1,9 @@
+#pragma once
+
 #include <iomanip>
 #include <iostream>
 #include <vector>
 
-#include "cyber/component/component.h"
 #include "cyber/component/timer_component.h"
 #include "cyber/cyber.h"
 
@@ -10,17 +11,19 @@
 #include "modules/drivers/canbus/can_comm/can_receiver.h"
 #include "modules/drivers/canbus/can_comm/can_sender.h"
 #include "modules/drivers/canbus/proto/can_card_parameter.pb.h"
-// transport
-#include "modules/transport_can/vehicle/transport/transport_controller.h"
+#include "modules/transport_can/transport_controller.h"
 
+// TODO(ZENGPENG): SPLIT DATA RECORD FROM CHASSIS  
 #define RecordMode 0
 #define ControlMode 1
 
-using apollo::canbus::ChassisDetail;
-using apollo::canbus::ControlCommand;
-using apollo::canbus::Transport::TransportMessageManager;
 using apollo::cyber::Reader;
 using apollo::cyber::Writer;
+
+using apollo::canbus::ChassisDetail;
+using apollo::control::ControlCommand;
+using apollo::canbus::transport::TransportMessageManager;
+
 using apollo::drivers::canbus::CANCardParameter;
 using apollo::drivers::canbus::CanReceiver;
 using apollo::drivers::canbus::CanSender;
@@ -29,14 +32,6 @@ using apollo::drivers::canbus::can::SocketCanClientRaw;
 
 class transport_Canbus : public apollo::cyber::TimerComponent {
  public:
- private:
-  int SteerEnable;
-  int AccEnable;
-  int Mode;
-  ofstream TrajFile;
-  int vol_cur_;
-  int vol_exp_;
-  ChassisDetail sensordata;
   bool Init() override;
   bool Proc() override;
   void Clear() override;
@@ -44,8 +39,16 @@ class transport_Canbus : public apollo::cyber::TimerComponent {
   void PublishChassisDetail();
   void OnControl(ControlCommand& msg);
 
+ private:
+  int SteerEnable;
+  int AccEnable;
+  int Mode;
+  std::ofstream TrajFile;
+  int vol_cur_;
+  int vol_exp_;
+  ChassisDetail sensordata;
   std::unique_ptr<SocketCanClientRaw> CanClient;
-  std::unique_ptr<MessageManager<ChassisDetail> > message_manager;
+  std::unique_ptr<MessageManager<ChassisDetail>> message_manager;
   CanReceiver<ChassisDetail> can_receiver;
   CanSender<ChassisDetail> can_sender;
   TransportController transport_controller;

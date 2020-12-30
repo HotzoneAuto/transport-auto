@@ -20,28 +20,28 @@
 #include <fstream>
 #include <memory>
 #include <string>
-#include "modules/common/proto/error_code.pb.h"
-
-#include "modules/transport_can/proto/control_command.pb.h"
-#include "modules/transport_can/proto/transport_can_conf.pb.h"
-#include "modules/transport_can/vehicle/transport/protocol/id_0x4ef8480.h"
-#include "modules/transport_can/vehicle/transport/protocol/id_0xc040b2b.h"
 
 #include "cyber/common/file.h"
 #include "cyber/common/log.h"
 #include "cyber/cyber.h"
+
+#include "modules/common/proto/error_code.pb.h"
 #include "modules/common/time/time.h"
 #include "modules/drivers/canbus/can_comm/can_sender.h"
 #include "modules/drivers/canbus/can_comm/protocol_data.h"
-#include "modules/transport_can/vehicle/transport/transport_message_manager.h"
+#include "modules/control/proto/control_command.pb.h"
+#include "modules/transport_can/proto/transport_can_conf.pb.h"
+#include "modules/transport_can/protocol/id_0x4ef8480.h"
+#include "modules/transport_can/protocol/id_0xc040b2b.h"
+#include "modules/transport_can/transport_message_manager.h"
 
-using ::apollo::canbus::ControlCommand;
-using ::apollo::canbus::Transport::Id0x4ef8480;
-using ::apollo::canbus::Transport::Id0xc040b2b;
+using ::apollo::control::ControlCommand;
+using ::apollo::canbus::transport::Id0x4ef8480;
+using ::apollo::canbus::transport::Id0xc040b2b;
 using ::apollo::common::ErrorCode;
 using ::apollo::drivers::canbus::CanSender;
 using ::apollo::drivers::canbus::ProtocolData;
-using namespace std;
+using apollo::drivers::canbus::MessageManager;
 
 class TransportController {
  public:
@@ -68,7 +68,7 @@ class TransportController {
   Id0x4ef8480 *id_0x4ef8480_ = nullptr;
   Id0xc040b2b *id_0xc040b2b_ = nullptr;
 
-  ifstream f;
+  std::ifstream f;
   int ClutchSet_;
   int BrakeSet_;
   int SpeedSet_;
