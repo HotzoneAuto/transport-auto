@@ -60,7 +60,7 @@ void transport_Control::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
   for (int i = lastindex;
        i < std::min(lastindex + TRAJLENGTH, (int)trajinfo[0].size()); i++) {
     double N_point = trajinfo[0][i] + trajinfo[1][i];
-    double E_point = trajinfo[3][i] + trajinfo[4][i];
+    double E_point = trajinfo[2][i] + trajinfo[3][i];
     double dis =
         apollo::drivers::gps::SphereDis(E_now, N_now, E_point, N_point);
     if (dis < min_dis) {
