@@ -7,11 +7,11 @@
 
 #include "modules/drivers/gps/GPSproto.h"
 #include "modules/drivers/gps/proto/gps.pb.h"
-#include "modules/transport_can/proto/control_command.pb.h"
+#include "modules/control/proto/control_command.pb.h"
 #include "modules/control/proto/control_setting_conf.pb.h"
 
 using apollo::drivers::Gps;
-using apollo::canbus::ControlCommand;
+using apollo::control::ControlCommand;
 using apollo::cyber::Component;
 using apollo::cyber::ComponentBase;
 using apollo::cyber::Writer;

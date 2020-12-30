@@ -43,7 +43,6 @@ void transport_Control::ReadTraj() {
 }
 
 void transport_Control::ReadConfig() {
-  //　TODO(FZB)@ZENGPENG: REDESIGN BY apollo::cyber::common::GetProtoFromFile
   configinfo.look_ahead_dis = control_setting_conf_.lookaheaddis();
   configinfo.stanley_k = control_setting_conf_.stanleyk();
   configinfo.stanley_prop = control_setting_conf_.stanleyprop();

@@ -21,7 +21,7 @@
 
 namespace apollo {
 namespace canbus {
-namespace Transport {
+namespace transport {
 
 class Id0x18ff4bd1 : public ::apollo::drivers::canbus::ProtocolData<
                          ::apollo::canbus::ChassisDetail> {
@@ -50,6 +50,6 @@ class Id0x18ff4bd1 : public ::apollo::drivers::canbus::ProtocolData<
                            const int32_t length) const;
 };
 
-}  // namespace Transport
+}  // namespace transport
 }  // namespace canbus
 }  // namespace apollo

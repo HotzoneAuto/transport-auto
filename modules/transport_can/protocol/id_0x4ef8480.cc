@@ -14,13 +14,13 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/transport_can/vehicle/transport/protocol/id_0x4ef8480.h"
+#include "modules/transport_can/protocol/id_0x4ef8480.h"
 
 #include "modules/drivers/canbus/common/byte.h"
 
 namespace apollo {
 namespace canbus {
-namespace Transport {
+namespace transport {
 
 using ::apollo::drivers::canbus::Byte;
 
@@ -169,6 +169,6 @@ void Id0x4ef8480::set_p_currentvehiclespeed(uint8_t* data,
   to_set1.set_value(t, 0, 8);
 }
 
-}  // namespace Transport
+}  // namespace transport
 }  // namespace canbus
 }  // namespace apollo

@@ -21,7 +21,7 @@
 
 namespace apollo {
 namespace canbus {
-namespace Transport {
+namespace transport {
 
 class Id0x4ef8480 : public ::apollo::drivers::canbus::ProtocolData<
                         ::apollo::canbus::ChassisDetail> {
@@ -111,6 +111,6 @@ class Id0x4ef8480 : public ::apollo::drivers::canbus::ProtocolData<
   double currentvehiclespeed_;
 };
 
-}  // namespace Transport
+}  // namespace transport
 }  // namespace canbus
 }  // namespace apollo

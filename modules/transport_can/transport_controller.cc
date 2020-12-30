@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/transport_can/vehicle/transport/transport_controller.h"
+#include "modules/transport_can/transport_controller.h"
 
 ErrorCode TransportController::Init(
     CanSender<::apollo::canbus::ChassisDetail> *const can_sender,
