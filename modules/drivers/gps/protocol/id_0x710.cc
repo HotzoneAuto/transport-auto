@@ -22,8 +22,9 @@
 #include "modules/drivers/canbus/common/canbus_consts.h"
 
 namespace apollo {
-namespace canbus {
-namespace TransportGPS {
+namespace drivers {
+namespace gps {
+namespace protocol {
 
 using ::apollo::drivers::canbus::Byte;
 
@@ -73,6 +74,7 @@ double Id0x710::rollangle(const std::uint8_t* bytes, int32_t length) const {
   double ret = x * 0.010000;
   return ret;
 }
-}  // namespace TransportGPS
-}  // namespace canbus
+}  // namespace protocol
+}  // namespace gps
+}  // namespace drivers
 }  // namespace apollo

@@ -1,15 +1,22 @@
+#pragma once
+
 #include <iostream>
 #include <mutex>
 #include <vector>
-#include "cyber/component/component.h"
-#include "cyber/component/timer_component.h"
+
 #include "cyber/cyber.h"
+
 #include "modules/common/uart.h"
+
+namespace apollo {
+namespace drivers {
+namespace gps {
 
 #define BUFF_LENGTH 300
 
 using apollo::cyber::Async;
 using apollo::cyber::Yield;
+
 class UartClient {
  public:
   bool Init();
@@ -25,3 +32,7 @@ class UartClient {
   std::mutex uart_mutex;
   std::shared_ptr<Uart> dev_p;
 };
+
+}  // namespace gps
+}  // namespace drivers
+}  // namespace apollo

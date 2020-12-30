@@ -4,6 +4,11 @@
 #include <cstring>
 #include <iostream>
 #include <string>
+
+namespace apollo {
+namespace drivers {
+namespace gps {
+
 using std::cout;
 using std::endl;
 using namespace std;
@@ -28,7 +33,7 @@ void UartClient::Close() {  // shutdown
 void UartClient::Start() {
   is_running = 1;
   AINFO << "Uart Started";
-  auto async_result_ = Async(&UartClient::RecvThreadFunc, this);
+  auto async_result_ = cyber::Async(&UartClient::RecvThreadFunc, this);
 }
 void UartClient::RecvThreadFunc() {
   while (is_running) {
@@ -46,3 +51,7 @@ void UartClient::RecvThreadFunc() {
     }
   }
 }
+
+}  // namespace gps
+}  // namespace drivers
+}  // namespace apollo

@@ -22,8 +22,9 @@
 #include "modules/drivers/canbus/common/canbus_consts.h"
 
 namespace apollo {
-namespace canbus {
-namespace TransportGPS {
+namespace drivers {
+namespace gps {
+namespace protocol {
 
 using ::apollo::drivers::canbus::Byte;
 
@@ -95,6 +96,7 @@ double Id0x703::velocityforward(const std::uint8_t* bytes,
   double ret = x * 0.010000;
   return ret;
 }
-}  // namespace TransportGPS
-}  // namespace canbus
+}  // namespace protocol
+}  // namespace gps
+}  // namespace drivers
 }  // namespace apollo

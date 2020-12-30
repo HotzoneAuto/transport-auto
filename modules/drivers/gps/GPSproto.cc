@@ -1,6 +1,10 @@
 #include "GPSproto.h"
 #include <iostream>
 
+namespace apollo {
+namespace drivers {
+namespace gps {
+
 using namespace std;
 GPSinfo::GPSinfo() {
   GPSString = "";
@@ -65,3 +69,6 @@ GPSstatus GPSinfo::GetGPSstatus(string s) {
   else if (s == "WAITING_INITIALPOS")
     return GPSstatus::WAITING_INITIALPOS;
 }
+}  // namespace gps
+}  // namespace drivers
+}  // namespace apollo

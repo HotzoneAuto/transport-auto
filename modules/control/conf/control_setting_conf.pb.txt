@@ -1,0 +1,9 @@
+LonConSwitch: 1
+LatConSwitch: 1
+SpeedMode: 0
+TrajMode: 0
+LookAheadDis: 5
+StanleyK: 1
+StanleyProp: 0
+DesiredSpeed: 10
+SpeedK: 1

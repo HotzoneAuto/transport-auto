@@ -1,0 +1,8 @@
+syntax = "proto2";
+
+package apollo.control;
+
+message ControlCommand {
+  optional double control_steer = 1;
+  optional double control_acc = 2;
+};

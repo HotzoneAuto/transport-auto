@@ -5,8 +5,9 @@
         class_name : "transport_Control"
         config {
             name : "transport_Control"
+            config_file_path: "/apollo/modules/control/conf/control_setting_conf.pb.txt"
             readers {
-                channel: "/transport/chassisdetail"
+                channel: "/transport/gps" 
             }
         }
       }

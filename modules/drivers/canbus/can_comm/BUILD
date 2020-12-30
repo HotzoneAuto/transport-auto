@@ -43,7 +43,7 @@ cc_test(
     srcs = ["can_sender_test.cc"],
     deps = [
         "//cyber",
-        "//modules/guide_can/proto:chassis_detail_cc_proto",
+        "//modules/canbus/proto:chassis_detail_cc_proto",
         "//modules/drivers/canbus/can_client/fake:fake_can_client",
         "//modules/drivers/canbus/can_comm:can_sender",
         "//modules/drivers/canbus/common:canbus_common",
@@ -57,7 +57,7 @@ cc_test(
     srcs = ["can_receiver_test.cc"],
     deps = [
         "//cyber",
-        "//modules/guide_can/proto:chassis_detail_cc_proto",
+        "//modules/canbus/proto:chassis_detail_cc_proto",
         "//modules/common/configs/proto:vehicle_config_cc_proto",
         "//modules/common/proto:drive_state_cc_proto",
         "//modules/common/proto:header_cc_proto",
@@ -74,7 +74,7 @@ cc_test(
     size = "small",
     srcs = ["protocol_data_test.cc"],
     deps = [
-        "//modules/guide_can/proto:chassis_detail_cc_proto",
+        "//modules/canbus/proto:chassis_detail_cc_proto",
         "//modules/drivers/canbus/can_comm:message_manager_base",
         "@com_google_googletest//:gtest_main",
     ],
@@ -86,7 +86,7 @@ cc_test(
     srcs = ["message_manager_test.cc"],
     deps = [
         "//cyber",
-        "//modules/guide_can/proto:chassis_detail_cc_proto",
+        "//modules/canbus/proto:chassis_detail_cc_proto",
         "//modules/drivers/canbus/can_comm:message_manager_base",
         "@com_google_googletest//:gtest_main",
     ],

@@ -2,9 +2,9 @@
     module_config {
     module_library : "/apollo/bazel-bin/modules/drivers/gps/transport_gps.so"
     timer_components {
-        class_name : "Gps"
+        class_name : "transport_Gps"
         config {
-            name : "Gps"
+            name : "transport_Gps"
             interval : 20
         }
       }

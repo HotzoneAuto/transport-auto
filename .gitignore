@@ -1,0 +1,74 @@
+# Bazel
+bazel-*
+
+# Temporary files
+*.pyc
+*.swp
+*.swo
+
+# Generated files
+*.result
+
+# Eclipse IDE files
+.project
+.cproject
+.settings
+.classpath
+
+# IntelliJ files
+.idea
+
+# VS Code files
+.vscode
+
+# Atom IDE files
+*.gch
+
+# Logs
+nohup.out
+*.bak
+*.stderr
+*.stdout
+
+# Editor configs
+.ycm_extra_conf.py
+
+# Data
+/data
+modules/tools/ota/update.ini
+modules/tools/ota/vehicle_info.pb.txt
+
+modules/tools/gen_vehicle_protocol/output*
+
+# Localization
+modules/localization/msf/local_map/test_data/ndt_map/map_data/
+
+# Doxygen
+docs/doxygen
+cyber/doxy-docs/build/
+cyber/doxy-docs/xml/
+
+# Map data files
+modules/map/data
+
+#dockerfile tarballs
+docker/build/archive/
+
+# python proto
+py_proto
+*_pb2.py
+
+# calibration files
+modules/calibration/data/
+
+# Data bag
+docs/demo_guide/*.bag
+docs/demo_guide/*.record
+
+# Bash Environment
+.dev_bash_hist
+
+# bazel cache and others
+.cache/
+tools/python_bin_path.sh
+.apollo.bazelrc

@@ -21,14 +21,10 @@ function determine_disabled_bazel_targets() {
         # Skip msf for non-x86_64 platforms
         disabled="${disabled} except //modules/localization/msf/..."
     fi
-    disabled="${disabled} except //modules/common/math/... except //modules/drivers/canbus/..."
+    disabled="${disabled} except //modules/common/math/..."
 
     echo "${disabled}"
-    # DISABLED_CYBER_MODULES="except //cyber/record:record_file_integration_test"
 }
-
-# components="$(echo -e "${@// /\\n}" | sort -u)"
-# if [ ${PIPESTATUS[0]} -ne 0 ]; then ... ; fi
 
 function determine_build_targets() {
     local targets_all
@@ -133,19 +129,6 @@ function bazel_build() {
     _run_bazel_build_impl "${CMDLINE_OPTIONS}" "$(bazel query ${build_targets})"
 }
 
-function build_simulator() {
-    local SIMULATOR_TOP_DIR="/apollo-simulator"
-    if [ -d "${SIMULATOR_TOP_DIR}" ] && [ -e "${SIMULATOR_TOP_DIR}/build.sh" ]; then
-        pushd "${SIMULATOR_TOP_DIR}"
-            if bash build.sh build ; then
-                success "Done building Apollo simulator."
-            else
-                fail "Building Apollo simulator failed."
-            fi
-        popd >/dev/null
-    fi
-}
-
 function main() {
     if [ "${USE_GPU}" -eq 1 ]; then
         info "Your GPU is enabled to run the build on ${ARCH} platform."
@@ -154,8 +137,7 @@ function main() {
     fi
     bazel_build $@
     if [ -z "${SHORTHAND_TARGETS}" ]; then
-        SHORTHAND_TARGETS="guide-auto"
-        build_simulator
+        SHORTHAND_TARGETS="transport-auto"
     fi
     success "Done building ${SHORTHAND_TARGETS}. Enjoy!"
 }
