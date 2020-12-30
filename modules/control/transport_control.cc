@@ -21,6 +21,8 @@ bool transport_Control::Init() {
   }
   ReadConfig();
   writer = node_->CreateWriter<ControlCommand>("/transport/control");
+
+  gps_reader_=node_->CreateReader<Gps>("/transport/gps");
   // Init ControlCommand Writer
   ReadTraj();
   return true;
@@ -107,7 +109,6 @@ int transport_Control::FindLookahead(double totaldis) {
 bool transport_Control::Proc(const std::shared_ptr<Gps>& msg0) {
   double control_steer = 0;
   double control_acc = 0;
-  // TODO(FZB)@STARLI:PROC api ONLY CALL ONCE ?
   UpdateTraj(msg0);
   // calculate steer
   control_steer = CaculateSteer(msg0);
@@ -127,7 +128,7 @@ bool transport_Control::Proc(const std::shared_ptr<Gps>& msg0) {
   Output Control_steer degree
 */
 double transport_Control::CaculateSteer(
-    const std::shared_ptr<Gps>& msg0) {
+  const std::shared_ptr<Gps>& msg0) {
   double steer_wheel_angle = 0;
   //根据预瞄点计算横向转角
   int LookAheadIndex = FindLookahead(configinfo.look_ahead_dis);

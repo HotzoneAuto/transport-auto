@@ -15,6 +15,7 @@ using apollo::canbus::ControlCommand;
 using apollo::cyber::Component;
 using apollo::cyber::ComponentBase;
 using apollo::cyber::Writer;
+using apollo::cyber::Reader;
 
 class transport_Control : public apollo::cyber::Component<Gps> {
  public:
@@ -37,7 +38,7 @@ class transport_Control : public apollo::cyber::Component<Gps> {
   apollo::control::ControlSettingConf control_setting_conf_;
   fstream TrajFile;
   int TrajIndex;
-
+  std::shared_ptr<apollo::cyber::Reader<Gps>> gps_reader_;
   struct ConfigInfo {
     double look_ahead_dis;
     double stanley_k;
