@@ -23,22 +23,22 @@
 #include "modules/drivers/gps/protocol/id_0x713.h"
 
 namespace apollo {
-namespace canbus {
-namespace TransportGPS {
+namespace drivers {
+namespace gps {
 
 TransportGPSMessageManager::TransportGPSMessageManager() {
   // Control Messages
 
   // Report Messages
-  AddRecvProtocolData<Id0x701, true>();
-  AddRecvProtocolData<Id0x703, true>();
-  AddRecvProtocolData<Id0x710, true>();
-  AddRecvProtocolData<Id0x712, true>();
-  AddRecvProtocolData<Id0x713, true>();
+  AddRecvProtocolData<protocol::Id0x701, true>();
+  AddRecvProtocolData<protocol::Id0x703, true>();
+  AddRecvProtocolData<protocol::Id0x710, true>();
+  AddRecvProtocolData<protocol::Id0x712, true>();
+  AddRecvProtocolData<protocol::Id0x713, true>();
 }
 
 TransportGPSMessageManager::~TransportGPSMessageManager() {}
 
-}  // namespace TransportGPS
-}  // namespace canbus
+}  // namespace gps
+}  // namespace drivers
 }  // namespace apollo

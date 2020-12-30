@@ -20,8 +20,8 @@
 #include "modules/drivers/gps/proto/gps.pb.h"
 
 namespace apollo {
-namespace canbus {
-namespace TransportGPS {
+namespace drivers {
+namespace gps {
 
 using ::apollo::drivers::canbus::MessageManager;
 
@@ -32,6 +32,6 @@ class TransportGPSMessageManager
   virtual ~TransportGPSMessageManager();
 };
 
-}  // namespace TransportGPS
-}  // namespace canbus
+}  // namespace gps
+}  // namespace drivers
 }  // namespace apollo

@@ -22,8 +22,9 @@
 #include "modules/drivers/canbus/common/canbus_consts.h"
 
 namespace apollo {
-namespace canbus {
-namespace TransportGPS {
+namespace drivers {
+namespace gps {
+namespace protocol {
 
 using ::apollo::drivers::canbus::Byte;
 
@@ -107,6 +108,7 @@ int Id0x713::gpsstate(const std::uint8_t* bytes, int32_t length) const {
   int ret = x;
   return ret;
 }
-}  // namespace TransportGPS
-}  // namespace canbus
+}  // namespace protocol
+}  // namespace gps
+}  // namespace drivers
 }  // namespace apollo

@@ -20,8 +20,9 @@
 #include "modules/drivers/gps/proto/gps.pb.h"
 
 namespace apollo {
-namespace canbus {
-namespace TransportGPS {
+namespace drivers {
+namespace gps {
+namespace protocol {
 
 class Id0x703
     : public ::apollo::drivers::canbus::ProtocolData< ::apollo::drivers::Gps> {
@@ -50,6 +51,7 @@ class Id0x703
   double velocityforward(const std::uint8_t* bytes, const int32_t length) const;
 };
 
-}  // namespace TransportGPS
-}  // namespace canbus
+}  // namespace protocol
+}  // namespace gps
+}  // namespace drivers
 }  // namespace apollo

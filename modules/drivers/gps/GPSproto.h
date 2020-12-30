@@ -3,6 +3,11 @@
 #include <cmath>
 #include <cstring>
 #include <string>
+
+namespace apollo {
+namespace drivers {
+namespace gps {
+
 using namespace std;
 const double PI = atan(1.0) * 4;
 enum class GPSstatus {
@@ -57,3 +62,6 @@ double SphereAzimuth(double lon1, double lat1, double lon2, double lat2) {
                    2 * PI);
   return tc1;
 }
+}  // namespace gps
+}  // namespace drivers
+}  // namespace apollo
