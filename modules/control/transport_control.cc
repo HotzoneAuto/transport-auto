@@ -13,13 +13,13 @@ bool transport_Control::Init() {
   ReadConfig();
   writer = node_->CreateWriter<ControlCommand>("/transport/control");
 
-  traj_record_file.open("/apollo/modules/control/data/gps_record.csv", ios::out | ios::trunc);
+  traj_record_file.open("/apollo/modules/control/data/gps_record.csv", std::ios::out | std::ios::trunc);
   traj_record_file << "frame" << "," << "pgsnh" << ","
                    << "gpsnl" << "," << "gpseh" << "," << "gpsel" << "," << "heading_angle"
                    << "," << "yaw_rate" << "," << "gps_state" << "," << "gps_velocity" << ","
                    << "acceleration_forward" << "," << "acceleration_lateral" << "," << 
                    "acceleration_down" << "," << "pitch_angle" << "," << "velocity_down" <<
-                   "," << "velocity_lateral" << "," << "velocity_forward" << "," << "roll_angle" << endl;
+                   "," << "velocity_lateral" << "," << "velocity_forward" << "," << "roll_angle" << std::endl;
   // Init ControlCommand Writer
   ReadTraj();
   return true;
