@@ -1,5 +1,10 @@
+#pragma once
 #include <iostream>
 #include <vector>
+#include <cstdio>
+#include <fstream>
+#include <map>
+#include <string>
 
 #include "cyber/component/component.h"
 #include "cyber/component/timer_component.h"
@@ -21,6 +26,7 @@ class transport_Control : public apollo::cyber::Component<Gps> {
  public:
   bool Init() override;
   bool Proc(const std::shared_ptr<Gps>& msg0) override;
+  void Clear() override;
 
  private:
   std::shared_ptr<Writer<ControlCommand>> writer;
@@ -37,8 +43,10 @@ class transport_Control : public apollo::cyber::Component<Gps> {
 
   apollo::control::ControlSettingConf control_setting_conf_;
   fstream TrajFile;
+  fstream traj_record_file;
   int TrajIndex;
   std::shared_ptr<apollo::cyber::Reader<Gps>> gps_reader_;
+  int frame;
   struct ConfigInfo {
     double look_ahead_dis;
     double stanley_k;
