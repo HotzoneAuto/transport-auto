@@ -250,6 +250,5 @@ double transport_Control::CaculateAcc(const std::shared_ptr<Gps>& msg0) {
 }
 
 void transport_Control::Clear() {
-  TrajFile.close();
   traj_record_file.close();
 }
