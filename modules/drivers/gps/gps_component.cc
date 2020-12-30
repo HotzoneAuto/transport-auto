@@ -40,10 +40,8 @@ bool transport_Gps::Proc() {
 
 void transport_Gps::PublishGps() {
   message_manager_gps->GetSensorData(&gps_data);
-  // double vel =
-  //     std::sqrt(gps_data.velocity_lateral() * gps_data.velocity_lateral() +
-  //          gps_data.velocity_forward() * gps_data.velocity_forward());
 
+  gps_data.set_timestamp(Time::Now().ToNanosecond());
   gps_writer_->Write(gps_data);
 }
 }  // namespace gps

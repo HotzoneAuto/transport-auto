@@ -18,4 +18,5 @@ message Gps{
     optional double velocity_lateral =14;
     optional double velocity_forward =15;
     optional double roll_angle =16;
+    optional uint64 timestamp = 17;
 };

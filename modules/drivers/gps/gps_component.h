@@ -6,6 +6,7 @@
 
 #include "cyber/component/timer_component.h"
 #include "cyber/cyber.h"
+#include "cyber/time/time.h"
 
 #include "modules/drivers/canbus/can_client/socket/socket_can_client_raw.h"
 #include "modules/drivers/canbus/can_comm/can_receiver.h"
@@ -18,6 +19,7 @@ namespace drivers {
 namespace gps {
 
 using apollo::cyber::Writer;
+using apollo::cyber::Time;
 using apollo::drivers::Gps;
 using apollo::drivers::canbus::CANCardParameter;
 using apollo::drivers::canbus::CanReceiver;
