@@ -1,12 +1,5 @@
 #include "transport_control.h"
 
-#include <cstdio>
-
-#include <fstream>
-#include <iostream>
-#include <map>
-#include <string>
-
 using namespace std;
 
 #define TRAJLENGTH 200
@@ -23,6 +16,14 @@ bool transport_Control::Init() {
   writer = node_->CreateWriter<ControlCommand>("/transport/control");
 
   gps_reader_=node_->CreateReader<Gps>("/transport/gps");
+  traj_record_file.open("/apollo/modules/control/data/gps_record.csv", ios::out | ios::trunc);
+  traj_record_file << "frame" << "," << "pgsnh" << ","
+                   << "gpsnl" << "," << "gpseh" << "," << "gpsel" << "," << "heading_angle"
+                   << "," << "yaw_rate" << "," << "gps_state" << "," << "gps_velocity" << ","
+                   << "acceleration_forward" << "," << "acceleration_lateral" << "," << 
+                   "acceleration_down" << "," << "pitch_angle" << "," << "velocity_down" <<
+                   "," << "velocity_lateral" << "," << "velocity_forward" << "," << "roll_angle" << endl;
+  frame = 0;
   // Init ControlCommand Writer
   ReadTraj();
   return true;
@@ -106,6 +107,18 @@ int transport_Control::FindLookahead(double totaldis) {
   Reader Callback function
 */
 bool transport_Control::Proc(const std::shared_ptr<Gps>& msg0) {
+  if (frame == 65535) {
+    frame = 0;
+  }
+  frame ++;
+  traj_record_file << frame << "," << msg0->gpsnh() << "," << msg0->gpsnl() << "," << msg0->gpseh() 
+                   << "," << msg0->gpsel() << "," << msg0->heading_angle() << "," << msg0->yaw_rate() 
+                   << "," << msg0->gps_state() << "," << msg0->gps_velocity() 
+                   << "," << msg0->acceleration_forward() << "," << msg0->acceleration_lateral() 
+                   << "," << msg0->acceleration_down() << "," << msg0->pitch_angle() 
+                   << "," << msg0->velocity_down() << "," << msg0->velocity_lateral() 
+                   << "," << msg0->velocity_forward() << "," << msg0->roll_angle() << endl;
+
   double control_steer = 0;
   double control_acc = 0;
   UpdateTraj(msg0);
@@ -198,4 +211,9 @@ double transport_Control::CaculateAcc(
   }
 
   return control_acc;
+}
+
+void transport_Control::Clear() {
+  TrajFile.close();
+  traj_record_file.close();
 }
