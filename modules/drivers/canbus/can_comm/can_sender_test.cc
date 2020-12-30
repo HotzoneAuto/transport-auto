@@ -21,7 +21,7 @@
 #include "modules/common/proto/error_code.pb.h"
 #include "modules/drivers/canbus/can_client/fake/fake_can_client.h"
 #include "modules/drivers/canbus/can_comm/protocol_data.h"
-#include "modules/guide_can/proto/chassis_detail.pb.h"
+#include "modules/transport_can/proto/chassis_detail.pb.h"
 
 namespace apollo {
 namespace drivers {
