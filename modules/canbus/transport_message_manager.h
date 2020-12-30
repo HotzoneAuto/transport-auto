@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2017 The Apollo Authors. All Rights Reserved.
+ * Copyright 2019 The Apollo Authors. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,33 +14,24 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/drivers/canbus/can_comm/can_receiver.h"
+#pragma once
 
-#include "gtest/gtest.h"
-
-#include "modules/common/proto/error_code.pb.h"
-#include "modules/drivers/canbus/can_client/fake/fake_can_client.h"
 #include "modules/drivers/canbus/can_comm/message_manager.h"
 #include "modules/canbus/proto/chassis_detail.pb.h"
 
 namespace apollo {
-namespace drivers {
 namespace canbus {
+namespace transport {
 
-TEST(CanReceiverTest, ReceiveOne) {
-  cyber::Init("can_receiver_test");
-  can::FakeCanClient can_client;
-  MessageManager<::apollo::canbus::ChassisDetail> pm;
-  CanReceiver<::apollo::canbus::ChassisDetail> receiver;
+using ::apollo::drivers::canbus::MessageManager;
 
-  receiver.Init(&can_client, &pm, false);
-  EXPECT_EQ(receiver.Start(), common::ErrorCode::OK);
-  EXPECT_TRUE(receiver.IsRunning());
-  receiver.Stop();
-  EXPECT_FALSE(receiver.IsRunning());
-  // cyber::Clear();
-}
+class TransportMessageManager
+    : public MessageManager<::apollo::canbus::ChassisDetail> {
+ public:
+  TransportMessageManager();
+  virtual ~TransportMessageManager();
+};
 
+}  // namespace transport
 }  // namespace canbus
-}  // namespace drivers
 }  // namespace apollo

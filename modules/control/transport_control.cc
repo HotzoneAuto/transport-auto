@@ -38,7 +38,6 @@ void transport_Control::ReadTraj() {
     trajinfo[3].push_back(el);
     trajinfo[4].push_back(vel);
   }
-  TrajIndex = 0;
 }
 
 void transport_Control::ReadConfig() {
@@ -81,8 +80,8 @@ void transport_Control::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
         apollo::drivers::gps::SphereDis(E_now, N_now, E_point, N_point);
     double azi =
         apollo::drivers::gps::SphereAzimuth(E_now, N_now, E_point, N_point);
-    double rel_x = dis * cos(azi - Azi_now);
-    double rel_y = dis * sin(azi - Azi_now);
+    double rel_x = dis * std::cos(azi - Azi_now);
+    double rel_y = dis * std::sin(azi - Azi_now);
     double vel = trajinfo[4][i];
     rel_loc[0].push_back(rel_x);
     rel_loc[1].push_back(rel_y);
@@ -123,17 +122,17 @@ bool transport_Control::Proc(const std::shared_ptr<Gps>& msg0) {
 
   double control_steer = 0;
   double control_acc = 0;
-  UpdateTraj(msg0);
+  // UpdateTraj(msg0);
   // calculate steer
-  control_steer = CaculateSteer(msg0);
-  controlcmd.set_control_steer(control_steer);
+  // control_steer = CaculateSteer(msg0);
+  // controlcmd.set_control_steer(control_steer);
 
-  // calculate acc
-  control_acc = CaculateAcc(msg0);
-  controlcmd.set_control_acc(control_acc);
-  AINFO << controlcmd.DebugString();
+  // // calculate acc
+  // control_acc = 0; //CaculateAcc(msg0);
+  // controlcmd.set_control_acc(control_acc);
+  // AINFO << controlcmd.DebugString();
 
-  writer->Write(controlcmd);
+  // writer->Write(controlcmd);
   return true;
 }
 

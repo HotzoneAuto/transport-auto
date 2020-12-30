@@ -45,7 +45,7 @@ class transport_Control : public apollo::cyber::Component<Gps> {
   apollo::control::ControlSettingConf control_setting_conf_;
   std::fstream TrajFile;
   std::fstream traj_record_file;
-  int TrajIndex;
+  int TrajIndex = 0;
   int frame = 0;
   struct ConfigInfo {
     double look_ahead_dis;

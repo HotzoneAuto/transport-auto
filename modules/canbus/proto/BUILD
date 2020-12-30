@@ -6,47 +6,6 @@ load("@com_github_grpc_grpc//bazel:python_rules.bzl", "py_proto_library")
 package(default_visibility = ["//visibility:public"])
 
 cc_proto_library(
-    name = "diamond_cc_proto",
-    deps = [
-        ":diamond_proto",
-    ],
-)
-
-proto_library(
-    name = "diamond_proto",
-    srcs = ["diamond.proto"],
-)
-
-py_proto_library(
-    name = "diamond_py_pb2",
-    deps = [
-        ":diamond_proto",
-    ],
-)
-cc_proto_library(
-    name = "vehicle_parameter_cc_proto",
-    deps = [
-        ":vehicle_parameter_proto",
-    ],
-)
-
-proto_library(
-    name = "vehicle_parameter_proto",
-    srcs = ["vehicle_parameter.proto"],
-    deps = [
-        ":chassis_proto",
-        "//modules/common/configs/proto:vehicle_config_proto",
-    ],
-)
-
-py_proto_library(
-    name = "vehicle_parameter_py_pb2",
-    deps = [
-        ":vehicle_parameter_proto",
-    ],
-)
-
-cc_proto_library(
     name = "chassis_detail_cc_proto",
     deps = [
         ":chassis_detail_proto",
@@ -56,11 +15,6 @@ cc_proto_library(
 proto_library(
     name = "chassis_detail_proto",
     srcs = ["chassis_detail.proto"],
-    deps = [
-        "//modules/common/configs/proto:vehicle_config_proto",
-        ":chassis_proto",
-        ":diamond_proto",
-    ],
 )
 
 py_proto_library(
@@ -69,53 +23,21 @@ py_proto_library(
         ":chassis_detail_proto",
     ],
 )
-
 cc_proto_library(
-    name = "canbus_conf_cc_proto",
+    name = "transport_can_conf_cc_proto",
     deps = [
-        ":canbus_conf_proto",
+        ":transport_can_conf_proto",
     ],
 )
 
 proto_library(
-    name = "canbus_conf_proto",
-    srcs = ["canbus_conf.proto"],
-    deps = [
-        "//modules/drivers/canbus/proto:can_card_parameter_proto",
-        ":vehicle_parameter_proto",
-    ],
+    name = "transport_can_conf_proto",
+    srcs = ["transport_can_conf.proto"],
 )
 
 py_proto_library(
-    name = "canbus_conf_py_pb2",
+    name = "transport_can_conf_py_pb2",
     deps = [
-        ":canbus_conf_proto",
+        ":transport_can_conf_proto",
     ],
 )
-
-cc_proto_library(
-    name = "chassis_cc_proto",
-    deps = [
-        ":chassis_proto",
-    ],
-)
-
-proto_library(
-    name = "chassis_proto",
-    srcs = ["chassis.proto"],
-    deps = [
-        "//modules/common/proto:header_proto",
-        "//modules/common/proto:vehicle_signal_proto",
-        "//modules/common/proto:drive_state_proto",
-        "//modules/common/proto:geometry_proto",
-        "//modules/common/configs/proto:vehicle_config_proto",
-    ],
-)
-
-py_proto_library(
-    name = "chassis_py_pb2",
-    deps = [
-        ":chassis_proto",
-    ],
-)
-

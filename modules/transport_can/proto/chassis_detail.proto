@@ -1,6 +1,0 @@
-syntax = "proto2";
-
-package apollo.canbus;
-message ChassisDetail{
-    optional double current_steer_angle = 1;
-};
