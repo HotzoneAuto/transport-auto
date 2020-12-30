@@ -43,7 +43,7 @@ class transport_Canbus : public apollo::cyber::TimerComponent {
   int SteerEnable;
   int AccEnable;
   int Mode;
-  ofstream TrajFile;
+  std::ofstream TrajFile;
   int vol_cur_;
   int vol_exp_;
   ChassisDetail sensordata;

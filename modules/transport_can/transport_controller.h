@@ -36,11 +36,12 @@
 #include "modules/transport_can/transport_message_manager.h"
 
 using ::apollo::control::ControlCommand;
-using ::apollo::canbus::Transport::Id0x4ef8480;
-using ::apollo::canbus::Transport::Id0xc040b2b;
+using ::apollo::canbus::transport::Id0x4ef8480;
+using ::apollo::canbus::transport::Id0xc040b2b;
 using ::apollo::common::ErrorCode;
 using ::apollo::drivers::canbus::CanSender;
 using ::apollo::drivers::canbus::ProtocolData;
+using apollo::drivers::canbus::MessageManager;
 
 class TransportController {
  public:
@@ -67,7 +68,7 @@ class TransportController {
   Id0x4ef8480 *id_0x4ef8480_ = nullptr;
   Id0xc040b2b *id_0xc040b2b_ = nullptr;
 
-  ifstream f;
+  std::ifstream f;
   int ClutchSet_;
   int BrakeSet_;
   int SpeedSet_;

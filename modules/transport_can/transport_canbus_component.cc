@@ -92,12 +92,12 @@ void transport_Canbus::OnControl(ControlCommand& msg) {
 
 // TODO(ZENGPENG):CONFIG
 void transport_Canbus::ReadConfig() {
-  ifstream f;
+  std::ifstream f;
   f.open("/apollo/modules/control/conf/ControlSettings.config");
   if (f.is_open()) {
     AINFO << "Control Config File Opened";
     while (!f.eof()) {
-      string SettingName;
+      std::string SettingName;
       f >> SettingName;
       if (SettingName == "LonConSwitch") {
         f >> AccEnable;

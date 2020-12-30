@@ -12,8 +12,8 @@ cc_binary(
 
 cc_library(
     name = "transport_canlib",
-    srcs = ["transport_can.cc"],
-    hdrs = ["transport_can.h"],
+    srcs = ["transport_canbus_component.cc"],
+    hdrs = ["transport_canbus_component.h"],
     deps = [
         ":transport_controller",
         ":transport_message_manager",
@@ -49,7 +49,7 @@ cc_library(
         ":transport_message_manager",
         "//modules/drivers/canbus/can_comm:can_sender",
         "//modules/drivers/canbus/common:canbus_common",
-        "//modules/transport_can/proto:control_command_cc_proto",
+        "//modules/control/proto:control_command_cc_proto",
         "//modules/transport_can/proto:transport_can_conf_cc_proto",
         "//modules/transport_can/protocol:canbus_transport_protocol",
     ],
