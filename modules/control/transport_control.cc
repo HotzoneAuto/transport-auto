@@ -155,15 +155,20 @@ bool transport_Control::Proc(const std::shared_ptr<Gps>& msg0) {
     double control_acc = 0;
 
     UpdateTraj(msg0);
-    // calculate steer
-    control_steer = CaculateSteer(msg0);
-    controlcmd.set_control_steer(control_steer);
+    if(rel_loc[0].size()>10){ 
+      // near destination
+      // calculate steer
+      control_steer = CaculateSteer(msg0);
+      controlcmd.set_control_steer(control_steer);
 
-    // calculate acc
-    control_acc = CaculateAcc(msg0);
-    controlcmd.set_control_acc(control_acc);
-    AINFO << controlcmd.DebugString();
-
+      // calculate acc
+      control_acc = CaculateAcc(msg0);
+      controlcmd.set_control_acc(control_acc);
+      AINFO << controlcmd.DebugString();
+    }else{
+      controlcmd.set_control_steer(0);
+      controlcmd.set_control_acc(0);
+    }
     writer->Write(controlcmd);
   }
 
@@ -241,7 +246,7 @@ double transport_Control::CaculateAcc(const std::shared_ptr<Gps>& msg0) {
     control_acc = std::min(DisToStart, DisToEnd) * configinfo.speed_k;
     control_acc = std::min(configinfo.desired_speed, control_acc);
 
-  } else if (configinfo.speed_mode == 0) {
+  } else if (configinfo.speed_mode == 1) {
     // Traj speed mode
     control_acc = trajinfo[4][TrajIndex];
   }
