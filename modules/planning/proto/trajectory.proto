@@ -3,14 +3,14 @@ package apollo.planning;
 
 import "modules/common/proto/header.proto";
 
-message Traj {  
+message TrajectoryPoint {  
     optional double rel_x = 1;
     optional double rel_y = 2;
     optional double rel_vel = 3;
     optional uint64 timestamp = 4[default = 0];
 };
 
-message Trajs {
+message Trajectory {
     optional apollo.common.Header header = 1;
-    repeated Traj trajs = 2;
+    repeated TrajectoryPoint points = 2;
 };

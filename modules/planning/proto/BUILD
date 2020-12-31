@@ -23,25 +23,25 @@ py_proto_library(
         ":planning_setting_conf_proto",
     ],
 )
-
 cc_proto_library(
-    name = "trajs_cc_proto",
+    name = "trajectory_cc_proto",
     deps = [
-        ":trajs_proto",
+        ":trajectory_proto",
     ],
 )
 
 proto_library(
-    name = "trajs_proto",
-    srcs = ["trajs.proto"],
+    name = "trajectory_proto",
+    srcs = ["trajectory.proto"],
     deps = [
         "//modules/common/proto:header_proto",
     ],
 )
 
 py_proto_library(
-    name = "trajs_py_pb2",
+    name = "trajectory_py_pb2",
     deps = [
-        ":trajs_proto",
+        ":trajectory_proto",
     ],
 )
+
