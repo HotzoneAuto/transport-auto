@@ -15,6 +15,7 @@
 #include "modules/drivers/gps/proto/gps.pb.h"
 #include "modules/common/file/file.h"
 #include "modules/planning/proto/planning_setting_conf.pb.h"
+#include "modules/planning/proto/rel_loc.pb.h"
 
 #define TRAJLENGTH 200
 #define MAXDIS 99999
@@ -33,7 +34,6 @@ class transport_Planning : public apollo::cyber::Component<Gps> {
  private:
   void ReadTraj();
   void UpdateTraj(const std::shared_ptr<Gps>& msg0);
-  int FindLookahead(double totaldis);
 
   std::vector<double> trajinfo[6];
   std::vector<double> rel_loc[3];
@@ -44,5 +44,6 @@ class transport_Planning : public apollo::cyber::Component<Gps> {
   int frame;
   std::string fname = "/apollo/modules/planning/data/gps_record.csv";
   apollo::planning::PlanningSettingConf planning_setting_conf_;
+  std::shared_ptr<apollo::cyber::Writer<apollo::planning::RelLoc>> rel_loc_writer;
 };
 CYBER_REGISTER_COMPONENT(transport_Planning)

@@ -15,6 +15,7 @@ bool transport_Planning::Init() {
     file_csv.write_file(msg_w);
     frame = 0;
   } else {
+    rel_loc_writer = node_->CreateWriter<apollo::planning::RelLoc>("/transport/planning");
     ReadTraj();
   }
   return true;
@@ -68,9 +69,7 @@ void transport_Planning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
     }
   }
   //将该点附近的若干个点加入到自车坐标系中
-  rel_loc[0].clear();
-  rel_loc[1].clear();
-  rel_loc[2].clear();
+  auto msg_rel_loc = std::make_shared<apollo::planning::RelLoc>();
   for (int i = TrajIndex;
        i < std::min(TrajIndex + TRAJLENGTH, (int)trajinfo[0].size()); i++) {
     double N_point = trajinfo[0][i] + trajinfo[1][i];
@@ -80,23 +79,12 @@ void transport_Planning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
     double rel_x = dis * cos(azi - Azi_now);
     double rel_y = dis * sin(azi - Azi_now);
     double vel = trajinfo[4][i];
-    rel_loc[0].push_back(rel_x);
-    rel_loc[1].push_back(rel_y);
-    rel_loc[2].push_back(vel);
+    auto* rel_loc_position = msg_rel_loc->add_rel_loc_position();
+    rel_loc_position->set_rel_x(rel_x);
+    rel_loc_position->set_rel_y(rel_y);
+    rel_loc_position->set_rel_vel(vel);
   }
-}
-int transport_Planning::FindLookahead(double totaldis) {
-  double dis = 0;
-  int i = 1;
-  for (i = 1; i < rel_loc[0].size(); i++) {
-    double dx = (rel_loc[0][i] - rel_loc[0][i - 1]);
-    double dy = (rel_loc[1][i] - rel_loc[1][i - 1]);
-    dis += sqrt(dx * dx + dy * dy);
-    if (dis > totaldis) {
-      break;
-    }
-  }
-  return i;
+  rel_loc_writer->Write(msg_rel_loc);
 }
 
 /*
