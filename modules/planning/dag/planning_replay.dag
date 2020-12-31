@@ -2,7 +2,7 @@
     module_config {
     module_library : "/apollo/bazel-bin/modules/planning/transport_planning.so"
     components {
-        class_name : "transport_Planning"
+        class_name : "TransportPlanning"
         config {
             name : "transport_Planning"
             config_file_path: "/apollo/modules/planning/conf/planning_replay_conf.pb.txt"
