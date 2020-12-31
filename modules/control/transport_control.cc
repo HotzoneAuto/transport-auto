@@ -107,6 +107,7 @@ int transport_Control::FindLookahead(double totaldis) {
       break;
     }
   }
+  if(i == (int)rel_loc[0].size()) i = (int)rel_loc[0].size()-1;
   return i;
 }
 
