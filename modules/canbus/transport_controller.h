@@ -68,16 +68,4 @@ class TransportController {
   Id0x4ef8480 *id_0x4ef8480_ = nullptr;
   Id0xc040b2b *id_0xc040b2b_ = nullptr;
 
-  std::ifstream f;
-  int ClutchSet_;
-  int BrakeSet_;
-  int SpeedSet_;
-  int ClutchReleaseRate_;
-  int BrakeApplyRate_;
-  int IdleSpeed_;
-  int SpeedThreshold_;
-  int SpeedErrorThreshold_;
-  int KSpeedThrottle_;
-  int KDrive_;
-  int KBrake_;
 };
