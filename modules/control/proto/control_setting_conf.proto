@@ -3,13 +3,13 @@ syntax = "proto2";
 package apollo.control;
 
 message ControlSettingConf {
-    optional int32 LonConSwitch = 1 [ default = 1 ];
-    optional int32 LatConSwitch = 2 [ default = 1 ];
+    optional double LonConSwitch = 1 [ default = 1.0 ];
+    optional double LatConSwitch = 2 [ default = 1.0 ];
     optional int32 SpeedMode = 3 [ default = 0 ];
     optional int32 TrajMode = 4 [ default = 0 ];
-    optional int32 LookAheadDis = 5 [ default = 5 ];
-    optional int32 StanleyK = 6 [ default = 1 ];
-    optional double StanleyProp = 7 [ default = 0 ];
-    optional int32 DesiredSpeed = 8 [ default = 10 ];
-    optional int32 SpeedK = 9 [ default = 1 ];
+    optional double LookAheadDis = 5 [ default = 5.0 ];
+    optional double StanleyK = 6 [ default = 1.0 ];
+    optional double StanleyProp = 7 [ default = 0.3 ];
+    optional double DesiredSpeed = 8 [ default = 10.0 ];
+    optional double SpeedK = 9 [ default = 1.0 ];
 };
