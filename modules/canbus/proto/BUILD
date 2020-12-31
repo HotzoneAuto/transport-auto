@@ -42,21 +42,3 @@ py_proto_library(
     ],
 )
 
-cc_proto_library(
-    name = "mode_set_cc_proto",
-    deps = [
-        ":mode_set_proto",
-    ],
-)
-
-proto_library(
-    name = "mode_set_proto",
-    srcs = ["mode_set.proto"],
-)
-
-py_proto_library(
-    name = "mode_set_py_pb2",
-    deps = [
-        ":mode_set_proto",
-    ],
-)

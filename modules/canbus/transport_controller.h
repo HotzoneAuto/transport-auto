@@ -34,7 +34,6 @@
 #include "modules/canbus/protocol/id_0x4ef8480.h"
 #include "modules/canbus/protocol/id_0xc040b2b.h"
 #include "modules/canbus/transport_message_manager.h"
-#include "modules/canbus/proto/mode_set.pb.h"
 
 using ::apollo::control::ControlCommand;
 using ::apollo::canbus::transport::Id0x4ef8480;
@@ -66,7 +65,6 @@ class TransportController {
   CanSender<::apollo::canbus::ChassisDetail> *can_sender_;
   MessageManager<::apollo::canbus::ChassisDetail> *message_manager_;
   apollo::canbus::TransportCanConf transport_can_conf_;
-  std::shared_ptr<apollo::cyber::Writer<apollo::canbus::ModeSet>> mode_set_writer_;
   Id0x4ef8480 *id_0x4ef8480_ = nullptr;
   Id0xc040b2b *id_0xc040b2b_ = nullptr;
 

@@ -25,20 +25,23 @@ py_proto_library(
 )
 
 cc_proto_library(
-    name = "rel_loc_cc_proto",
+    name = "trajs_cc_proto",
     deps = [
-        ":rel_loc_proto",
+        ":trajs_proto",
     ],
 )
 
 proto_library(
-    name = "rel_loc_proto",
-    srcs = ["rel_loc.proto"],
+    name = "trajs_proto",
+    srcs = ["trajs.proto"],
+    deps = [
+        "//modules/common/proto:header_proto",
+    ],
 )
 
 py_proto_library(
-    name = "rel_loc_py_pb2",
+    name = "trajs_py_pb2",
     deps = [
-        ":rel_loc_proto",
+        ":trajs_proto",
     ],
 )

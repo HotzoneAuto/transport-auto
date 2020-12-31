@@ -29,9 +29,6 @@ ErrorCode TransportController::Init(
   if (!openconfig) {
     AERROR << "Unbale to load transport can conf file!";
   }
-  
-  auto node_ = apollo::cyber::CreateNode("modeset_talker");
-  mode_set_writer_ = node_->CreateWriter<apollo::canbus::ModeSet>("/tranport/canbus/modeset");
 
   if (can_sender == nullptr) {
     return ErrorCode::CANBUS_ERROR;
@@ -106,22 +103,17 @@ void TransportController::ControlUpdate(ControlCommand cmd,
   }
   if (AccEnable == 1) {  //纵向控制启用
     int control_flag = 0;
-    auto mode_set_msg = std::make_shared<apollo::canbus::ModeSet>();
     float ths_dif = transport_can_conf_.speederrorthreshold();
     float ths_exp = transport_can_conf_.speedthreshold();
 
     if ((vol_cur < transport_can_conf_.idlespeed()) && (vol_exp > ths_exp)) {
       control_flag = 1;
-      mode_set_msg->set_mode("start mode");
     } else if ((vol_cur < ths_exp) || (vol_exp - vol_cur) > ths_dif) {
       control_flag = 2;
-      mode_set_msg->set_mode("normal mode");
     } else if ((vol_exp - vol_cur) < ths_dif && (vol_cur > ths_exp)) {
       control_flag = 3;
-      mode_set_msg->set_mode("emergency mode");
     } else if (vol_exp < transport_can_conf_.idlespeed()) {
       control_flag = 4;
-      mode_set_msg->set_mode("stop mode");
     }
 
     if (control_flag) {
@@ -137,9 +129,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
             std::this_thread::sleep_for(std::chrono::milliseconds(
                 int(1000 / transport_can_conf_.clutchreleaserate())));
           }
-          // mode_set_writer_->set_clutchset(0);
-          // mode_set_writer_->set_brakeset(0);
-//          mode_set_writer_->set_speedset(0);
+
           break;
         // normal mode
         case 2:
@@ -196,7 +186,6 @@ void TransportController::ControlUpdate(ControlCommand cmd,
       }
       id_0xc040b2b_->set_xbr1_rollingcnt(count_flag);
     }
-    mode_set_writer_->Write(mode_set_msg);
   }
 }
 
