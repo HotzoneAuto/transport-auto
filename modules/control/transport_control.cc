@@ -177,15 +177,17 @@ double transport_Control::CaculateSteer(const std::shared_ptr<Gps>& msg0) {
   double follow_angle =
       std::atan(2 * L * lat_distance / (long_distance * long_distance)) * 180 /
       M_PI;
+  AINFO<<"LookAheadIndex: "<< LookAheadIndex <<" lat distance: "<< lat_distance << " long distance: "<< long_distance;
   //根据stanley计算转角
   double stanley_angle = 0;
   int validcheck = 0;
-  stanley_angle =
-      Stanley(configinfo.stanley_k, msg0->gps_velocity(), validcheck);
+  // stanley_angle =
+  //     Stanley(configinfo.stanley_k, msg0->gps_velocity(), validcheck);
   // todo 增加前轮转角与方向盘转角的函数表达式。
   double StanleyProp = configinfo.stanley_prop;
-  double front_wheel_angle =
-      follow_angle * (1 - StanleyProp) + stanley_angle * StanleyProp;
+  // double front_wheel_angle =
+  //     follow_angle * (1 - StanleyProp) + stanley_angle * StanleyProp;
+  double front_wheel_angle = follow_angle;
   steer_wheel_angle = front_wheel_angle / 14.0 * 360.0;
   return steer_wheel_angle;
 }
