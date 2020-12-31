@@ -4,6 +4,6 @@ SpeedMode: 0
 TrajMode: 1
 LookAheadDis: 5
 StanleyK: 1
-StanleyProp: 0
-DesiredSpeed: 10
+StanleyProp: 0.3
+DesiredSpeed: 4
 SpeedK: 1
