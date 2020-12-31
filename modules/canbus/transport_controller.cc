@@ -103,8 +103,8 @@ void TransportController::ControlUpdate(ControlCommand cmd,
   }
   if (AccEnable == 1) {  //纵向控制启用
     int control_flag = 0;
-    float ths_dif = SpeedErrorThreshold_;
-    float ths_exp = SpeedThreshold_;
+    float ths_dif = transport_can_conf_.speederrorthreshold();
+    float ths_exp = transport_can_conf_.speedthreshold();
 
     if ((vol_cur == 0) && (vol_exp > ths_exp)) {
       control_flag = 1;
@@ -112,7 +112,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
       control_flag = 2;
     } else if ((vol_exp - vol_cur) < ths_dif && (vol_cur > ths_exp)) {
       control_flag = 3;
-    } else if (vol_exp < IdleSpeed_) {
+    } else if (vol_exp < transport_can_conf_.idlespeed()) {
       control_flag = 4;
     }
 
@@ -127,7 +127,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
             // li he
             id_0xc040b2b_->set_xbr1_clupedalopenreq(i);
             std::this_thread::sleep_for(std::chrono::milliseconds(
-                1000 / transport_can_conf_.clutchreleaserate()));
+                int(1000 / transport_can_conf_.clutchreleaserate())));
           }
           break;
         // normal mode
@@ -171,7 +171,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           for (int i = 0; i <= 100; i++) {
             id_0xc040b2b_->set_xbr1_clupedalopenreq(i);
             std::this_thread::sleep_for(std::chrono::milliseconds(
-                1000 / transport_can_conf_.brakeapplyrate()));
+                int(1000 / transport_can_conf_.brakeapplyrate())));
           }
           break;
         default:
