@@ -2,8 +2,8 @@ LonConSwitch: 0
 LatConSwitch: 1
 SpeedMode: 0
 TrajMode: 1 
-LookAheadDis: 5
-StanleyK: 1
+LookAheadDis: 5.0
+StanleyK: 1.0
 StanleyProp: 0.3
-DesiredSpeed: 4
-SpeedK: 1
+DesiredSpeed: 4.0
+SpeedK: 1.0

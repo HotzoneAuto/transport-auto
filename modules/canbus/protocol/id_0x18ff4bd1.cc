@@ -74,9 +74,6 @@ double Id0x18ff4bd1::currentsteerangle(const std::uint8_t* bytes,
   x <<= 8;
   x |= t;
 
-  x <<= 16;
-  x >>= 16;
-
   double ret = x * 0.100000 + -3276.700000;
   return ret;
 }

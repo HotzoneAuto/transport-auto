@@ -129,6 +129,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
             std::this_thread::sleep_for(std::chrono::milliseconds(
                 int(1000 / transport_can_conf_.clutchreleaserate())));
           }
+
           break;
         // normal mode
         case 2:

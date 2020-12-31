@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+package apollo.planning;
+
+message PlanningSettingConf {
+    optional bool TrajMode = 1 [ default = true ];
+};
