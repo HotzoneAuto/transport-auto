@@ -106,7 +106,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     float ths_dif = transport_can_conf_.speederrorthreshold();
     float ths_exp = transport_can_conf_.speedthreshold();
 
-    if ((vol_cur == 0) && (vol_exp > ths_exp)) {
+    if ((vol_cur < transport_can_conf_.idlespeed()) && (vol_exp > ths_exp)) {
       control_flag = 1;
     } else if ((vol_cur < ths_exp) || (vol_exp - vol_cur) > ths_dif) {
       control_flag = 2;
