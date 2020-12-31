@@ -1,5 +1,8 @@
 #include "transport_planning.h"
 
+
+#include "modules/common/util/util.h"
+
 bool TransportPlanning::Init() {
   AINFO << "Transport_Control init";
   if (!GetProtoConfig(&planning_setting_conf_)) {
@@ -14,7 +17,7 @@ bool TransportPlanning::Init() {
                         "velocity_down,velocity_lateral,velocity_forward,roll_angle";
     file_csv.write_file(msg_w);
   } else {
-    trajs_writer = node_->CreateWriter<apollo::planning::Trajs>("/transport/planning");
+    planning_writer = node_->CreateWriter<apollo::planning::Trajectory>("/transport/planning");
     ReadTraj();
   }
   return true;
@@ -68,7 +71,7 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
     }
   }
   //将该点附近的若干个点加入到自车坐标系中
-  auto msg_traj = std::make_shared<apollo::planning::Trajs>();
+  auto msg_traj = std::make_shared<apollo::planning::Trajectory>();
   for (int i = TrajIndex;
        i < std::min(TrajIndex + TRAJLENGTH, (int)trajinfo[0].size()); i++) {
     double N_point = trajinfo[0][i] + trajinfo[1][i];
@@ -78,12 +81,13 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
     double rel_x = dis * cos(azi - Azi_now);
     double rel_y = dis * sin(azi - Azi_now);
     double vel = trajinfo[4][i];
-    auto* traj_position = msg_traj->add_trajs();
+    // apollo::common::util::FillHeader(node_->Name(), msg_traj);
+    auto* traj_position = msg_traj->add_points();
     traj_position->set_rel_x(rel_x);
     traj_position->set_rel_y(rel_y);
     traj_position->set_rel_vel(vel);
   }
-  trajs_writer->Write(msg_traj);
+  planning_writer->Write(msg_traj);
 }
 
 /*

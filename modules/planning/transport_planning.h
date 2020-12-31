@@ -15,7 +15,7 @@
 #include "modules/drivers/gps/proto/gps.pb.h"
 #include "modules/common/file/file.h"
 #include "modules/planning/proto/planning_setting_conf.pb.h"
-#include "modules/planning/proto/trajs.pb.h"
+#include "modules/planning/proto/trajectory.pb.h"
 
 #define TRAJLENGTH 200
 #define MAXDIS 99999
@@ -43,6 +43,6 @@ class TransportPlanning : public apollo::cyber::Component<Gps> {
   int frame = 0;
   std::string fname = "/apollo/modules/planning/data/gps_record.csv";
   apollo::planning::PlanningSettingConf planning_setting_conf_;
-  std::shared_ptr<apollo::cyber::Writer<apollo::planning::Trajs>> trajs_writer = nullptr;
+  std::shared_ptr<apollo::cyber::Writer<apollo::planning::Trajectory>> planning_writer = nullptr;
 };
 CYBER_REGISTER_COMPONENT(TransportPlanning)
