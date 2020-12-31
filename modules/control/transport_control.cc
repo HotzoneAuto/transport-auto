@@ -10,9 +10,8 @@ bool transport_Control::Init() {
     AERROR << "Unable to load conf file" << ConfigFilePath();
     return false;
   }
-  ReadConfig();
   writer = node_->CreateWriter<ControlCommand>("/transport/control");
-  if(configinfo.traj_mode == 0){
+  if(control_setting_conf_.trajmode() == 0){
     traj_record_file.open("/apollo/modules/control/data/gps_record.csv", std::ios::out | std::ios::trunc);
     traj_record_file << "frame" << "," << "gpsnh" << ","
                   << "gpsnl" << "," << "gpseh" << "," << "gpsel" << "," << "heading_angle"
@@ -20,7 +19,7 @@ bool transport_Control::Init() {
                   << "acceleration_forward" << "," << "acceleration_lateral" << "," << 
                   "acceleration_down" << "," << "pitch_angle" << "," << "velocity_down" <<
                   "," << "velocity_lateral" << "," << "velocity_forward" << "," << "roll_angle" << std::endl;
-  }else if(configinfo.traj_mode == 1){
+  }else if(control_setting_conf_.trajmode() == 1){
     ReadTraj();
   }
 
@@ -55,16 +54,6 @@ void transport_Control::ReadTraj() {
     trajinfo[4].push_back(velocity);
   }
   traj_record_file.close();
-}
-
-void transport_Control::ReadConfig() {
-  configinfo.look_ahead_dis = control_setting_conf_.lookaheaddis();
-  configinfo.stanley_k = control_setting_conf_.stanleyk();
-  configinfo.stanley_prop = control_setting_conf_.stanleyprop();
-  configinfo.speed_mode = control_setting_conf_.speedmode();
-  configinfo.desired_speed = control_setting_conf_.desiredspeed();
-  configinfo.speed_k = control_setting_conf_.speedk();
-  configinfo.traj_mode = control_setting_conf_.trajmode();
 }
 
 //将靠近的若干个点转移到车辆的坐标系中
@@ -127,7 +116,7 @@ bool transport_Control::Proc(const std::shared_ptr<Gps>& msg0) {
     frame = 0;
   }
   frame++;
-  if (configinfo.traj_mode == 0) {
+  if (control_setting_conf_.trajmode() == 0) {
     traj_record_file << frame << "," << msg0->gpsnh() << "," << msg0->gpsnl()
                      << "," << msg0->gpseh() << "," << msg0->gpsel() << ","
                      << msg0->heading_angle() << "," << msg0->yaw_rate() << ","
@@ -139,7 +128,7 @@ bool transport_Control::Proc(const std::shared_ptr<Gps>& msg0) {
                      << msg0->velocity_lateral() << ","
                      << msg0->velocity_forward() << "," << msg0->roll_angle()
                      << std::endl;
-  } else if (configinfo.traj_mode == 1) {
+  } else if (control_setting_conf_.trajmode() == 1) {
     double control_steer = 0;
     double control_acc = 0;
 
@@ -171,7 +160,7 @@ bool transport_Control::Proc(const std::shared_ptr<Gps>& msg0) {
 double transport_Control::CaculateSteer(const std::shared_ptr<Gps>& msg0) {
   double steer_wheel_angle = 0;
   //根据预瞄点计算横向转角
-  int LookAheadIndex = FindLookahead(configinfo.look_ahead_dis);
+  int LookAheadIndex = FindLookahead(control_setting_conf_.lookaheaddis());
   double long_distance = rel_loc[0][LookAheadIndex];
   double lat_distance = rel_loc[1][LookAheadIndex];
   double follow_angle =
@@ -184,7 +173,7 @@ double transport_Control::CaculateSteer(const std::shared_ptr<Gps>& msg0) {
   // stanley_angle =
   //     Stanley(configinfo.stanley_k, msg0->gps_velocity(), validcheck);
   // todo 增加前轮转角与方向盘转角的函数表达式。
-  double StanleyProp = configinfo.stanley_prop;
+  double StanleyProp = control_setting_conf_.stanleyprop();
   // double front_wheel_angle =
   //     follow_angle * (1 - StanleyProp) + stanley_angle * StanleyProp;
   double front_wheel_angle = follow_angle;
@@ -221,7 +210,7 @@ double transport_Control::Stanley(double k, double v, int& ValidCheck) {
 //设置纵向期望速度
 double transport_Control::CaculateAcc(const std::shared_ptr<Gps>& msg0) {
   double control_acc = 0;
-  if (configinfo.speed_mode == 0) {
+  if (control_setting_conf_.speedmode() == 0) {
     // const speed mode;
     double N_now = msg0->gpsnl() + msg0->gpsnh();
     double E_now = msg0->gpsel() + msg0->gpseh();
@@ -234,10 +223,10 @@ double transport_Control::CaculateAcc(const std::shared_ptr<Gps>& msg0) {
         apollo::drivers::gps::SphereDis(E_now, N_now, E_start, N_start);
     double DisToEnd =
         apollo::drivers::gps::SphereDis(E_now, N_now, E_end, N_end);
-    control_acc = std::min(DisToStart, DisToEnd) * configinfo.speed_k;
-    control_acc = std::min(configinfo.desired_speed, control_acc);
+    control_acc = std::min(DisToStart, DisToEnd) * control_setting_conf_.speedk();
+    control_acc = std::min(control_setting_conf_.desiredspeed(), control_acc);
 
-  } else if (configinfo.speed_mode == 1) {
+  } else if (control_setting_conf_.speedmode() == 1) {
     // Traj speed mode
     control_acc = trajinfo[4][TrajIndex];
   }

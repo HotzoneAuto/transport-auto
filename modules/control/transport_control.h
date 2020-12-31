@@ -35,7 +35,6 @@ class transport_Control : public apollo::cyber::Component<Gps> {
   double CaculateSteer(const std::shared_ptr<Gps>& msg0);
   double CaculateAcc(const std::shared_ptr<Gps>& msg0);
   void ReadTraj();
-  void ReadConfig();
   void UpdateTraj(const std::shared_ptr<Gps>& msg0);
   int FindLookahead(double totaldis);
 
@@ -47,14 +46,6 @@ class transport_Control : public apollo::cyber::Component<Gps> {
   std::fstream traj_record_file;
   int TrajIndex = 0;
   int frame = 0;
-  struct ConfigInfo {
-    double look_ahead_dis;
-    double stanley_k;
-    double stanley_prop;
-    double desired_speed;
-    int speed_mode;
-    int traj_mode;
-    double speed_k;
-  } configinfo;
+
 };
 CYBER_REGISTER_COMPONENT(transport_Control)
