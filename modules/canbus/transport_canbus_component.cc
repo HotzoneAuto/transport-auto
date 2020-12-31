@@ -73,7 +73,6 @@ void transport_Canbus::Clear() {
 
 void transport_Canbus::PublishChassisDetail() {
   message_manager->GetSensorData(&sensordata);
-  sensordata.set_current_steer_angle(sensordata.current_steer_angle());
   chassis_detail_writer_->Write(sensordata);
   return;
 }

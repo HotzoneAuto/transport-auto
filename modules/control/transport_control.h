@@ -3,8 +3,8 @@
 #include <cstdio>
 #include <fstream>
 #include <iostream>
-#include <sstream>
 #include <map>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -18,7 +18,6 @@
 
 using apollo::control::ControlCommand;
 using apollo::cyber::Component;
-using apollo::cyber::ComponentBase;
 using apollo::cyber::Reader;
 using apollo::cyber::Writer;
 using apollo::drivers::Gps;
