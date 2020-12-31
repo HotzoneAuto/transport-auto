@@ -12,32 +12,61 @@ bool transport_Control::Init() {
   }
   ReadConfig();
   writer = node_->CreateWriter<ControlCommand>("/transport/control");
+  if(configinfo.traj_mode==0){
+    traj_record_file.open("/apollo/modules/control/data/gps_record.csv", std::ios::out | std::ios::trunc);
+    traj_record_file << "frame" << "," << "gpsnh" << ","
+                  << "gpsnl" << "," << "gpseh" << "," << "gpsel" << "," << "heading_angle"
+                  << "," << "yaw_rate" << "," << "gps_state" << "," << "gps_velocity" << ","
+                  << "acceleration_forward" << "," << "acceleration_lateral" << "," << 
+                  "acceleration_down" << "," << "pitch_angle" << "," << "velocity_down" <<
+                  "," << "velocity_lateral" << "," << "velocity_forward" << "," << "roll_angle" << std::endl;
+  }else if(configinfo.traj_mode==1){
+    ReadTraj();
+  }
 
-  traj_record_file.open("/apollo/modules/control/data/gps_record.csv", std::ios::out | std::ios::trunc);
-  traj_record_file << "frame" << "," << "pgsnh" << ","
-                   << "gpsnl" << "," << "gpseh" << "," << "gpsel" << "," << "heading_angle"
-                   << "," << "yaw_rate" << "," << "gps_state" << "," << "gps_velocity" << ","
-                   << "acceleration_forward" << "," << "acceleration_lateral" << "," << 
-                   "acceleration_down" << "," << "pitch_angle" << "," << "velocity_down" <<
-                   "," << "velocity_lateral" << "," << "velocity_forward" << "," << "roll_angle" << std::endl;
   // Init ControlCommand Writer
-  ReadTraj();
   return true;
 }
 
 void transport_Control::ReadTraj() {
   //读取所有点的经纬度
-  TrajFile.open("/apollo/modules/TrajFile.dat", std::ios::in);
+  traj_record_file.open("/apollo/modules/control/data/gps_record.csv", std::ios::in);
+  char linestr[500] = {0};
+	traj_record_file.getline(linestr,500);
+	while (traj_record_file.getline(linestr, 500)) {
+		std::stringstream ss(linestr);
+		std::string csvdata[17];
+		double gpsnh,gpsnl,gpseh,gpsel,velocity;
+		for (int i = 0; i < 17; i++) {
+			char tempdata[500] = {0};
+			ss.getline(tempdata,500,',');
+			csvdata[i] = std::string(tempdata);
+		}
+    gpsnh = atof(csvdata[1].data());
+		gpsnl = atof(csvdata[2].data());
+    gpseh = atof(csvdata[3].data());
+    gpsel = atof(csvdata[4].data());
+    velocity = atof(csvdata[8].data());
+    trajinfo[0].push_back(gpsnh);
+    trajinfo[1].push_back(gpsnl);
+    trajinfo[2].push_back(gpseh);
+    trajinfo[3].push_back(gpsel);
+    trajinfo[4].push_back(velocity);
+	}
+  traj_record_file.close();
+  //AINFO<<"Traj Size: "<<trajinfo[0].size();
+  //old version
+  // TrajFile.open("/apollo/modules/control/data/gps_record.csv", std::ios::in);
 
-  while (TrajFile.peek() != EOF) {
-    double nh, nl, eh, el, vel;
-    TrajFile >> nh >> nl >> eh >> el >> vel;
-    trajinfo[0].push_back(nh);
-    trajinfo[1].push_back(nl);
-    trajinfo[2].push_back(eh);
-    trajinfo[3].push_back(el);
-    trajinfo[4].push_back(vel);
-  }
+  // while (TrajFile.peek() != EOF) {
+  //   double nh, nl, eh, el, vel;
+  //   TrajFile >> nh >> nl >> eh >> el >> vel;
+  //   trajinfo[0].push_back(nh);
+  //   trajinfo[1].push_back(nl);
+  //   trajinfo[2].push_back(eh);
+  //   trajinfo[3].push_back(el);
+  //   trajinfo[4].push_back(vel);
+  // }
 }
 
 void transport_Control::ReadConfig() {
@@ -47,6 +76,7 @@ void transport_Control::ReadConfig() {
   configinfo.speed_mode = control_setting_conf_.speedmode();
   configinfo.desired_speed = control_setting_conf_.desiredspeed();
   configinfo.speed_k = control_setting_conf_.speedk();
+  configinfo.traj_mode=control_setting_conf_.trajmode();
 }
 
 //将靠近的若干个点转移到车辆的坐标系中
@@ -108,31 +138,40 @@ bool transport_Control::Proc(const std::shared_ptr<Gps>& msg0) {
     frame = 0;
   }
   frame++;
-  traj_record_file << frame << "," << msg0->gpsnh() << "," << msg0->gpsnl()
-                   << "," << msg0->gpseh() << "," << msg0->gpsel() << ","
-                   << msg0->heading_angle() << "," << msg0->yaw_rate() << ","
-                   << msg0->gps_state() << "," << msg0->gps_velocity() << ","
-                   << msg0->acceleration_forward() << ","
-                   << msg0->acceleration_lateral() << ","
-                   << msg0->acceleration_down() << "," << msg0->pitch_angle()
-                   << "," << msg0->velocity_down() << ","
-                   << msg0->velocity_lateral() << ","
-                   << msg0->velocity_forward() << "," << msg0->roll_angle()
-                   << std::endl;
+  if(configinfo.traj_mode == 0){
+    traj_record_file << frame << "," << msg0->gpsnh() << "," << msg0->gpsnl()
+                  << "," << msg0->gpseh() << "," << msg0->gpsel() << ","
+                  << msg0->heading_angle() << "," << msg0->yaw_rate() << ","
+                  << msg0->gps_state() << "," << msg0->gps_velocity() << ","
+                  << msg0->acceleration_forward() << ","
+                  << msg0->acceleration_lateral() << ","
+                  << msg0->acceleration_down() << "," << msg0->pitch_angle()
+                  << "," << msg0->velocity_down() << ","
+                  << msg0->velocity_lateral() << ","
+                  << msg0->velocity_forward() << "," << msg0->roll_angle()
+                  << std::endl;
+  }else if (configinfo.traj_mode == 1){
+    double control_steer = 0;
+    double control_acc = 0;
 
-  double control_steer = 0;
-  double control_acc = 0;
-  // UpdateTraj(msg0);
-  // calculate steer
-  // control_steer = CaculateSteer(msg0);
-  // controlcmd.set_control_steer(control_steer);
+    UpdateTraj(msg0);
+    if(rel_loc[0].size()>10){ 
+      // near destination
+      // calculate steer
+      control_steer = CaculateSteer(msg0);
+      controlcmd.set_control_steer(control_steer);
 
-  // // calculate acc
-  // control_acc = 0; //CaculateAcc(msg0);
-  // controlcmd.set_control_acc(control_acc);
-  // AINFO << controlcmd.DebugString();
+      // calculate acc
+      control_acc = CaculateAcc(msg0);
+      controlcmd.set_control_acc(control_acc);
+      AINFO << controlcmd.DebugString();
+    }else{
+      controlcmd.set_control_steer(0);
+      controlcmd.set_control_acc(0);
+    }
+    writer->Write(controlcmd);
+  }
 
-  // writer->Write(controlcmd);
   return true;
 }
 
@@ -207,7 +246,7 @@ double transport_Control::CaculateAcc(const std::shared_ptr<Gps>& msg0) {
     control_acc = std::min(DisToStart, DisToEnd) * configinfo.speed_k;
     control_acc = std::min(configinfo.desired_speed, control_acc);
 
-  } else if (configinfo.speed_mode == 0) {
+  } else if (configinfo.speed_mode == 1) {
     // Traj speed mode
     control_acc = trajinfo[4][TrajIndex];
   }
@@ -216,6 +255,5 @@ double transport_Control::CaculateAcc(const std::shared_ptr<Gps>& msg0) {
 }
 
 void transport_Control::Clear() {
-  TrajFile.close();
   traj_record_file.close();
 }

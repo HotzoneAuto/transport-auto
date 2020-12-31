@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <map>
 #include <string>
 #include <vector>
@@ -53,6 +54,7 @@ class transport_Control : public apollo::cyber::Component<Gps> {
     double stanley_prop;
     double desired_speed;
     int speed_mode;
+    int traj_mode;
     double speed_k;
   } configinfo;
 };
