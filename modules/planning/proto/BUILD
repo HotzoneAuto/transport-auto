@@ -23,3 +23,22 @@ py_proto_library(
         ":planning_setting_conf_proto",
     ],
 )
+
+cc_proto_library(
+    name = "rel_loc_cc_proto",
+    deps = [
+        ":rel_loc_proto",
+    ],
+)
+
+proto_library(
+    name = "rel_loc_proto",
+    srcs = ["rel_loc.proto"],
+)
+
+py_proto_library(
+    name = "rel_loc_py_pb2",
+    deps = [
+        ":rel_loc_proto",
+    ],
+)

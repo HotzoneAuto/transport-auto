@@ -19,6 +19,7 @@ cc_library(
         "//modules/drivers/gps:GPSproto",
         "//modules/drivers/gps/proto:gps_cc_proto",
         "//modules/planning/proto:planning_setting_conf_cc_proto",
+        "//modules/planning/proto:rel_loc_cc_proto",
         "//modules/common/file:file",
     ],
 )
