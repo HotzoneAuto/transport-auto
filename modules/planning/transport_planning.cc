@@ -1,6 +1,6 @@
 #include "transport_planning.h"
 
-bool transport_Planning::Init() {
+bool TransportPlanning::Init() {
   AINFO << "Transport_Control init";
   if (!GetProtoConfig(&planning_setting_conf_)) {
     AERROR << "Unable to load conf file" << ConfigFilePath();
@@ -13,15 +13,14 @@ bool transport_Planning::Init() {
                         "acceleration_lateral,acceleration_down,pitch_angle,"
                         "velocity_down,velocity_lateral,velocity_forward,roll_angle";
     file_csv.write_file(msg_w);
-    frame = 0;
   } else {
-    rel_loc_writer = node_->CreateWriter<apollo::planning::RelLoc>("/transport/planning");
+    trajs_writer = node_->CreateWriter<apollo::planning::Trajs>("/transport/planning");
     ReadTraj();
   }
   return true;
 }
 
-void transport_Planning::ReadTraj() {
+void TransportPlanning::ReadTraj() {
   //读取所有点的经纬度
   traj_record_file.open(fname, std::ios::in);
   char linestr[500] = {0};
@@ -50,7 +49,7 @@ void transport_Planning::ReadTraj() {
 }
 
 
-void transport_Planning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
+void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
   //将靠近的若干个点转移到车辆的坐标系中
   //寻找轨迹上一段范围内的距离本车最近的点
   double N_now = msg0->gpsnl() + msg0->gpsnh();
@@ -69,7 +68,7 @@ void transport_Planning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
     }
   }
   //将该点附近的若干个点加入到自车坐标系中
-  auto msg_rel_loc = std::make_shared<apollo::planning::RelLoc>();
+  auto msg_traj = std::make_shared<apollo::planning::Trajs>();
   for (int i = TrajIndex;
        i < std::min(TrajIndex + TRAJLENGTH, (int)trajinfo[0].size()); i++) {
     double N_point = trajinfo[0][i] + trajinfo[1][i];
@@ -79,18 +78,18 @@ void transport_Planning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
     double rel_x = dis * cos(azi - Azi_now);
     double rel_y = dis * sin(azi - Azi_now);
     double vel = trajinfo[4][i];
-    auto* rel_loc_position = msg_rel_loc->add_rel_loc_position();
-    rel_loc_position->set_rel_x(rel_x);
-    rel_loc_position->set_rel_y(rel_y);
-    rel_loc_position->set_rel_vel(vel);
+    auto* traj_position = msg_traj->add_trajs();
+    traj_position->set_rel_x(rel_x);
+    traj_position->set_rel_y(rel_y);
+    traj_position->set_rel_vel(vel);
   }
-  rel_loc_writer->Write(msg_rel_loc);
+  trajs_writer->Write(msg_traj);
 }
 
 /*
   Reader Callback function
 */
-bool transport_Planning::Proc(const std::shared_ptr<Gps>& msg0) {
+bool TransportPlanning::Proc(const std::shared_ptr<Gps>& msg0) {
   if (!planning_setting_conf_.trajmode()) {
     if (frame == 65535) {
       frame = 0;
@@ -120,7 +119,7 @@ bool transport_Planning::Proc(const std::shared_ptr<Gps>& msg0) {
   return true;
 }
 
-void transport_Planning::Clear() {
+void TransportPlanning::Clear() {
   if (!planning_setting_conf_.trajmode()) {
     file_csv.close_file();
   }
