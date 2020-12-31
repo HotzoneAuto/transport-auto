@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+package apollo.canbus;
+
+message ModeSet{
+  optional string mode = 1;
+};

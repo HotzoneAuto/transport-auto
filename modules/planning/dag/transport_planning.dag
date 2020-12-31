@@ -1,0 +1,14 @@
+# Define all coms in DAG streaming.
+    module_config {
+    module_library : "/apollo/bazel-bin/modules/planning/transport_planning.so"
+    components {
+        class_name : "transport_Planning"
+        config {
+            name : "transport_Planning"
+            config_file_path: "/apollo/modules/planning/conf/planning_setting_conf.pb.txt"
+            readers {
+                channel: "/transport/gps"
+            }
+        }
+      }
+    }

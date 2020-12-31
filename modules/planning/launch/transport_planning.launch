@@ -1,0 +1,7 @@
+<cyber>
+    <module>
+        <name>transport_planning</name>
+        <dag_conf>/apollo/modules/planning/dag/transport_planning.dag</dag_conf>
+        <process_name>transport_planning</process_name>
+    </module>
+</cyber>
