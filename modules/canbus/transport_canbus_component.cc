@@ -40,6 +40,12 @@ bool transport_Canbus::Init() {
       node_->CreateWriter<ChassisDetail>("/transport/chassisdetail");
   // Create Writer
 
+  gps_reader_ = node_->CreateReader<Gps>(
+      "/transport/gps",
+      [this](const std::shared_ptr<Gps>& msg) { gps_.CopyFrom(*msg); });
+
+  vol_cur_ = gps_.gps_velocity();
+
   control_command_reader_ = node_->CreateReader<ControlCommand>(
       "/transport/control",
       [this](const std::shared_ptr<ControlCommand>& msg) { OnControl(*msg); });

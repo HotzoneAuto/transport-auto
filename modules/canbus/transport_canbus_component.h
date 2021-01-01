@@ -11,6 +11,8 @@
 #include "modules/drivers/canbus/can_comm/can_receiver.h"
 #include "modules/drivers/canbus/can_comm/can_sender.h"
 #include "modules/drivers/canbus/proto/can_card_parameter.pb.h"
+#include "modules/drivers/gps/GPSproto.h"
+#include "modules/drivers/gps/proto/gps.pb.h"
 #include "modules/canbus/transport_controller.h"
 
 // TODO(ZENGPENG): SPLIT DATA RECORD FROM CHASSIS  
@@ -22,6 +24,7 @@ using apollo::cyber::Writer;
 
 using apollo::canbus::ChassisDetail;
 using apollo::control::ControlCommand;
+using apollo::drivers::Gps;
 using apollo::canbus::transport::TransportMessageManager;
 
 using apollo::drivers::canbus::CANCardParameter;
@@ -44,8 +47,9 @@ class transport_Canbus : public apollo::cyber::TimerComponent {
   int AccEnable;
   int Mode;
   std::ofstream TrajFile;
-  int vol_cur_;
-  int vol_exp_;
+  double vol_cur_;
+  double vol_exp_;
+  Gps gps_;
   ChassisDetail sensordata;
   std::unique_ptr<SocketCanClientRaw> CanClient;
   std::unique_ptr<MessageManager<ChassisDetail>> message_manager;
@@ -53,6 +57,8 @@ class transport_Canbus : public apollo::cyber::TimerComponent {
   CanSender<ChassisDetail> can_sender;
   TransportController transport_controller;
   std::shared_ptr<apollo::cyber::Writer<ChassisDetail>> chassis_detail_writer_;
+  std::shared_ptr<apollo::cyber::Reader<Gps>>
+      gps_reader_;
   std::shared_ptr<apollo::cyber::Reader<ControlCommand>>
       control_command_reader_;
 };

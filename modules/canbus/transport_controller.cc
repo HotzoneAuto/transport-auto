@@ -100,6 +100,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     id_0x4ef8480_->set_steeranglespeedcmd(350);
     id_0x4ef8480_->set_steeranglecmd(cmd.control_steer());
     id_0x4ef8480_->set_lifecnt(lifecnt);
+    id_0x4ef8480_->set_currentvehiclespeed(5);
   }
   if (AccEnable == 1) {  //纵向控制启用
     int control_flag = 0;
@@ -123,11 +124,17 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           // brake set
           id_0xc040b2b_->set_xbr1_brkpedalopenreq(0);
           // for(int i = clutchSet; i >= 0; i++) {
-          for (int i = 100; i >= 0; i++) {
+          for (int i = transport_can_conf_.clutchset() + int(5 * transport_can_conf_.clutchreleaserate()); i >= 0; i--) {
             // li he
-            id_0xc040b2b_->set_xbr1_clupedalopenreq(i);
-            std::this_thread::sleep_for(std::chrono::milliseconds(
-                int(1000 / transport_can_conf_.clutchreleaserate())));
+            if (i > transport_can_conf_.clutchset()) {
+                id_0xc040b2b_->set_xbr1_clupedalopenreq(transport_can_conf_.clutchset());
+                std::this_thread::sleep_for(std::chrono::milliseconds(
+                  int(1000 / transport_can_conf_.clutchreleaserate())));
+            } else {
+                id_0xc040b2b_->set_xbr1_clupedalopenreq(i);
+                std::this_thread::sleep_for(std::chrono::milliseconds(
+                  int(1000 / transport_can_conf_.clutchreleaserate())));
+            }
           }
 
           break;
@@ -136,18 +143,20 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           // P control
           if (vol_exp > vol_cur) {
             while (vol_exp > vol_cur) {
-              vol_cur =
-                  vol_cur + (vol_exp - vol_cur) * transport_can_conf_.kdrive();
+              //vol_cur =
+              //    vol_cur + (vol_exp - vol_cur) * transport_can_conf_.kdrive();
+              //id_0xc040b2b_->set_xbr1_accpedalopenreq(
+              //    int(vol_cur / transport_can_conf_.kspeedthrottle()));
               id_0xc040b2b_->set_xbr1_accpedalopenreq(
-                  int(vol_cur / transport_can_conf_.kspeedthrottle()));
+                  int(vol_exp / transport_can_conf_.kspeedthrottle() + (vol_exp - vol_cur) * transport_can_conf_.kdrive()));
               std::this_thread::sleep_for(std::chrono::milliseconds(100));
             }
           } else {
             while (vol_cur > vol_exp) {
-              vol_cur =
-                  vol_cur - (vol_cur - vol_exp) * transport_can_conf_.kdrive();
+              //vol_cur =
+              //    vol_cur - (vol_cur - vol_exp) * transport_can_conf_.kdrive();
               id_0xc040b2b_->set_xbr1_accpedalopenreq(
-                  int(vol_cur / transport_can_conf_.kspeedthrottle()));
+                  int(vol_exp / transport_can_conf_.kspeedthrottle() + (vol_exp - vol_cur) * transport_can_conf_.kdrive()));
               std::this_thread::sleep_for(std::chrono::milliseconds(100));
             }
           }
@@ -156,10 +165,10 @@ void TransportController::ControlUpdate(ControlCommand cmd,
         case 3:
           // P control
           while (vol_cur > vol_exp) {
-            vol_cur =
-                vol_cur + (vol_exp - vol_cur) * transport_can_conf_.kbrake();
+            //vol_cur =
+            //    vol_cur + (vol_exp - vol_cur) * transport_can_conf_.kbrake();
             id_0xc040b2b_->set_xbr1_brkpedalopenreq(
-                int(vol_cur / transport_can_conf_.kspeedthrottle()));
+                int(- (vol_exp - vol_cur) * transport_can_conf_.kbrake()));
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
           }
           break;
@@ -167,10 +176,10 @@ void TransportController::ControlUpdate(ControlCommand cmd,
         case 4:
           // li he
           // id_0xc040b2b_->set_xbr1_brkpedalopenreq(clutchSet);
-          id_0xc040b2b_->set_xbr1_brkpedalopenreq(0);
+          id_0xc040b2b_->set_xbr1_clupedalopenreq(transport_can_conf_.clutchset());
           // for(int i = brakeSet; i <= 100; i++) {
-          for (int i = 0; i <= 100; i++) {
-            id_0xc040b2b_->set_xbr1_clupedalopenreq(i);
+          for (int i = 0; i <= transport_can_conf_.brakeset(); i++) {
+            id_0xc040b2b_->set_xbr1_brkpedalopenreq(i);
             std::this_thread::sleep_for(std::chrono::milliseconds(
                 int(1000 / transport_can_conf_.brakeapplyrate())));
           }
