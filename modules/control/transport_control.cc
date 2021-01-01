@@ -116,19 +116,30 @@ bool transport_Control::Proc(const std::shared_ptr<Gps>& msg0) {
   if (frame == 65535) {
     frame = 0;
   }
-  frame++;
+  //frame++;
   if (control_setting_conf_.trajmode() == 0) {
-    traj_record_file << frame << "," << msg0->gpsnh() << "," << msg0->gpsnl()
-                     << "," << msg0->gpseh() << "," << msg0->gpsel() << ","
-                     << msg0->heading_angle() << "," << msg0->yaw_rate() << ","
-                     << msg0->gps_state() << "," << msg0->gps_velocity() << ","
-                     << msg0->acceleration_forward() << ","
-                     << msg0->acceleration_lateral() << ","
-                     << msg0->acceleration_down() << "," << msg0->pitch_angle()
-                     << "," << msg0->velocity_down() << ","
-                     << msg0->velocity_lateral() << ","
-                     << msg0->velocity_forward() << "," << msg0->roll_angle()
-                     << std::endl;
+    static double last_gpsn=0,last_gpse=0;
+    double gpsn=msg0->gpsnh()+msg0->gpsnl();
+    double gpse=msg0->gpseh()+msg0->gpsel();
+    double dis_to_last_point=
+        apollo::drivers::gps::SphereDis(last_gpse,last_gpsn,gpse,gpsn);
+    if(last_gpsn==0 || (last_gpsn!=0 && dis_to_last_point > 0.1 )){
+      frame++;
+      traj_record_file << frame << "," << msg0->gpsnh() << "," << msg0->gpsnl()
+                  << "," << msg0->gpseh() << "," << msg0->gpsel() << ","
+                  << msg0->heading_angle() << "," << msg0->yaw_rate() << ","
+                  << msg0->gps_state() << "," << msg0->gps_velocity() << ","
+                  << msg0->acceleration_forward() << ","
+                  << msg0->acceleration_lateral() << ","
+                  << msg0->acceleration_down() << "," << msg0->pitch_angle()
+                  << "," << msg0->velocity_down() << ","
+                  << msg0->velocity_lateral() << ","
+                  << msg0->velocity_forward() << "," << msg0->roll_angle()
+                  << std::endl;
+      last_gpsn = gpsn;
+      last_gpse = gpse;
+    }
+
   } else if (control_setting_conf_.trajmode() == 1) {
     double control_steer = 0;
     double control_acc = 0;
