@@ -15,12 +15,14 @@
 #include "modules/control/proto/control_setting_conf.pb.h"
 #include "modules/drivers/gps/GPSproto.h"
 #include "modules/drivers/gps/proto/gps.pb.h"
+#include "modules/canbus/proto/transport_can_conf.pb.h"
 
 using apollo::control::ControlCommand;
 using apollo::cyber::Component;
 using apollo::cyber::Reader;
 using apollo::cyber::Writer;
 using apollo::drivers::Gps;
+using apollo::canbus::TransportCanConf;
 
 class transport_Control : public apollo::cyber::Component<Gps> {
  public:
@@ -41,6 +43,7 @@ class transport_Control : public apollo::cyber::Component<Gps> {
   std::vector<double> trajinfo[6];
   std::vector<double> rel_loc[3];
 
+  TransportCanConf transport_can_conf_;
   apollo::control::ControlSettingConf control_setting_conf_;
   std::fstream TrajFile;
   std::fstream traj_record_file;

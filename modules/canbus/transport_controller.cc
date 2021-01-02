@@ -108,7 +108,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     float ths_dif = transport_can_conf_.speederrorthreshold();
     float ths_exp = transport_can_conf_.speedthreshold();
 
-    if ((vol_cur < transport_can_conf_.idlespeed()) && (vol_exp > ths_exp)) {
+    if ((vol_cur < transport_can_conf_.idlespeed()) && (vol_exp > ths_exp - 0.1)) {
       control_flag = 1;
       AINFO << "control_flag is set as: 1";
     } else if ((vol_cur < ths_exp) || (vol_exp - vol_cur) > ths_dif) {
@@ -194,12 +194,14 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           id_0xc040b2b_->set_xbr1_clupedalopenreq(transport_can_conf_.clutchset());
           AINFO << "clupedalopenreq is set as: " << transport_can_conf_.clutchset();
           // for(int i = brakeSet; i <= 100; i++) {
-          for (int i = 0; i <= transport_can_conf_.brakeset(); i++) {
+          /* for (int i = 0; i <= transport_can_conf_.brakeset(); i++) {
             id_0xc040b2b_->set_xbr1_brkpedalopenreq(i);
             AINFO << "brkpedalopenreq is set as: " << i;
             std::this_thread::sleep_for(std::chrono::milliseconds(
                 int(1000 / transport_can_conf_.brakeapplyrate())));
-          }
+          }*/
+          id_0xc040b2b_->set_xbr1_brkpedalopenreq(transport_can_conf_.brakeset());
+          AINFO << "brkpedalopenreq is set as: " << transport_can_conf_.brakeset();
           break;
         default:
           AINFO << "In default, control_flag = " << control_flag;

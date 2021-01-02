@@ -10,6 +10,11 @@ bool transport_Control::Init() {
     AERROR << "Unable to load conf file" << ConfigFilePath();
     return false;
   }
+  bool opencanconfig = apollo::cyber::common::GetProtoFromFile(
+      "/apollo/modules/canbus/conf", &transport_can_conf_);
+  if (!opencanconfig) {
+    AERROR << "Unable to load transport can config!";
+  }
   writer = node_->CreateWriter<ControlCommand>("/transport/control");
   if(control_setting_conf_.trajmode() == 0){
     traj_record_file.open("/apollo/modules/control/data/gps_record.csv", std::ios::out | std::ios::trunc);
@@ -246,7 +251,11 @@ double transport_Control::CaculateAcc(const std::shared_ptr<Gps>& msg0) {
         apollo::drivers::gps::SphereDis(E_now, N_now, E_start, N_start);
     double DisToEnd =
         apollo::drivers::gps::SphereDis(E_now, N_now, E_end, N_end);
-    control_acc = std::min(DisToStart, DisToEnd) * control_setting_conf_.speedk();
+    if (DisToStart < DisToEnd) {
+      control_acc = std::max(DisToStart * control_setting_conf_.speedk(), transport_can_conf_.speedthreshold());
+    } else {
+      control_acc = DisToEnd * control_setting_conf_.speedk();
+    }
     control_acc = std::min(control_setting_conf_.desiredspeed(), control_acc);
 
   } else if (control_setting_conf_.speedmode() == 1) {
