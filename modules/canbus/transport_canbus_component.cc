@@ -44,7 +44,7 @@ bool transport_Canbus::Init() {
       "/transport/gps",
       [this](const std::shared_ptr<Gps>& msg) { gps_.CopyFrom(*msg); });
 
-  vol_cur_ = gps_.gps_velocity();
+  vol_cur_ = gps_.gps_velocity() * 3.6;
 
   control_command_reader_ = node_->CreateReader<ControlCommand>(
       "/transport/control",
