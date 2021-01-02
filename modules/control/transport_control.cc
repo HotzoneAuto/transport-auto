@@ -1,6 +1,6 @@
 #include "transport_control.h"
 
-#define TRAJLENGTH 200
+#define TRAJLENGTH 400
 #define MAXDIS 99999
 #define L 2.4
 
@@ -65,16 +65,21 @@ void transport_Control::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
   int lastindex = TrajIndex;
   double min_dis = MAXDIS;
   for (int i = lastindex;
-       i < std::min(lastindex + TRAJLENGTH, (int)trajinfo[0].size()); i++) {
+       i < std::min(lastindex + TRAJLENGTH/2, (int)trajinfo[0].size()); i++) {
     double N_point = trajinfo[0][i] + trajinfo[1][i];
     double E_point = trajinfo[2][i] + trajinfo[3][i];
     double dis =
         apollo::drivers::gps::SphereDis(E_now, N_now, E_point, N_point);
-    if (dis < min_dis) {
-      min_dis = dis;
+    double azi =
+        apollo::drivers::gps::SphereAzimuth(E_now, N_now, E_point, N_point);
+    double rel_x = dis * std::cos(azi - Azi_now);
+    double rel_y = dis * std::sin(azi - Azi_now);
+    if (std::abs(rel_x) < min_dis) {
+      min_dis = std::abs(rel_x);
       TrajIndex = i;
     }
   }
+  AINFO<<"TrajIndex= "<<TrajIndex << "  MINDIS=" <<min_dis;
   //将该点附近的若干个点加入到自车坐标系中
   rel_loc[0].clear();
   rel_loc[1].clear();
