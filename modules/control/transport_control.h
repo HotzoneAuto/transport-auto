@@ -50,7 +50,7 @@ class transport_Control : public apollo::cyber::Component<Gps> {
   std::fstream traj_record_file;
   int TrajIndex = 0;
   int frame = 0;
-  double SpeedThreshold = 3;
+  double SpeedThreshold = 0;
 
 };
 CYBER_REGISTER_COMPONENT(transport_Control)

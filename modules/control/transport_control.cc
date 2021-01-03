@@ -279,7 +279,7 @@ void transport_Control::ReadCanConfig() {
       f >> SettingName;
       if (SettingName == "SpeedThreshold") {
         f >> SpeedThreshold;
-        AINFO << "SpeedThreshold= " << SpeedThreshold;
+        AINFO << "In ReadCanConfig(), SpeedThreshold= " << SpeedThreshold;
       }
     }
     f.close();
