@@ -114,8 +114,9 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     // set system control mode as pedalopenreq mode, set 3 pedals require flag as 1
     id_0xc040b2b_->set_xbr1_sysctrlmode(2);
     id_0xc040b2b_->set_xbr1_accpedalreqflag(1);
-    id_0xc040b2b_->set_xbr1_brkpedalreqflag(1);
+    id_0xc040b2b_->set_xbr1_brkpedalreqflag(0);
     id_0xc040b2b_->set_xbr1_clupedalreqflag(1);
+    id_0xc040b2b_->set_xbr1_vehaccreq(-15);
 
     int control_flag = 0;
     float ths_dif = transport_can_conf_.speederrorthreshold();
@@ -146,7 +147,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           // brake set
           AINFO << "Into start mode, control_flag = " << control_flag;
           id_0xc040b2b_->set_xbr1_brkpedalopenreq(0);
-          id_0xc040b2b_->set_xbr1_accpedalopenreq(0);
+          id_0xc040b2b_->set_xbr1_accpedalopenreq(30);
           AINFO << "brkpedalopenreq and accpedalopenreq are set as: 0";
           // for(int i = clutchSet; i >= 0; i++) {
           for (int i = transport_can_conf_.clutchset() + int(5 * transport_can_conf_.clutchreleaserate()); i >= 0; i--) {
@@ -210,12 +211,13 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           break;
       }
 
-      if (count_flag == 15) {
+      /*if (count_flag == 15) {
         control_flag = 0;
       } else {
         count_flag++;
       }
       id_0xc040b2b_->set_xbr1_rollingcnt(count_flag);
+      */
     }
   }
 }
