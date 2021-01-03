@@ -39,6 +39,7 @@ class transport_Control : public apollo::cyber::Component<Gps> {
   void ReadTraj();
   void UpdateTraj(const std::shared_ptr<Gps>& msg0);
   int FindLookahead(double totaldis);
+  void ReadCanConfig();
 
   std::vector<double> trajinfo[6];
   std::vector<double> rel_loc[3];
@@ -49,6 +50,7 @@ class transport_Control : public apollo::cyber::Component<Gps> {
   std::fstream traj_record_file;
   int TrajIndex = 0;
   int frame = 0;
+  double SpeedThreshold = 3;
 
 };
 CYBER_REGISTER_COMPONENT(transport_Control)
