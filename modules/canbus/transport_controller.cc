@@ -110,6 +110,13 @@ void TransportController::ControlUpdate(ControlCommand cmd,
   }
   if (AccEnable == 1) {  //纵向控制启用
     AINFO << "Into Long control, vol_cur = " << vol_cur << ", vol_exp = " << vol_exp;
+
+    // set system control mode as pedalopenreq mode, set 3 pedals require flag as 1
+    id_0xc040b2b_->set_xbr1_sysctrlmode(2);
+    id_0xc040b2b_->set_xbr1_accpedalreqflag(1);
+    id_0xc040b2b_->set_xbr1_brkpedalreqflag(1);
+    id_0xc040b2b_->set_xbr1_clupedalreqflag(1);
+
     int control_flag = 0;
     float ths_dif = transport_can_conf_.speederrorthreshold();
     float ths_exp = transport_can_conf_.speedthreshold();
@@ -117,7 +124,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           << ", transport_can_conf_.idlespeed() = " << transport_can_conf_.idlespeed();
     AINFO << "transport_can_conf_.clutchset() = " << transport_can_conf_.clutchset();
 
-    if ((vol_cur < transport_can_conf_.idlespeed()) && (vol_exp > ths_exp - 0.1)) {
+    if ((vol_cur < transport_can_conf_.idlespeed()/2) && (vol_exp > ths_exp - 0.1)) {
       control_flag = 1;
       AINFO << "control_flag is set as: 1";
     } else if ((vol_cur < ths_exp) || (vol_exp - vol_cur) > ths_dif) {
