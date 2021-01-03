@@ -7,14 +7,17 @@
 bool transport_Control::Init() {
   AINFO << "Transport_Control init";
   if (!GetProtoConfig(&control_setting_conf_)) {
-    AERROR << "Unable to load conf file" << ConfigFilePath();
+    AERROR << "Unable to load control_setting_conf file" << ConfigFilePath();
     return false;
   }
-  bool opencanconfig = apollo::cyber::common::GetProtoFromFile(
-      "/apollo/modules/canbus/conf", &transport_can_conf_);
-  if (!opencanconfig) {
-    AERROR << "Unable to load transport can config!";
+  if (!GetProtoConfig(&transport_can_conf_)) {
+    AERROR << "Unable to load transport_can_conf file" << ConfigFilePath();
+    return false;
   }
+  AINFO << "After open can_conf config, transport_can_conf_.speedthreshold() = " << transport_can_conf_.speedthreshold();
+  AINFO << "After open can_conf config, transport_can_conf_.clutchset() = " << transport_can_conf_.clutchset();
+  AINFO << "After open can_conf config, transport_can_conf_.brakeset() = " << transport_can_conf_.brakeset();
+  AINFO << "After open can_conf config, transport_can_conf_.clutchreleaserate() = " << transport_can_conf_.clutchreleaserate();
   writer = node_->CreateWriter<ControlCommand>("/transport/control");
   if(control_setting_conf_.trajmode() == 0){
     traj_record_file.open("/apollo/modules/control/data/gps_record.csv", std::ios::out | std::ios::trunc);
@@ -251,8 +254,12 @@ double transport_Control::CaculateAcc(const std::shared_ptr<Gps>& msg0) {
         apollo::drivers::gps::SphereDis(E_now, N_now, E_start, N_start);
     double DisToEnd =
         apollo::drivers::gps::SphereDis(E_now, N_now, E_end, N_end);
+    AINFO << "In control_acc set, transport_can_conf_.speedthreshold() = " << transport_can_conf_.speedthreshold();
+    DisToStart = 0;
+    DisToEnd = 50;
     if (DisToStart < DisToEnd) {
       control_acc = std::max(DisToStart * control_setting_conf_.speedk(), transport_can_conf_.speedthreshold());
+      AINFO << "When DisToStart < DisToEnd, control_acc = " << control_acc;
     } else {
       control_acc = DisToEnd * control_setting_conf_.speedk();
     }
