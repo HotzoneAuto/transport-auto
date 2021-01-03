@@ -248,9 +248,6 @@ double transport_Control::CaculateAcc(const std::shared_ptr<Gps>& msg0) {
         apollo::drivers::gps::SphereDis(E_now, N_now, E_start, N_start);
     double DisToEnd =
         apollo::drivers::gps::SphereDis(E_now, N_now, E_end, N_end);
-    AINFO << "In control_acc set, transport_can_conf_.speedthreshold() = " << transport_can_conf_.speedthreshold();
-    DisToStart = 0;
-    DisToEnd = 50;
     if (DisToStart < DisToEnd) {
       control_acc = std::max(DisToStart * control_setting_conf_.speedk(), SpeedThreshold);
       AINFO << "When DisToStart < DisToEnd, control_acc = " << control_acc;

@@ -24,6 +24,12 @@ ErrorCode TransportController::Init(
     return ErrorCode::CANBUS_ERROR;
   }
 
+  /*
+  // To be fixed, error says GetProtoConfig not declared.
+  if (!GetProtoConfig(&transport_can_conf_)) {
+    AERROR << "Unable to load config file!" << ConfigFilePath();
+  }*/
+
   bool openconfig = apollo::cyber::common::GetProtoFromFile(
       "/apollo/modules/canbus/conf", &transport_can_conf_);
   if (!openconfig) {
@@ -107,6 +113,9 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     int control_flag = 0;
     float ths_dif = transport_can_conf_.speederrorthreshold();
     float ths_exp = transport_can_conf_.speedthreshold();
+    AINFO << "ths_exp = " << ths_exp << ", ths_dif = " << ths_dif
+          << ", transport_can_conf_.idlespeed() = " << transport_can_conf_.idlespeed();
+    AINFO << "transport_can_conf_.clutchset() = " << transport_can_conf_.clutchset();
 
     if ((vol_cur < transport_can_conf_.idlespeed()) && (vol_exp > ths_exp - 0.1)) {
       control_flag = 1;
@@ -130,61 +139,45 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           // brake set
           AINFO << "Into start mode, control_flag = " << control_flag;
           id_0xc040b2b_->set_xbr1_brkpedalopenreq(0);
-          AINFO << "brkpedalopenreq is set as: 0";
+          id_0xc040b2b_->set_xbr1_accpedalopenreq(0);
+          AINFO << "brkpedalopenreq and accpedalopenreq are set as: 0";
           // for(int i = clutchSet; i >= 0; i++) {
           for (int i = transport_can_conf_.clutchset() + int(5 * transport_can_conf_.clutchreleaserate()); i >= 0; i--) {
             // li he
             if (i > transport_can_conf_.clutchset()) {
                 id_0xc040b2b_->set_xbr1_clupedalopenreq(transport_can_conf_.clutchset());
+                AINFO << "clupedalopenreq is set as: " << transport_can_conf_.clutchset();
                 std::this_thread::sleep_for(std::chrono::milliseconds(
                   int(1000 / transport_can_conf_.clutchreleaserate())));
             } else {
                 id_0xc040b2b_->set_xbr1_clupedalopenreq(i);
+                AINFO << "clupedalopenreq is set as: " << i;
                 std::this_thread::sleep_for(std::chrono::milliseconds(
                   int(1000 / transport_can_conf_.clutchreleaserate())));
             }
-            AINFO << "clupedalopenreq is set as: " << i;
           }
-
           break;
         // normal mode
         case 2:
           // P control
           AINFO << "Into normal mode, control_flag = " << control_flag;
-          if (vol_exp > vol_cur) {
-            while (vol_exp > vol_cur) {
-              //vol_cur =
-              //    vol_cur + (vol_exp - vol_cur) * transport_can_conf_.kdrive();
-              //id_0xc040b2b_->set_xbr1_accpedalopenreq(
-              //    int(vol_cur / transport_can_conf_.kspeedthrottle()));
-              id_0xc040b2b_->set_xbr1_accpedalopenreq(
-                  int(vol_exp / transport_can_conf_.kspeedthrottle() + (vol_exp - vol_cur) * transport_can_conf_.kdrive()));
-              AINFO << "vol_exp > vol_cur, accpedalopenreq is set as: " << int(vol_exp / transport_can_conf_.kspeedthrottle() + (vol_exp - vol_cur) * transport_can_conf_.kdrive()); 
-              std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            }
-          } else {
-            while (vol_cur > vol_exp) {
-              //vol_cur =
-              //    vol_cur - (vol_cur - vol_exp) * transport_can_conf_.kdrive();
-              id_0xc040b2b_->set_xbr1_accpedalopenreq(
-                  int(vol_exp / transport_can_conf_.kspeedthrottle() + (vol_exp - vol_cur) * transport_can_conf_.kdrive()));
-              AINFO << "vol_exp < vol_cur, accpedalopenreq is set as: " << int(vol_exp / transport_can_conf_.kspeedthrottle() + (vol_exp - vol_cur) * transport_can_conf_.kdrive()); 
-              std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            }
-          }
+          id_0xc040b2b_->set_xbr1_accpedalopenreq(
+              int(vol_exp / transport_can_conf_.kspeedthrottle() + (vol_exp - vol_cur) * transport_can_conf_.kdrive()));
+          AINFO << "accpedalopenreq is set as: " << int(vol_exp / transport_can_conf_.kspeedthrottle() + (vol_exp - vol_cur) * transport_can_conf_.kdrive());
+          id_0xc040b2b_->set_xbr1_brkpedalopenreq(0);
+          id_0xc040b2b_->set_xbr1_clupedalopenreq(0);
+          AINFO << "brkpedalopenreq and clupedalopenreq are set as: 0";
           break;
         // emergency mode
         case 3:
           // P control
           AINFO << "Into emergency mode, control_flag = " << control_flag;
-          while (vol_cur > vol_exp) {
-            //vol_cur =
-            //    vol_cur + (vol_exp - vol_cur) * transport_can_conf_.kbrake();
-            id_0xc040b2b_->set_xbr1_brkpedalopenreq(
-                int(- (vol_exp - vol_cur) * transport_can_conf_.kbrake()));
-            AINFO << "vol_cur > vol_exp, brkpedalopenreq is set as: " << int(- (vol_exp - vol_cur) * transport_can_conf_.kbrake()); 
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-          }
+          id_0xc040b2b_->set_xbr1_brkpedalopenreq(
+              int(- (vol_exp - vol_cur) * transport_can_conf_.kbrake()));
+          AINFO << "brkpedalopenreq is set as: " << int(- (vol_exp - vol_cur) * transport_can_conf_.kbrake());
+          id_0xc040b2b_->set_xbr1_accpedalopenreq(0);
+          id_0xc040b2b_->set_xbr1_clupedalopenreq(0);
+          AINFO << "accpedalopenreq and clupedalopenreq are set as: 0";
           break;
         // stop mode
         case 4:
@@ -202,6 +195,8 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           }*/
           id_0xc040b2b_->set_xbr1_brkpedalopenreq(transport_can_conf_.brakeset());
           AINFO << "brkpedalopenreq is set as: " << transport_can_conf_.brakeset();
+          id_0xc040b2b_->set_xbr1_accpedalopenreq(0);
+          AINFO << "accpedalopenreq is set as: " << 0;
           break;
         default:
           AINFO << "In default, control_flag = " << control_flag;

@@ -49,6 +49,7 @@ cc_library(
     ],
     deps = [
         ":transport_message_manager",
+        "//cyber",
         "//modules/drivers/canbus/can_comm:can_sender",
         "//modules/drivers/canbus/common:canbus_common",
         "//modules/control/proto:control_command_cc_proto",
