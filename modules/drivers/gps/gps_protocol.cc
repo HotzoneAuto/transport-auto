@@ -5,13 +5,13 @@ namespace apollo {
 namespace drivers {
 namespace gps {
 
-GPSinfo::GPSinfo() {
-};
+GPSinfo::GPSinfo(){};
 
 bool GPSinfo::GetGPSinfo(char *s) {
   GPSString = s;
   return GetGPSinfo(GPSString);
 }
+
 bool GPSinfo::GetGPSinfo(std::string s) {
   if (s == "") return false;
   GPSString = s;
@@ -34,11 +34,11 @@ bool GPSinfo::GetGPSinfo(std::string s) {
   GPSsubstr[14] = GPSsubstr[13].substr(index + 1);
   GPSsubstr[13] = GPSsubstr[13].substr(0, index);
   // for(int i=2;i<=count;i++)	cout << GPSsubstr[i] << endl;
-  Longitude = atof(GPSsubstr[5].data());
-  Latitude = atof(GPSsubstr[4].data());
-  NorthSpeed = atof(GPSsubstr[7].data());
-  EastSpeed = atof(GPSsubstr[8].data());
-  Azimuth = atof(GPSsubstr[12].data());
+  Longitude = std::atof(GPSsubstr[5].data());
+  Latitude = std::atof(GPSsubstr[4].data());
+  NorthSpeed = std::atof(GPSsubstr[7].data());
+  EastSpeed = std::atof(GPSsubstr[8].data());
+  Azimuth = std::atof(GPSsubstr[12].data());
   Status = GetGPSstatus(GPSsubstr[13]);
   if (Status == GPSstatus::SOLUTION_GOOD)
     Ok = true;
@@ -47,8 +47,6 @@ bool GPSinfo::GetGPSinfo(std::string s) {
   return true;
 }
 
-// TODO(fengzongbao)
-// warning: control reaches end of non-void function [-Wreturn-type]
 GPSstatus GPSinfo::GetGPSstatus(std::string s) {
   if (s == "INS_INACTIVE")
     return GPSstatus::INACTIVE;
@@ -66,6 +64,8 @@ GPSstatus GPSinfo::GetGPSstatus(std::string s) {
     return GPSstatus::DETERMINING_ORIENTATION;
   else if (s == "WAITING_INITIALPOS")
     return GPSstatus::WAITING_INITIALPOS;
+
+  return GPSstatus::UNKNOWN;
 }
 }  // namespace gps
 }  // namespace drivers

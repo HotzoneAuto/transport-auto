@@ -37,11 +37,11 @@ void TransportPlanning::ReadTraj() {
 			ss.getline(tempdata,500,',');
 			csvdata[i] = std::string(tempdata);
 		}
-    gpsnh = atof(csvdata[1].data());
-		gpsnl = atof(csvdata[2].data());
-    gpseh = atof(csvdata[3].data());
-    gpsel = atof(csvdata[4].data());
-    velocity = atof(csvdata[8].data());
+    gpsnh = std::atof(csvdata[1].data());
+		gpsnl = std::atof(csvdata[2].data());
+    gpseh = std::atof(csvdata[3].data());
+    gpsel = std::atof(csvdata[4].data());
+    velocity = std::atof(csvdata[8].data());
     trajinfo[0].push_back(gpsnh);
     trajinfo[1].push_back(gpsnl);
     trajinfo[2].push_back(gpseh);
@@ -78,8 +78,8 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
     double E_point = trajinfo[2][i] + trajinfo[3][i];
     double dis = apollo::drivers::gps::SphereDis(E_now, N_now, E_point, N_point);
     double azi = apollo::drivers::gps::SphereAzimuth(E_now, N_now, E_point, N_point);
-    double rel_x = dis * cos(azi - Azi_now);
-    double rel_y = dis * sin(azi - Azi_now);
+    double rel_x = dis * std::cos(azi - Azi_now);
+    double rel_y = dis * std::sin(azi - Azi_now);
     double vel = trajinfo[4][i];
     // apollo::common::util::FillHeader(node_->Name(), msg_traj);
     auto* traj_position = msg_traj->add_points();

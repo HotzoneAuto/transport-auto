@@ -18,7 +18,8 @@ enum class GPSstatus {
   SOLUTION_FREE,
   ALIGNMENT_COMPLETE,
   DETERMINING_ORIENTATION,
-  WAITING_INITIALPOS
+  WAITING_INITIALPOS,
+  UNKNOWN
 };
 
 class GPSinfo {
@@ -28,7 +29,7 @@ class GPSinfo {
   bool GetGPSinfo(std::string s);
   GPSstatus GetGPSstatus(std::string s);
 
-private:
+ private:
   std::string GPSString = "";
   bool Ok = false;
   double Longitude = 0;
@@ -39,16 +40,18 @@ private:
   GPSstatus Status;
 };
 
-double haversin(double theta) { return std::sin(theta / 2) * std::sin(theta / 2); }
+double haversin(double theta) {
+  return std::sin(theta / 2) * std::sin(theta / 2);
+}
 double D2R(double theta) { return theta * PI / 180.0; }
 double SphereDis(double lon1, double lat1, double lon2, double lat2) {
   // return  from p1 to p2 distance  unit:m
   double R = 6378.137 * 1000;
   double x1 = D2R(lon1), x2 = D2R(lat1);
   double y1 = D2R(lon2), y2 = D2R(lat2);
-  double h =
-      haversin(abs(x2 - y2)) + cos(x2) * cos(y2) * haversin(abs(x1 - y1));
-  double d = 2 * R * asin(sqrt(h));
+  double h = haversin(std::abs(x2 - y2)) +
+             std::cos(x2) * std::cos(y2) * haversin(std::abs(x1 - y1));
+  double d = 2 * R * std::asin(std::sqrt(h));
   return d;
 }
 double mod(double x, double y) {
@@ -61,9 +64,11 @@ double SphereAzimuth(double lon1, double lat1, double lon2, double lat2) {
   // return  from p1 to p2 azimuth  unit:rad
   double x1 = D2R(lon1), x2 = D2R(lat1);
   double y1 = D2R(lon2), y2 = D2R(lat2);
-  double tc1 = mod(std::atan2(std::sin(y1 - x1) * std::cos(y2),
-                         std::cos(x2) * std::sin(y2) - std::sin(x2) * std::cos(y2) * std::cos(y1 - x1)),
-                   2 * PI);
+  double tc1 =
+      mod(std::atan2(std::sin(y1 - x1) * std::cos(y2),
+                     std::cos(x2) * std::sin(y2) -
+                         std::sin(x2) * std::cos(y2) * std::cos(y1 - x1)),
+          2 * PI);
   return tc1;
 }
 }  // namespace gps
