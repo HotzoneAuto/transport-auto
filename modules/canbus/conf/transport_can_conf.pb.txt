@@ -9,3 +9,4 @@ SpeedErrorThreshold: -2.0
 KSpeedThrottle: 0.1
 KDrive: 10.0
 KBrake: 10.0
+WaitingTime: 10.0

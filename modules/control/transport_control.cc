@@ -172,6 +172,10 @@ bool transport_Control::Proc(const std::shared_ptr<Gps>& msg0) {
       controlcmd.set_control_steer(0);
       controlcmd.set_control_acc(0);
     }
+    if (msg0->gps_state() != 4) {
+      controlcmd.set_control_steer(0);
+      controlcmd.set_control_acc(0);
+    }
     writer->Write(controlcmd);
   }
 
