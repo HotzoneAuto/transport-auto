@@ -11,7 +11,7 @@
 #include "cyber/cyber.h"
 #include "cyber/component/component.h"
 #include "cyber/component/timer_component.h"
-#include "modules/drivers/gps/GPSproto.h"
+#include "modules/drivers/gps/gps_protocol.h"
 #include "modules/drivers/gps/proto/gps.pb.h"
 #include "modules/common/file/file.h"
 #include "modules/planning/proto/planning_setting_conf.pb.h"

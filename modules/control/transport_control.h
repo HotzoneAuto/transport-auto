@@ -13,7 +13,7 @@
 
 #include "modules/control/proto/control_command.pb.h"
 #include "modules/control/proto/control_setting_conf.pb.h"
-#include "modules/drivers/gps/GPSproto.h"
+#include "modules/drivers/gps/gps_protocol.h"
 #include "modules/drivers/gps/proto/gps.pb.h"
 
 using apollo::control::ControlCommand;

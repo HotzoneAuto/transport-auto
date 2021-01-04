@@ -1,34 +1,30 @@
-#include "GPSproto.h"
+#include "gps_protocol.h"
 #include <iostream>
 
 namespace apollo {
 namespace drivers {
 namespace gps {
 
-using namespace std;
 GPSinfo::GPSinfo() {
-  GPSString = "";
-  Longitude = Latitude = NorthSpeed = EastSpeed = Azimuth = 0;
-  Ok = false;
 };
 
 bool GPSinfo::GetGPSinfo(char *s) {
   GPSString = s;
   return GetGPSinfo(GPSString);
 }
-bool GPSinfo::GetGPSinfo(string s) {
+bool GPSinfo::GetGPSinfo(std::string s) {
   if (s == "") return false;
   GPSString = s;
   int index = GPSString.find(";", 0);
-  string Head, Info;
+  std::string Head, Info;
   Head = GPSString.substr(0, index);
   // cout << Head << endl;
   Info = GPSString.substr(index + 1) + ",";
   // cout << Info << endl;
   int position = 0;
   int count = 2;
-  string GPSsubstr[26];
-  while (Info.find(",", position) != string::npos) {
+  std::string GPSsubstr[26];
+  while (Info.find(",", position) != std::string::npos) {
     int temppos = Info.find(',', position);
     GPSsubstr[count] = Info.substr(position, temppos - position);
     position = temppos + 1;
@@ -51,7 +47,9 @@ bool GPSinfo::GetGPSinfo(string s) {
   return true;
 }
 
-GPSstatus GPSinfo::GetGPSstatus(string s) {
+// TODO(fengzongbao)
+// warning: control reaches end of non-void function [-Wreturn-type]
+GPSstatus GPSinfo::GetGPSstatus(std::string s) {
   if (s == "INS_INACTIVE")
     return GPSstatus::INACTIVE;
   else if (s == "INS_ALIGNING")
