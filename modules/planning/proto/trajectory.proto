@@ -13,4 +13,7 @@ message TrajectoryPoint {
 message Trajectory {
     optional apollo.common.Header header = 1;
     repeated TrajectoryPoint points = 2;
+    optional double dis_to_start = 3;
+    optional double dis_to_end = 4;
+    optional double control_acc = 5;
 };

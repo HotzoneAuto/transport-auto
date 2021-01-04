@@ -22,6 +22,7 @@ cc_library(
         "//modules/planning/proto:planning_setting_conf_cc_proto",
         "//modules/planning/proto:trajectory_cc_proto",
         "//modules/common/file:file",
+        "//modules/common/time",
     ],
 )
 

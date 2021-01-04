@@ -11,6 +11,8 @@
 #include "cyber/cyber.h"
 #include "cyber/component/component.h"
 #include "cyber/component/timer_component.h"
+#include "cyber/timer/timer.h"
+#include "modules/common/time/time.h"
 #include "modules/drivers/gps/gps_protocol.h"
 #include "modules/drivers/gps/proto/gps.pb.h"
 #include "modules/common/file/file.h"
@@ -29,6 +31,7 @@ class TransportPlanning : public apollo::cyber::Component<Gps> {
  public:
   bool Init() override;
   bool Proc(const std::shared_ptr<Gps>& msg0) override;
+  void CaculateAcc(const std::shared_ptr<Gps>& msg0);
   void Clear() override;
 
  private:
@@ -43,6 +46,7 @@ class TransportPlanning : public apollo::cyber::Component<Gps> {
   int frame = 0;
   std::string fname = "/apollo/modules/planning/data/gps_record.csv";
   apollo::planning::PlanningSettingConf planning_setting_conf_;
-  std::shared_ptr<apollo::cyber::Writer<apollo::planning::Trajectory>> planning_writer = nullptr;
+  std::shared_ptr<apollo::cyber::Writer<apollo::planning::Trajectory>> trajs_writer = nullptr;
+  std::shared_ptr<apollo::planning::Trajectory> msg_traj;
 };
 CYBER_REGISTER_COMPONENT(TransportPlanning)
