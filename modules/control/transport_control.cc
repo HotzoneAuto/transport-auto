@@ -156,10 +156,10 @@ bool transport_Control::Proc(const std::shared_ptr<Gps>& msg0) {
       // near destination
       // calculate steer
       control_steer = CaculateSteer(msg0);
-      if (control_steer > 850.0) {
-        control_steer = 850.0;
-      } else if (control_steer < -850.0) {
-        control_steer = -850.0;
+      if (control_steer > 720.0) {
+        control_steer = 720.0;
+      } else if (control_steer < -720.0) {
+        control_steer = -720.0;
       }
       // controlcmd.set_control_steer(control_steer);
       controlcmd.set_control_steer(-control_steer);

@@ -126,7 +126,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     if ((wait_flag == 1) || (finishstop_flag == 1) || ((vol_exp == 0) && (start_flag == 1))) {
       control_flag = 1;
       AINFO << "control_flag is set as: 1";
-    } else if ((start_flag = 1) && (vol_exp > ths_exp - 0.1)) {
+    } else if ((start_flag == 1) && (vol_exp > ths_exp - 0.1)) {
       control_flag = 2;
       AINFO << "control_flag is set as: 2";
     } else if ((vol_cur < ths_exp) || (vol_exp - vol_cur) > ths_dif) {
