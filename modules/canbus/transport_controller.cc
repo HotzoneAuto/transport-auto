@@ -175,16 +175,18 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           AINFO << "brkpedalopenreq and accpedalopenreq are set as: 0";
           brkopen_last = 0;
 
-          delta_clu = int(transport_can_conf_.clutchreleaserate() * 0.02);
-          if (cluopen_last > 0) {
-            id_0xc040b2b_->set_xbr1_clupedalopenreq(cluopen_last - delta_clu);
-            AINFO << "clupedalopenreq is set as: " << cluopen_last - delta_clu;
+          delta_clu = transport_can_conf_.clutchreleaserate() * 0.02;
+          if (cluopen_last > transport_can_conf_.clutchthreshold()) {
+            id_0xc040b2b_->set_xbr1_clupedalopenreq(int(cluopen_last - delta_clu));
+            AINFO << "clupedalopenreq is set as: " << int(cluopen_last - delta_clu);
             cluopen_last -= delta_clu;
           } else {
             id_0xc040b2b_->set_xbr1_clupedalopenreq(0);
             AINFO << "clupedalopenreq is set as: 0";
             cluopen_last = 0;
-            start_flag = 0;
+            if (vol_cur > transport_can_conf_.idlespeed() / 2) {
+              start_flag = 0;
+            }
           }
           break;
         // normal mode
@@ -193,7 +195,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           AINFO << "Into normal mode, control_flag = " << control_flag;
           id_0xc040b2b_->set_xbr1_accpedalreqflag(1);
           id_0xc040b2b_->set_xbr1_brkpedalreqflag(0);
-          id_0xc040b2b_->set_xbr1_clupedalreqflag(1);
+          id_0xc040b2b_->set_xbr1_clupedalreqflag(0);
 
           id_0xc040b2b_->set_xbr1_accpedalopenreq(
               int(vol_exp / transport_can_conf_.kspeedthrottle() + (vol_exp - vol_cur) * transport_can_conf_.kdrive()));
@@ -210,7 +212,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           AINFO << "Into emergency mode, control_flag = " << control_flag;
           id_0xc040b2b_->set_xbr1_accpedalreqflag(0);
           id_0xc040b2b_->set_xbr1_brkpedalreqflag(1);
-          id_0xc040b2b_->set_xbr1_clupedalreqflag(1);
+          id_0xc040b2b_->set_xbr1_clupedalreqflag(0);
 
           id_0xc040b2b_->set_xbr1_brkpedalopenreq(
               int(- (vol_exp - vol_cur) * transport_can_conf_.kbrake()));
@@ -234,10 +236,10 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           id_0xc040b2b_->set_xbr1_accpedalopenreq(0);
           AINFO << "accpedalopenreq is set as: " << 0;
 
-          delta_brk = int(transport_can_conf_.brakeapplyrate() * 0.02);
+          delta_brk = transport_can_conf_.brakeapplyrate() * 0.02;
           if (brkopen_last < transport_can_conf_.brakeset()) {
-            id_0xc040b2b_->set_xbr1_brkpedalopenreq(brkopen_last + delta_brk);
-            AINFO << "brkpedalopenreq is set as: " << brkopen_last + delta_brk;
+            id_0xc040b2b_->set_xbr1_brkpedalopenreq(int(brkopen_last + delta_brk));
+            AINFO << "brkpedalopenreq is set as: " << int(brkopen_last + delta_brk);
             brkopen_last += delta_brk;
           } else {
             id_0xc040b2b_->set_xbr1_brkpedalopenreq(transport_can_conf_.brakeset());
