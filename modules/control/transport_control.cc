@@ -33,13 +33,16 @@ int transport_Control::FindLookahead(double totaldis) {
 
 // Reader Callback function
 bool transport_Control::Proc(const std::shared_ptr<apollo::planning::Trajectory>& msg0) {
+  rel_loc[0].clear();
+  rel_loc[1].clear();
+  rel_loc[2].clear();
+  rel_loc[3].clear();
   for (int i = 0; i < msg0->points_size(); i++) {
     rel_loc[0].push_back(msg0->points(i).rel_x());
     rel_loc[1].push_back(msg0->points(i).rel_y());
     rel_loc[2].push_back(msg0->points(i).rel_vel());
     rel_loc[3].push_back(msg0->points(i).timestamp());
   }
-
   double control_steer = 0;
   double control_acc = 0;
 
@@ -50,8 +53,7 @@ bool transport_Control::Proc(const std::shared_ptr<apollo::planning::Trajectory>
     controlcmd.set_control_steer(control_steer);
 
     // calculate acc
-    // control_acc = CaculateAcc(msg0);
-    control_acc = 0;
+    control_acc = CaculateAcc(msg0);
     controlcmd.set_control_acc(control_acc);
     AINFO << controlcmd.DebugString();
   } else {

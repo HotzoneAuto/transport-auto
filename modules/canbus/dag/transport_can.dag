@@ -5,7 +5,8 @@
         class_name : "transport_Canbus"
         config {
             name : "transport_Canbus"
-            config_file_path: "/apollo/modules/canbus/conf/transport_can_conf.pb.txt"
+#            config_file_path: "/apollo/modules/canbus/conf/transport_can_conf.pb.txt"
+            config_file_path: "/apollo/modules/control/conf/control_setting_conf.pb.txt"
             interval : 20
         }
       }

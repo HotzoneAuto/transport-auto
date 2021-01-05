@@ -7,13 +7,12 @@ message TrajectoryPoint {
     optional double rel_x = 1;
     optional double rel_y = 2;
     optional double rel_vel = 3;
-    optional uint64 timestamp = 4[default = 0];
+    optional double timestamp = 4[default = 0];
 };
 
 message Trajectory {
-    optional apollo.common.Header header = 1;
-    repeated TrajectoryPoint points = 2;
-    optional double dis_to_start = 3;
-    optional double dis_to_end = 4;
-    optional double control_acc = 5;
+    repeated TrajectoryPoint points = 1;
+    optional double dis_to_start = 2;
+    optional double dis_to_end = 3;
+    optional double control_acc = 4;
 };

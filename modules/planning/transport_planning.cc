@@ -20,7 +20,6 @@ bool TransportPlanning::Init() {
     file_csv.write_file(msg_w);
   } else {
     trajs_writer = node_->CreateWriter<apollo::planning::Trajectory>("/transport/planning");
-    msg_traj = std::make_shared<apollo::planning::Trajectory>();
     ReadTraj();
   }
   return true;
@@ -89,8 +88,26 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
     traj_position->set_rel_vel(vel);
     traj_position->set_timestamp(apollo::cyber::Time::Now().ToNanosecond());
   }
-  msg_traj->mutable_header()->set_timestamp_sec(apollo::common::time::Clock::NowInSeconds());
+  // msg_traj->mutable_header()->set_timestamp_sec(apollo::common::time::Clock::NowInSeconds());
   // trajs_writer->Write(msg_traj);
+  double control_acc = 0;
+  double N_start = trajinfo[0][0] + trajinfo[1][0];
+  double E_start = trajinfo[2][0] + trajinfo[3][0];
+  int length = trajinfo[0].size();
+  double N_end = trajinfo[0][length] + trajinfo[1][length];
+  double E_end = trajinfo[2][length] + trajinfo[3][length];
+  double DisToStart =
+      apollo::drivers::gps::SphereDis(E_now, N_now, E_start, N_start);
+  double DisToEnd =
+      apollo::drivers::gps::SphereDis(E_now, N_now, E_end, N_end);
+  // control_acc = std::min(DisToStart, DisToEnd) * control_setting_conf_.speedk();
+  // control_acc = std::min(control_setting_conf_.desiredspeed(), control_acc);
+
+  // Traj speed mode
+  control_acc = trajinfo[4][TrajIndex];
+  msg_traj->set_dis_to_start(DisToStart);
+  msg_traj->set_dis_to_end(DisToEnd);
+  msg_traj->set_control_acc(control_acc);
 }
 
 /*
@@ -121,38 +138,14 @@ bool TransportPlanning::Proc(const std::shared_ptr<Gps>& msg0) {
                     + "," + std::to_string(msg0->roll_angle())
                     + "," + std::to_string(msg0->timestamp());
     file_csv.write_file(msg_w);
+  } else {
+    msg_traj.reset();
+    msg_traj = std::make_shared<apollo::planning::Trajectory>();
+    UpdateTraj(msg0);
+    // CaculateAcc(msg0);
+    trajs_writer->Write(msg_traj);
   }
-
-  UpdateTraj(msg0);
-  CaculateAcc(msg0);
-  trajs_writer->Write(msg_traj);
   return true;
-}
-
-void TransportPlanning::CaculateAcc(const std::shared_ptr<Gps>& msg0) {
-  double control_acc = 0;
-
-  // const speed mode;
-  double N_now = msg0->gpsnl() + msg0->gpsnh();
-  double E_now = msg0->gpsel() + msg0->gpseh();
-  double N_start = trajinfo[0][0] + trajinfo[1][0];
-  double E_start = trajinfo[2][0] + trajinfo[3][0];
-  int length = trajinfo[0].size();
-  double N_end = trajinfo[0][length] + trajinfo[1][length];
-  double E_end = trajinfo[2][length] + trajinfo[3][length];
-  double DisToStart =
-      apollo::drivers::gps::SphereDis(E_now, N_now, E_start, N_start);
-  double DisToEnd =
-      apollo::drivers::gps::SphereDis(E_now, N_now, E_end, N_end);
-  // control_acc = std::min(DisToStart, DisToEnd) * control_setting_conf_.speedk();
-  // control_acc = std::min(control_setting_conf_.desiredspeed(), control_acc);
-
-  // Traj speed mode
-  control_acc = trajinfo[4][TrajIndex];
-
-  msg_traj->set_dis_to_start(DisToStart);
-  msg_traj->set_dis_to_end(DisToEnd);
-  msg_traj->set_control_acc(control_acc);
 }
 
 void TransportPlanning::Clear() {

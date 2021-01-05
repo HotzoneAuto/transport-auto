@@ -22,6 +22,7 @@ cc_library(
         "//modules/drivers/canbus/can_comm:can_receiver",
         "//modules/drivers/canbus/can_comm:can_sender",
         "//modules/drivers/canbus/proto:can_card_parameter_cc_proto",
+        "//modules/control/proto:control_setting_conf_cc_proto",
     ],
 )
 

@@ -11,6 +11,7 @@
 #include "modules/drivers/canbus/can_comm/can_receiver.h"
 #include "modules/drivers/canbus/can_comm/can_sender.h"
 #include "modules/drivers/canbus/proto/can_card_parameter.pb.h"
+#include "modules/control/proto/control_setting_conf.pb.h"
 #include "modules/canbus/transport_controller.h"
 
 // TODO(ZENGPENG): SPLIT DATA RECORD FROM CHASSIS  
@@ -35,7 +36,6 @@ class transport_Canbus : public apollo::cyber::TimerComponent {
   bool Init() override;
   bool Proc() override;
   void Clear() override;
-  void ReadConfig();
   void PublishChassisDetail();
   void OnControl(ControlCommand& msg);
 
@@ -55,5 +55,6 @@ class transport_Canbus : public apollo::cyber::TimerComponent {
   std::shared_ptr<apollo::cyber::Writer<ChassisDetail>> chassis_detail_writer_;
   std::shared_ptr<apollo::cyber::Reader<ControlCommand>>
       control_command_reader_;
+  apollo::control::ControlSettingConf control_setting_conf_;  
 };
 CYBER_REGISTER_COMPONENT(transport_Canbus)

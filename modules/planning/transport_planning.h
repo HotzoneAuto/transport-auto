@@ -31,7 +31,6 @@ class TransportPlanning : public apollo::cyber::Component<Gps> {
  public:
   bool Init() override;
   bool Proc(const std::shared_ptr<Gps>& msg0) override;
-  void CaculateAcc(const std::shared_ptr<Gps>& msg0);
   void Clear() override;
 
  private:

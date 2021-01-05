@@ -6,7 +6,10 @@
 
 bool transport_Canbus::Init() {
   // read config;
-  ReadConfig();
+  if (!GetProtoConfig(&control_setting_conf_)) {
+    AERROR << "Unable to load conf file" << ConfigFilePath();
+    return false;
+  }
   // Open CAN0 
   CANCardParameter CanPara = CANCardParameter();
 
@@ -45,11 +48,11 @@ bool transport_Canbus::Init() {
       [this](const std::shared_ptr<ControlCommand>& msg) { OnControl(*msg); });
 
   // TODO(ZENGPENG): SPLIT DATA RECORD FROM CHASSIS 
-  if (Mode == RecordMode) {
-    TrajFile.open("/apollo/modules/transportTraj.record");
-    if (TrajFile.is_open()) AINFO << "TrajFileOpened";
-  } else if (Mode == ControlMode) {
-  }
+  // if (control_setting_conf_.trajmode() == RecordMode) {
+  //   TrajFile.open("/apollo/modules/transportTraj.record");
+  //   if (TrajFile.is_open()) AINFO << "TrajFileOpened";
+  // } else if (control_setting_conf_.trajmode() == ControlMode) {
+  // }
   return true;
 }
 
@@ -83,33 +86,12 @@ void transport_Canbus::OnControl(ControlCommand& msg) {
   // Write Control Here
   cmd.set_control_steer(msg.control_steer());
   // cmd.set_control_acc(msg.control_acc());
-  transport_controller.ControlUpdate(cmd, SteerEnable, AccEnable, vol_cur_,
+  transport_controller.ControlUpdate(cmd, control_setting_conf_.latconswitch(),
+                                     control_setting_conf_.lonconswitch(), vol_cur_,
                                      msg.control_acc());
   can_sender.Update();
   return;
 }
 
 // TODO(ZENGPENG):CONFIG
-void transport_Canbus::ReadConfig() {
-  std::ifstream f;
-  f.open("/apollo/modules/control/conf/ControlSettings.config");
-  if (f.is_open()) {
-    AINFO << "Control Config File Opened";
-    while (!f.eof()) {
-      std::string SettingName;
-      f >> SettingName;
-      if (SettingName == "LonConSwitch") {
-        f >> AccEnable;
-        AINFO << "AccEnable= " << AccEnable;
-      } else if (SettingName == "LatConSwitch") {
-        f >> SteerEnable;
-        AINFO << "SteerEnable= " << SteerEnable;
-      } else if (SettingName == "TrajMode") {
-        f >> Mode;
-        AINFO << "TrajMode= " << Mode;
-      }
-    }
-    f.close();
-  } else
-    AERROR << "ControlSettings.config Missing";
-}
+
