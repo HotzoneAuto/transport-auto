@@ -129,15 +129,15 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     } else if ((start_flag == 1) && (vol_exp > ths_exp - 0.1)) {
       control_flag = 2;
       AINFO << "control_flag is set as: 2";
+    } else if (vol_exp < transport_can_conf_.idlespeed()) {
+      control_flag = 5;
+      AINFO << "control_flag is set as: 5";
     } else if ((vol_cur < ths_exp) || (vol_exp - vol_cur) > ths_dif) {
       control_flag = 3;
       AINFO << "control_flag is set as: 3";
     } else if ((vol_exp - vol_cur) < ths_dif && (vol_cur > ths_exp)) {
       control_flag = 4;
       AINFO << "control_flag is set as: 4";
-    } else if (vol_exp < transport_can_conf_.idlespeed()) {
-      control_flag = 5;
-      AINFO << "control_flag is set as: 5";
     }
 
     AINFO << "Before switch cases, control_flag = " << control_flag;
