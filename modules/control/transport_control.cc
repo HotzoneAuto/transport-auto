@@ -10,10 +10,9 @@ bool transport_Control::Init() {
     AERROR << "Unable to load control_setting_conf file" << ConfigFilePath();
     return false;
   }
-  
+  // Init ControlCommand Writer
   writer = node_->CreateWriter<ControlCommand>("/transport/control");
 
-  // Init ControlCommand Writer
   return true;
 }
 
@@ -33,7 +32,7 @@ int transport_Control::FindLookahead(double totaldis) {
 }
 
 // Reader Callback function
-bool transport_Control::Proc(const std::shared_ptr<apollo::planning::Trajectory>& msg0) {
+bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0) {
   rel_loc[0].clear();
   rel_loc[1].clear();
   rel_loc[2].clear();
@@ -79,7 +78,8 @@ bool transport_Control::Proc(const std::shared_ptr<apollo::planning::Trajectory>
   Input Gps message
   Output Control_steer degree
 */
-double transport_Control::CaculateSteer(const std::shared_ptr<apollo::planning::Trajectory>& msg0) {
+double transport_Control::CaculateSteer(
+    const std::shared_ptr<Trajectory>& msg0) {
   double steer_wheel_angle = 0;
   //根据预瞄点计算横向转角
   int LookAheadIndex = FindLookahead(control_setting_conf_.lookaheaddis());
@@ -132,15 +132,15 @@ double transport_Control::Stanley(double k, double v, int& ValidCheck) {
 }
 
 //设置纵向期望速度
-double transport_Control::CaculateAcc(const std::shared_ptr<apollo::planning::Trajectory>& msg0) {
+double transport_Control::CaculateAcc(const std::shared_ptr<Trajectory>& msg0) {
   double control_acc = 0;
   if (control_setting_conf_.speedmode() == 0) {
     // const speed mode;
     double DisToStart = msg0->dis_to_start();
     double DisToEnd = msg0->dis_to_end();
     if (DisToStart < DisToEnd) {
-      control_acc =
-          std::max(DisToStart * control_setting_conf_.speedk(), control_setting_conf_.speedthreshold());
+      control_acc = std::max(DisToStart * control_setting_conf_.speedk(),
+                             control_setting_conf_.speedthreshold());
       AINFO << "When DisToStart < DisToEnd, control_acc = " << control_acc;
     } else {
       control_acc = DisToEnd * control_setting_conf_.speedk();

@@ -23,29 +23,27 @@
 
 #include "cyber/common/file.h"
 #include "cyber/common/log.h"
-#include "cyber/cyber.h"
-#include "cyber/component/component.h"
 
-#include "modules/common/proto/error_code.pb.h"
-#include "modules/common/time/time.h"
-#include "modules/drivers/canbus/can_comm/can_sender.h"
-#include "modules/drivers/canbus/can_comm/protocol_data.h"
-#include "modules/control/proto/control_command.pb.h"
 #include "modules/canbus/proto/transport_can_conf.pb.h"
 #include "modules/canbus/protocol/id_0x4ef8480.h"
 #include "modules/canbus/protocol/id_0xc040b2b.h"
 #include "modules/canbus/transport_message_manager.h"
+#include "modules/common/proto/error_code.pb.h"
+#include "modules/common/time/time.h"
+#include "modules/control/proto/control_command.pb.h"
+#include "modules/drivers/canbus/can_comm/can_sender.h"
+#include "modules/drivers/canbus/can_comm/protocol_data.h"
 
-using apollo::cyber::Component;
-using apollo::cyber::Reader;
-using apollo::cyber::Writer;
-using ::apollo::control::ControlCommand;
+namespace apollo {
+namespace canbus {
+
 using ::apollo::canbus::transport::Id0x4ef8480;
 using ::apollo::canbus::transport::Id0xc040b2b;
 using ::apollo::common::ErrorCode;
+using ::apollo::control::ControlCommand;
 using ::apollo::drivers::canbus::CanSender;
+using ::apollo::drivers::canbus::MessageManager;
 using ::apollo::drivers::canbus::ProtocolData;
-using apollo::drivers::canbus::MessageManager;
 
 class TransportController {
  public:
@@ -79,5 +77,6 @@ class TransportController {
   apollo::canbus::TransportCanConf transport_can_conf_;
   Id0x4ef8480 *id_0x4ef8480_ = nullptr;
   Id0xc040b2b *id_0xc040b2b_ = nullptr;
-
 };
+}  // namespace canbus
+}  // namespace apollo

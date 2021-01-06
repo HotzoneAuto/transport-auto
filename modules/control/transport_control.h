@@ -21,17 +21,18 @@ using apollo::control::ControlCommand;
 using apollo::cyber::Component;
 using apollo::cyber::Reader;
 using apollo::cyber::Writer;
+using apollo::planning::Trajectory;
 
-class transport_Control : public apollo::cyber::Component<apollo::planning::Trajectory> {
+class transport_Control : public apollo::cyber::Component<Trajectory> {
  public:
   bool Init() override;
-  bool Proc(const std::shared_ptr<apollo::planning::Trajectory>& msg0) override;
+  bool Proc(const std::shared_ptr<Trajectory>& msg0) override;
 
  private:
   std::shared_ptr<Writer<ControlCommand>> writer;
   ControlCommand controlcmd;
-  double CaculateSteer(const std::shared_ptr<apollo::planning::Trajectory>& msg0);
-  double CaculateAcc(const std::shared_ptr<apollo::planning::Trajectory>& msg0);
+  double CaculateSteer(const std::shared_ptr<Trajectory>& msg0);
+  double CaculateAcc(const std::shared_ptr<Trajectory>& msg0);
   double Stanley(double k, double v, int& ValidCheck);
   int FindLookahead(double totaldis);
 
