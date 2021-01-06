@@ -11,11 +11,13 @@
 #include "cyber/component/component.h"
 #include "cyber/cyber.h"
 
+#include "modules/canbus/proto/transport_can_conf.pb.h"
 #include "modules/control/proto/control_command.pb.h"
 #include "modules/control/proto/control_setting_conf.pb.h"
 #include "modules/drivers/gps/GPSproto.h"
 #include "modules/drivers/gps/proto/gps.pb.h"
 
+using apollo::canbus::TransportCanConf;
 using apollo::control::ControlCommand;
 using apollo::cyber::Component;
 using apollo::cyber::Reader;
@@ -37,15 +39,17 @@ class transport_Control : public apollo::cyber::Component<Gps> {
   void ReadTraj();
   void UpdateTraj(const std::shared_ptr<Gps>& msg0);
   int FindLookahead(double totaldis);
+  void ReadCanConfig();
 
   std::vector<double> trajinfo[6];
   std::vector<double> rel_loc[3];
 
+  TransportCanConf transport_can_conf_;
   apollo::control::ControlSettingConf control_setting_conf_;
   std::fstream TrajFile;
   std::fstream traj_record_file;
   int TrajIndex = 0;
   int frame = 0;
-
+  double SpeedThreshold = 0;
 };
 CYBER_REGISTER_COMPONENT(transport_Control)

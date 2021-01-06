@@ -42,7 +42,14 @@ bool transport_Canbus::Init() {
 
   control_command_reader_ = node_->CreateReader<ControlCommand>(
       "/transport/control",
-      [this](const std::shared_ptr<ControlCommand>& msg) { OnControl(*msg); });
+      [this](const std::shared_ptr<ControlCommand>& msg) {
+          gps_reader_ = node_->CreateReader<Gps>(
+              "/transport/gps",
+              [this](const std::shared_ptr<Gps>& msg) { gps_.CopyFrom(*msg); });
+
+          vol_cur_ = gps_.gps_velocity() * 3.6;
+          AINFO << "After read gps, vol_cur_ = " << vol_cur_;
+          OnControl(*msg); });
 
   // TODO(ZENGPENG): SPLIT DATA RECORD FROM CHASSIS 
   if (Mode == RecordMode) {

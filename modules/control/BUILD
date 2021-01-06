@@ -20,6 +20,7 @@ cc_library(
         "//modules/drivers/gps/proto:gps_cc_proto",
         "//modules/control/proto:control_command_cc_proto",
         "//modules/control/proto:control_setting_conf_cc_proto",
+        "//modules/canbus/proto:transport_can_conf_cc_proto",
     ],
 )
 

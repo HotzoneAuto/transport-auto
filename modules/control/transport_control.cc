@@ -1,25 +1,31 @@
 #include "transport_control.h"
 
-#define TRAJLENGTH 200
+#define TRAJLENGTH 400
 #define MAXDIS 99999
 #define L 2.4
 
 bool transport_Control::Init() {
   AINFO << "Transport_Control init";
   if (!GetProtoConfig(&control_setting_conf_)) {
-    AERROR << "Unable to load conf file" << ConfigFilePath();
+    AERROR << "Unable to load control_setting_conf file" << ConfigFilePath();
     return false;
   }
+  ReadCanConfig();
+  AINFO << "After read can config, SpeedThreshold = " << SpeedThreshold;
   writer = node_->CreateWriter<ControlCommand>("/transport/control");
-  if(control_setting_conf_.trajmode() == 0){
-    traj_record_file.open("/apollo/modules/control/data/gps_record.csv", std::ios::out | std::ios::trunc);
+  if (control_setting_conf_.trajmode() == 0) {
+    traj_record_file.open("/apollo/modules/control/data/gps_record.csv",
+                          std::ios::out | std::ios::trunc);
     traj_record_file << "frame" << "," << "gpsnh" << ","
-                  << "gpsnl" << "," << "gpseh" << "," << "gpsel" << "," << "heading_angle"
-                  << "," << "yaw_rate" << "," << "gps_state" << "," << "gps_velocity" << ","
-                  << "acceleration_forward" << "," << "acceleration_lateral" << "," << 
-                  "acceleration_down" << "," << "pitch_angle" << "," << "velocity_down" <<
-                  "," << "velocity_lateral" << "," << "velocity_forward" << "," << "roll_angle" << std::endl;
-  }else if(control_setting_conf_.trajmode() == 1){
+                     << "gpsnl" << "," << "gpseh" << ","
+                     << "gpsel" << "," << "heading_angle" << ","
+                     << "yaw_rate" << "," << "gps_state" << ","
+                     << "gps_velocity" << "," << "acceleration_forward" << ","
+                     << "acceleration_lateral" << "," << "acceleration_down" << ","
+                     << "pitch_angle" << "," << "velocity_down" << ","
+                     << "velocity_lateral" << "," << "velocity_forward" << ","
+                     << "roll_angle" << std::endl;
+  } else if (control_setting_conf_.trajmode() == 1) {
     ReadTraj();
   }
 
@@ -65,16 +71,21 @@ void transport_Control::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
   int lastindex = TrajIndex;
   double min_dis = MAXDIS;
   for (int i = lastindex;
-       i < std::min(lastindex + TRAJLENGTH, (int)trajinfo[0].size()); i++) {
+       i < std::min(lastindex + TRAJLENGTH / 2, (int)trajinfo[0].size()); i++) {
     double N_point = trajinfo[0][i] + trajinfo[1][i];
     double E_point = trajinfo[2][i] + trajinfo[3][i];
     double dis =
         apollo::drivers::gps::SphereDis(E_now, N_now, E_point, N_point);
-    if (dis < min_dis) {
-      min_dis = dis;
+    double azi =
+        apollo::drivers::gps::SphereAzimuth(E_now, N_now, E_point, N_point);
+    double rel_x = dis * std::cos(azi - Azi_now);
+    double rel_y = dis * std::sin(azi - Azi_now);
+    if (std::abs(rel_x) < min_dis) {
+      min_dis = std::abs(rel_x);
       TrajIndex = i;
     }
   }
+  AINFO << "TrajIndex= " << TrajIndex << "  MINDIS=" << min_dis;
   //将该点附近的若干个点加入到自车坐标系中
   rel_loc[0].clear();
   rel_loc[1].clear();
@@ -107,7 +118,7 @@ int transport_Control::FindLookahead(double totaldis) {
       break;
     }
   }
-  if(i == (int)rel_loc[0].size()) i = (int)rel_loc[0].size()-1;
+  if (i == (int)rel_loc[0].size()) i = (int)rel_loc[0].size() - 1;
   return i;
 }
 
@@ -116,19 +127,27 @@ bool transport_Control::Proc(const std::shared_ptr<Gps>& msg0) {
   if (frame == 65535) {
     frame = 0;
   }
-  frame++;
   if (control_setting_conf_.trajmode() == 0) {
-    traj_record_file << frame << "," << msg0->gpsnh() << "," << msg0->gpsnl()
-                     << "," << msg0->gpseh() << "," << msg0->gpsel() << ","
-                     << msg0->heading_angle() << "," << msg0->yaw_rate() << ","
-                     << msg0->gps_state() << "," << msg0->gps_velocity() << ","
-                     << msg0->acceleration_forward() << ","
-                     << msg0->acceleration_lateral() << ","
-                     << msg0->acceleration_down() << "," << msg0->pitch_angle()
-                     << "," << msg0->velocity_down() << ","
-                     << msg0->velocity_lateral() << ","
-                     << msg0->velocity_forward() << "," << msg0->roll_angle()
-                     << std::endl;
+    static double last_gpsn = 0, last_gpse = 0;
+    double gpsn = msg0->gpsnh() + msg0->gpsnl();
+    double gpse = msg0->gpseh() + msg0->gpsel();
+    double dis_to_last_point =
+        apollo::drivers::gps::SphereDis(last_gpse, last_gpsn, gpse, gpsn);
+    if (last_gpsn == 0 || (last_gpsn != 0 && dis_to_last_point > 0.1)) {
+      frame++;
+      traj_record_file << frame << "," << msg0->gpsnh() << "," 
+                       << msg0->gpsnl() << "," << msg0->gpseh() << "," 
+                       << msg0->gpsel() << "," << msg0->heading_angle() << ","
+                       << msg0->yaw_rate() << "," << msg0->gps_state() << ","
+                       << msg0->gps_velocity() << "," << msg0->acceleration_forward() << ","
+                       << msg0->acceleration_lateral() << "," << msg0->acceleration_down() << ","
+                       << msg0->pitch_angle() << "," << msg0->velocity_down() << ","
+                       << msg0->velocity_lateral() << "," << msg0->velocity_forward() << ","
+                       << msg0->roll_angle() << std::endl;
+      last_gpsn = gpsn;
+      last_gpse = gpse;
+    }
+
   } else if (control_setting_conf_.trajmode() == 1) {
     double control_steer = 0;
     double control_acc = 0;
@@ -138,13 +157,23 @@ bool transport_Control::Proc(const std::shared_ptr<Gps>& msg0) {
       // near destination
       // calculate steer
       control_steer = CaculateSteer(msg0);
-      controlcmd.set_control_steer(control_steer);
+      if (control_steer > 720.0) {
+        control_steer = 720.0;
+      } else if (control_steer < -720.0) {
+        control_steer = -720.0;
+      }
+      // controlcmd.set_control_steer(control_steer);
+      controlcmd.set_control_steer(-control_steer);
 
       // calculate acc
       control_acc = CaculateAcc(msg0);
       controlcmd.set_control_acc(control_acc);
       AINFO << controlcmd.DebugString();
     } else {
+      controlcmd.set_control_steer(0);
+      controlcmd.set_control_acc(0);
+    }
+    if (msg0->gps_state() != 4) {
       controlcmd.set_control_steer(0);
       controlcmd.set_control_acc(0);
     }
@@ -167,7 +196,9 @@ double transport_Control::CaculateSteer(const std::shared_ptr<Gps>& msg0) {
   double follow_angle =
       std::atan(2 * L * lat_distance / (long_distance * long_distance)) * 180 /
       M_PI;
-  AINFO<<"LookAheadIndex: "<< LookAheadIndex <<" lat distance: "<< lat_distance << " long distance: "<< long_distance;
+  AINFO << "LookAheadIndex: " << LookAheadIndex
+        << " lat distance: " << lat_distance
+        << " long distance: " << long_distance;
   //根据stanley计算转角
   double stanley_angle = 0;
   int validcheck = 0;
@@ -224,7 +255,13 @@ double transport_Control::CaculateAcc(const std::shared_ptr<Gps>& msg0) {
         apollo::drivers::gps::SphereDis(E_now, N_now, E_start, N_start);
     double DisToEnd =
         apollo::drivers::gps::SphereDis(E_now, N_now, E_end, N_end);
-    control_acc = std::min(DisToStart, DisToEnd) * control_setting_conf_.speedk();
+    if (DisToStart < DisToEnd) {
+      control_acc =
+          std::max(DisToStart * control_setting_conf_.speedk(), SpeedThreshold);
+      AINFO << "When DisToStart < DisToEnd, control_acc = " << control_acc;
+    } else {
+      control_acc = DisToEnd * control_setting_conf_.speedk();
+    }
     control_acc = std::min(control_setting_conf_.desiredspeed(), control_acc);
 
   } else if (control_setting_conf_.speedmode() == 1) {
@@ -236,3 +273,21 @@ double transport_Control::CaculateAcc(const std::shared_ptr<Gps>& msg0) {
 }
 
 void transport_Control::Clear() { traj_record_file.close(); }
+
+void transport_Control::ReadCanConfig() {
+  std::ifstream f;
+  f.open("/apollo/modules/canbus/conf/transport_can_conf.config");
+  if (f.is_open()) {
+    AINFO << "Can Config File Opened";
+    while (!f.eof()) {
+      std::string SettingName;
+      f >> SettingName;
+      if (SettingName == "SpeedThreshold") {
+        f >> SpeedThreshold;
+        AINFO << "In ReadCanConfig(), SpeedThreshold= " << SpeedThreshold;
+      }
+    }
+    f.close();
+  } else
+    AERROR << "transport_can_conf.config Missing";
+}
