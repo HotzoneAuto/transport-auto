@@ -44,15 +44,15 @@ void Id0x713::Parse(const std::uint8_t* bytes, int32_t length,
 // 'bit': 48, 'type': 'double', 'order': 'intel', 'physical_unit': 'degree'}
 double Id0x713::headingangle(const std::uint8_t* bytes, int32_t length) const {
   Byte t0(bytes + 7);
-  int32_t x = t0.get_byte(0, 8);
+  uint32_t x = t0.get_byte(0, 8);
 
   Byte t1(bytes + 6);
-  int32_t t = t1.get_byte(0, 8);
+  uint32_t t = t1.get_byte(0, 8);
   x <<= 8;
   x |= t;
 
-  x <<= 16;
-  x >>= 16;
+  // x <<= 16;
+  // x >>= 16;
 
   double ret = x * 0.010000;
   return ret;

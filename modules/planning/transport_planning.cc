@@ -63,24 +63,32 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
   int lastindex = TrajIndex;
   double min_dis = MAXDIS;
   for (int i = lastindex;
-       i < std::min(lastindex + TRAJLENGTH, (int)trajinfo[0].size()); i++) {
+       i < std::min(lastindex + TRAJLENGTH / 2, (int)trajinfo[0].size()); i++) {
     double N_point = trajinfo[0][i] + trajinfo[1][i];
     double E_point = trajinfo[3][i] + trajinfo[4][i];
-    double dis = apollo::drivers::gps::SphereDis(E_now, N_now, E_point, N_point);
-    if (dis < min_dis) {
-      min_dis = dis;
+    double dis =
+        apollo::drivers::gps::SphereDis(E_now, N_now, E_point, N_point);
+    double azi =
+        apollo::drivers::gps::SphereAzimuth(E_now, N_now, E_point, N_point);
+    double rel_x = dis * std::cos(azi - Azi_now);
+    double rel_y = dis * std::sin(azi - Azi_now);
+    if (std::abs(rel_x) < min_dis) {
+      min_dis = std::abs(rel_x);
       TrajIndex = i;
     }
   }
+  AINFO << "TrajIndex= " << TrajIndex << "  MINDIS=" << min_dis;
   //将该点附近的若干个点加入到自车坐标系中
   for (int i = TrajIndex;
        i < std::min(TrajIndex + TRAJLENGTH, (int)trajinfo[0].size()); i++) {
     double N_point = trajinfo[0][i] + trajinfo[1][i];
     double E_point = trajinfo[2][i] + trajinfo[3][i];
-    double dis = apollo::drivers::gps::SphereDis(E_now, N_now, E_point, N_point);
-    double azi = apollo::drivers::gps::SphereAzimuth(E_now, N_now, E_point, N_point);
-    double rel_x = dis * cos(azi - Azi_now);
-    double rel_y = dis * sin(azi - Azi_now);
+    double dis =
+        apollo::drivers::gps::SphereDis(E_now, N_now, E_point, N_point);
+    double azi =
+        apollo::drivers::gps::SphereAzimuth(E_now, N_now, E_point, N_point);
+    double rel_x = dis * std::cos(azi - Azi_now);
+    double rel_y = dis * std::sin(azi - Azi_now);
     double vel = trajinfo[4][i];
     auto* traj_position = msg_traj->add_points();
     traj_position->set_rel_x(rel_x);
@@ -108,6 +116,7 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
   msg_traj->set_dis_to_start(DisToStart);
   msg_traj->set_dis_to_end(DisToEnd);
   msg_traj->set_control_acc(control_acc);
+  msg_traj->set_gps_state(msg0->gps_state());
 }
 
 /*

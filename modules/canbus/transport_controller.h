@@ -24,6 +24,7 @@
 #include "cyber/common/file.h"
 #include "cyber/common/log.h"
 #include "cyber/cyber.h"
+#include "cyber/component/component.h"
 
 #include "modules/common/proto/error_code.pb.h"
 #include "modules/common/time/time.h"
@@ -35,6 +36,9 @@
 #include "modules/canbus/protocol/id_0xc040b2b.h"
 #include "modules/canbus/transport_message_manager.h"
 
+using apollo::cyber::Component;
+using apollo::cyber::Reader;
+using apollo::cyber::Writer;
 using ::apollo::control::ControlCommand;
 using ::apollo::canbus::transport::Id0x4ef8480;
 using ::apollo::canbus::transport::Id0xc040b2b;
@@ -61,6 +65,14 @@ class TransportController {
   bool is_initialized_ = false;
   bool is_start = false;
   int count_flag = 0;
+  int start_flag = 0;
+  int finishstop_flag = 0;
+  int wait_flag = 1;
+  int wait_count = 0;
+  double cluopen_last = 0;
+  double brkopen_last = 0;
+  double delta_brk = 0;
+  double delta_clu = 0;
   // control protocol
   CanSender<::apollo::canbus::ChassisDetail> *can_sender_;
   MessageManager<::apollo::canbus::ChassisDetail> *message_manager_;

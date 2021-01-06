@@ -15,4 +15,5 @@ message Trajectory {
     optional double dis_to_start = 2;
     optional double dis_to_end = 3;
     optional double control_acc = 4;
+    optional double gps_state = 5;
 };

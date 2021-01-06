@@ -1,1 +1,1 @@
-TrajMode: true
+TrajMode: false

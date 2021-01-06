@@ -11,10 +11,12 @@
 #include "cyber/component/component.h"
 #include "cyber/cyber.h"
 
+#include "modules/canbus/proto/transport_can_conf.pb.h"
 #include "modules/control/proto/control_command.pb.h"
 #include "modules/control/proto/control_setting_conf.pb.h"
 #include "modules/planning/proto/trajectory.pb.h"
 
+using apollo::canbus::TransportCanConf;
 using apollo::control::ControlCommand;
 using apollo::cyber::Component;
 using apollo::cyber::Reader;

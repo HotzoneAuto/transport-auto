@@ -45,14 +45,14 @@ bool transport_Canbus::Init() {
 
   control_command_reader_ = node_->CreateReader<ControlCommand>(
       "/transport/control",
-      [this](const std::shared_ptr<ControlCommand>& msg) { OnControl(*msg); });
+      [this](const std::shared_ptr<ControlCommand>& msg) {
+          gps_reader_ = node_->CreateReader<Gps>(
+              "/transport/gps",
+              [this](const std::shared_ptr<Gps>& msg) { gps_.CopyFrom(*msg); });
 
-  // TODO(ZENGPENG): SPLIT DATA RECORD FROM CHASSIS 
-  // if (control_setting_conf_.trajmode() == RecordMode) {
-  //   TrajFile.open("/apollo/modules/transportTraj.record");
-  //   if (TrajFile.is_open()) AINFO << "TrajFileOpened";
-  // } else if (control_setting_conf_.trajmode() == ControlMode) {
-  // }
+          vol_cur_ = gps_.gps_velocity() * 3.6;
+          AINFO << "After read gps, vol_cur_ = " << vol_cur_;
+          OnControl(*msg); });
   return true;
 }
 

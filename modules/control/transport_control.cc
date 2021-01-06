@@ -1,15 +1,16 @@
 #include "transport_control.h"
 
-#define TRAJLENGTH 200
+#define TRAJLENGTH 400
 #define MAXDIS 99999
 #define L 2.4
 
 bool transport_Control::Init() {
   AINFO << "Transport_Control init";
   if (!GetProtoConfig(&control_setting_conf_)) {
-    AERROR << "Unable to load conf file" << ConfigFilePath();
+    AERROR << "Unable to load control_setting_conf file" << ConfigFilePath();
     return false;
   }
+  
   writer = node_->CreateWriter<ControlCommand>("/transport/control");
 
   // Init ControlCommand Writer
@@ -27,7 +28,7 @@ int transport_Control::FindLookahead(double totaldis) {
       break;
     }
   }
-  if(i == (int)rel_loc[0].size()) i = (int)rel_loc[0].size()-1;
+  if (i == (int)rel_loc[0].size()) i = (int)rel_loc[0].size() - 1;
   return i;
 }
 
@@ -43,6 +44,7 @@ bool transport_Control::Proc(const std::shared_ptr<apollo::planning::Trajectory>
     rel_loc[2].push_back(msg0->points(i).rel_vel());
     rel_loc[3].push_back(msg0->points(i).timestamp());
   }
+
   double control_steer = 0;
   double control_acc = 0;
 
@@ -50,13 +52,22 @@ bool transport_Control::Proc(const std::shared_ptr<apollo::planning::Trajectory>
     // near destination
     // calculate steer
     control_steer = CaculateSteer(msg0);
-    controlcmd.set_control_steer(control_steer);
+    if (control_steer > 720.0) {
+      control_steer = 720.0;
+    } else if (control_steer < -720.0) {
+      control_steer = -720.0;
+    }
+    controlcmd.set_control_steer(-control_steer);
 
     // calculate acc
     control_acc = CaculateAcc(msg0);
     controlcmd.set_control_acc(control_acc);
     AINFO << controlcmd.DebugString();
   } else {
+    controlcmd.set_control_steer(0);
+    controlcmd.set_control_acc(0);
+  }
+  if (msg0->gps_state() != 4) {
     controlcmd.set_control_steer(0);
     controlcmd.set_control_acc(0);
   }
@@ -77,7 +88,9 @@ double transport_Control::CaculateSteer(const std::shared_ptr<apollo::planning::
   double follow_angle =
       std::atan(2 * L * lat_distance / (long_distance * long_distance)) * 180 /
       M_PI;
-  AINFO<<"LookAheadIndex: "<< LookAheadIndex <<" lat distance: "<< lat_distance << " long distance: "<< long_distance;
+  AINFO << "LookAheadIndex: " << LookAheadIndex
+        << " lat distance: " << lat_distance
+        << " long distance: " << long_distance;
   //根据stanley计算转角
   double stanley_angle = 0;
   int validcheck = 0;
@@ -125,8 +138,13 @@ double transport_Control::CaculateAcc(const std::shared_ptr<apollo::planning::Tr
     // const speed mode;
     double DisToStart = msg0->dis_to_start();
     double DisToEnd = msg0->dis_to_end();
-    control_acc = std::min(DisToStart, DisToEnd) * control_setting_conf_.speedk();
-    control_acc = std::min(control_setting_conf_.desiredspeed(), control_acc);
+    if (DisToStart < DisToEnd) {
+      control_acc =
+          std::max(DisToStart * control_setting_conf_.speedk(), control_setting_conf_.speedthreshold());
+      AINFO << "When DisToStart < DisToEnd, control_acc = " << control_acc;
+    } else {
+      control_acc = DisToEnd * control_setting_conf_.speedk();
+    }
 
   } else if (control_setting_conf_.speedmode() == 1) {
     // Traj speed mode
@@ -135,4 +153,3 @@ double transport_Control::CaculateAcc(const std::shared_ptr<apollo::planning::Tr
 
   return control_acc;
 }
-
