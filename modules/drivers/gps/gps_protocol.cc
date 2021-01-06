@@ -1,34 +1,30 @@
-#include "GPSproto.h"
+#include "gps_protocol.h"
 #include <iostream>
 
 namespace apollo {
 namespace drivers {
 namespace gps {
 
-using namespace std;
-GPSinfo::GPSinfo() {
-  GPSString = "";
-  Longitude = Latitude = NorthSpeed = EastSpeed = Azimuth = 0;
-  Ok = false;
-};
+GPSinfo::GPSinfo(){};
 
 bool GPSinfo::GetGPSinfo(char *s) {
   GPSString = s;
   return GetGPSinfo(GPSString);
 }
-bool GPSinfo::GetGPSinfo(string s) {
+
+bool GPSinfo::GetGPSinfo(std::string s) {
   if (s == "") return false;
   GPSString = s;
   int index = GPSString.find(";", 0);
-  string Head, Info;
+  std::string Head, Info;
   Head = GPSString.substr(0, index);
   // cout << Head << endl;
   Info = GPSString.substr(index + 1) + ",";
   // cout << Info << endl;
   int position = 0;
   int count = 2;
-  string GPSsubstr[26];
-  while (Info.find(",", position) != string::npos) {
+  std::string GPSsubstr[26];
+  while (Info.find(",", position) != std::string::npos) {
     int temppos = Info.find(',', position);
     GPSsubstr[count] = Info.substr(position, temppos - position);
     position = temppos + 1;
@@ -38,11 +34,11 @@ bool GPSinfo::GetGPSinfo(string s) {
   GPSsubstr[14] = GPSsubstr[13].substr(index + 1);
   GPSsubstr[13] = GPSsubstr[13].substr(0, index);
   // for(int i=2;i<=count;i++)	cout << GPSsubstr[i] << endl;
-  Longitude = atof(GPSsubstr[5].data());
-  Latitude = atof(GPSsubstr[4].data());
-  NorthSpeed = atof(GPSsubstr[7].data());
-  EastSpeed = atof(GPSsubstr[8].data());
-  Azimuth = atof(GPSsubstr[12].data());
+  Longitude = std::atof(GPSsubstr[5].data());
+  Latitude = std::atof(GPSsubstr[4].data());
+  NorthSpeed = std::atof(GPSsubstr[7].data());
+  EastSpeed = std::atof(GPSsubstr[8].data());
+  Azimuth = std::atof(GPSsubstr[12].data());
   Status = GetGPSstatus(GPSsubstr[13]);
   if (Status == GPSstatus::SOLUTION_GOOD)
     Ok = true;
@@ -51,7 +47,7 @@ bool GPSinfo::GetGPSinfo(string s) {
   return true;
 }
 
-GPSstatus GPSinfo::GetGPSstatus(string s) {
+GPSstatus GPSinfo::GetGPSstatus(std::string s) {
   if (s == "INS_INACTIVE")
     return GPSstatus::INACTIVE;
   else if (s == "INS_ALIGNING")
@@ -68,6 +64,8 @@ GPSstatus GPSinfo::GetGPSstatus(string s) {
     return GPSstatus::DETERMINING_ORIENTATION;
   else if (s == "WAITING_INITIALPOS")
     return GPSstatus::WAITING_INITIALPOS;
+
+  return GPSstatus::UNKNOWN;
 }
 }  // namespace gps
 }  // namespace drivers

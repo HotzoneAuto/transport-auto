@@ -28,10 +28,6 @@ TransportMessageManager::TransportMessageManager() {
   // Control Messages
   AddSendProtocolData<Id0xc040b2b, true>();
   AddSendProtocolData<Id0x4ef8480, true>();
-  // ::apollo::drivers::canbus::ProtocolData<apollo::canbus::ChassisDetail>
-  //     *id8480 = GetMutableProtocolDataById(0x04ef8480);
-  // id8480->SetDataLength(4);
-  // set steer data_length
 
   // Report Messages
   AddRecvProtocolData<Id0x18ff4bd1, true>();

@@ -14,9 +14,9 @@ cc_library(
     ],
 )
 cc_library(
-    name = "GPSproto",
-    srcs = ["GPSproto.cc"],
-    hdrs = ["GPSproto.h"],
+    name = "gps_protocol",
+    srcs = ["gps_protocol.cc"],
+    hdrs = ["gps_protocol.h"],
     deps = [
         "//cyber",
     ],

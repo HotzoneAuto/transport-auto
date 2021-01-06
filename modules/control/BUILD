@@ -16,10 +16,11 @@ cc_library(
     hdrs = ["transport_control.h"],
     deps = [
         "//cyber",
-        "//modules/drivers/gps:GPSproto",
+        "//modules/drivers/gps:gps_protocol",
         "//modules/drivers/gps/proto:gps_cc_proto",
         "//modules/control/proto:control_command_cc_proto",
         "//modules/control/proto:control_setting_conf_cc_proto",
+        "//modules/planning/proto:trajectory_cc_proto",
         "//modules/canbus/proto:transport_can_conf_cc_proto",
     ],
 )

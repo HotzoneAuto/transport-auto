@@ -18,8 +18,8 @@ namespace apollo {
 namespace drivers {
 namespace gps {
 
-using apollo::cyber::Writer;
 using apollo::cyber::Time;
+using apollo::cyber::Writer;
 using apollo::drivers::Gps;
 using apollo::drivers::canbus::CANCardParameter;
 using apollo::drivers::canbus::CanReceiver;

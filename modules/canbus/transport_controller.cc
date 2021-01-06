@@ -16,6 +16,9 @@
 
 #include "modules/canbus/transport_controller.h"
 
+namespace apollo {
+namespace canbus {
+
 ErrorCode TransportController::Init(
     CanSender<::apollo::canbus::ChassisDetail> *const can_sender,
     MessageManager<::apollo::canbus::ChassisDetail> *const message_manager) {
@@ -23,12 +26,6 @@ ErrorCode TransportController::Init(
     AINFO << "TransportController has already been initiated.";
     return ErrorCode::CANBUS_ERROR;
   }
-
-  /*
-  // To be fixed, error says GetProtoConfig not declared.
-  if (!GetProtoConfig(&transport_can_conf_)) {
-    AERROR << "Unable to load config file!" << ConfigFilePath();
-  }*/
 
   bool openconfig = apollo::cyber::common::GetProtoFromFile(
       "/apollo/modules/canbus/conf", &transport_can_conf_);
@@ -90,11 +87,12 @@ void TransportController::Stop() {
   if (is_start) is_start = false;
 }
 
+// After digger sends signal, change gps traj in control, reinitialize paras
+// here.
 void TransportController::ControlUpdate(ControlCommand cmd,
                                         const int SteerEnable,
                                         const int AccEnable, float vol_cur,
                                         float vol_exp) {
-  // After digger sends signal, change gps traj in control, reinitialize paras here.
   if (!is_start) {
     AERROR << "Controller didn't start";
     return;
@@ -110,9 +108,11 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     id_0x4ef8480_->set_currentvehiclespeed(5);
   }
   if (AccEnable == 1) {  //纵向控制启用
-    AINFO << "Into Long control, vol_cur = " << vol_cur << ", vol_exp = " << vol_exp;
+    AINFO << "Into Long control, vol_cur = " << vol_cur
+          << ", vol_exp = " << vol_exp;
 
-    // set system control mode as pedalopenreq mode, set 3 pedals require flag as 1
+    // set system control mode as pedalopenreq mode, set 3 pedals require flag
+    // as 1
     id_0xc040b2b_->set_xbr1_sysctrlmode(2);
     id_0xc040b2b_->set_xbr1_vehaccreq(-15);
 
@@ -120,10 +120,13 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     float ths_dif = transport_can_conf_.speederrorthreshold();
     float ths_exp = transport_can_conf_.speedthreshold();
     AINFO << "ths_exp = " << ths_exp << ", ths_dif = " << ths_dif
-          << ", transport_can_conf_.idlespeed() = " << transport_can_conf_.idlespeed();
-    AINFO << "transport_can_conf_.clutchset() = " << transport_can_conf_.clutchset();
+          << ", transport_can_conf_.idlespeed() = "
+          << transport_can_conf_.idlespeed();
+    AINFO << "transport_can_conf_.clutchset() = "
+          << transport_can_conf_.clutchset();
 
-    if ((wait_flag == 1) || (finishstop_flag == 1) || ((vol_exp == 0) && (start_flag == 1))) {
+    if ((wait_flag == 1) || (finishstop_flag == 1) ||
+        ((vol_exp == 0) && (start_flag == 1))) {
       control_flag = 1;
       AINFO << "control_flag is set as: 1";
     } else if ((start_flag == 1) && (vol_exp > ths_exp - 0.1)) {
@@ -145,8 +148,9 @@ void TransportController::ControlUpdate(ControlCommand cmd,
       switch (control_flag) {
         case 1:
           if (wait_flag == 1) {
-            wait_count ++;
-            if ((wait_count > transport_can_conf_.waitingtime()/0.02) && (finishstop_flag == 0)) {
+            wait_count++;
+            if ((wait_count > transport_can_conf_.waitingtime() / 0.02) &&
+                (finishstop_flag == 0)) {
               wait_flag = 0;
               wait_count = 0;
               start_flag = 1;
@@ -156,8 +160,10 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           id_0xc040b2b_->set_xbr1_brkpedalreqflag(1);
           id_0xc040b2b_->set_xbr1_clupedalreqflag(1);
 
-          id_0xc040b2b_->set_xbr1_clupedalopenreq(transport_can_conf_.clutchset());
-          id_0xc040b2b_->set_xbr1_brkpedalopenreq(transport_can_conf_.brakeset());
+          id_0xc040b2b_->set_xbr1_clupedalopenreq(
+              transport_can_conf_.clutchset());
+          id_0xc040b2b_->set_xbr1_brkpedalopenreq(
+              transport_can_conf_.brakeset());
           id_0xc040b2b_->set_xbr1_accpedalopenreq(0);
           cluopen_last = transport_can_conf_.clutchset();
           brkopen_last = transport_can_conf_.brakeset();
@@ -177,8 +183,10 @@ void TransportController::ControlUpdate(ControlCommand cmd,
 
           delta_clu = transport_can_conf_.clutchreleaserate() * 0.02;
           if (cluopen_last > transport_can_conf_.clutchthreshold()) {
-            id_0xc040b2b_->set_xbr1_clupedalopenreq(int(cluopen_last - delta_clu));
-            AINFO << "clupedalopenreq is set as: " << int(cluopen_last - delta_clu);
+            id_0xc040b2b_->set_xbr1_clupedalopenreq(
+                int(cluopen_last - delta_clu));
+            AINFO << "clupedalopenreq is set as: "
+                  << int(cluopen_last - delta_clu);
             cluopen_last -= delta_clu;
           } else {
             id_0xc040b2b_->set_xbr1_clupedalopenreq(0);
@@ -198,8 +206,11 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           id_0xc040b2b_->set_xbr1_clupedalreqflag(0);
 
           id_0xc040b2b_->set_xbr1_accpedalopenreq(
-              int(vol_exp / transport_can_conf_.kspeedthrottle() + (vol_exp - vol_cur) * transport_can_conf_.kdrive()));
-          AINFO << "accpedalopenreq is set as: " << int(vol_exp / transport_can_conf_.kspeedthrottle() + (vol_exp - vol_cur) * transport_can_conf_.kdrive());
+              int(vol_exp / transport_can_conf_.kspeedthrottle() +
+                  (vol_exp - vol_cur) * transport_can_conf_.kdrive()));
+          AINFO << "accpedalopenreq is set as: "
+                << int(vol_exp / transport_can_conf_.kspeedthrottle() +
+                       (vol_exp - vol_cur) * transport_can_conf_.kdrive());
           id_0xc040b2b_->set_xbr1_brkpedalopenreq(0);
           id_0xc040b2b_->set_xbr1_clupedalopenreq(0);
           AINFO << "brkpedalopenreq and clupedalopenreq are set as: 0";
@@ -215,12 +226,14 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           id_0xc040b2b_->set_xbr1_clupedalreqflag(0);
 
           id_0xc040b2b_->set_xbr1_brkpedalopenreq(
-              int(- (vol_exp - vol_cur) * transport_can_conf_.kbrake()));
-          AINFO << "brkpedalopenreq is set as: " << int(- (vol_exp - vol_cur) * transport_can_conf_.kbrake());
+              int(-(vol_exp - vol_cur) * transport_can_conf_.kbrake()));
+          AINFO << "brkpedalopenreq is set as: "
+                << int(-(vol_exp - vol_cur) * transport_can_conf_.kbrake());
           id_0xc040b2b_->set_xbr1_accpedalopenreq(0);
           id_0xc040b2b_->set_xbr1_clupedalopenreq(0);
           AINFO << "accpedalopenreq and clupedalopenreq are set as: 0";
-          brkopen_last = int(- (vol_exp - vol_cur) * transport_can_conf_.kbrake());
+          brkopen_last =
+              int(-(vol_exp - vol_cur) * transport_can_conf_.kbrake());
           cluopen_last = 0;
           break;
         // stop mode
@@ -231,24 +244,31 @@ void TransportController::ControlUpdate(ControlCommand cmd,
           id_0xc040b2b_->set_xbr1_brkpedalreqflag(1);
           id_0xc040b2b_->set_xbr1_clupedalreqflag(1);
 
-          id_0xc040b2b_->set_xbr1_clupedalopenreq(transport_can_conf_.clutchset());
-          AINFO << "clupedalopenreq is set as: " << transport_can_conf_.clutchset();
+          id_0xc040b2b_->set_xbr1_clupedalopenreq(
+              transport_can_conf_.clutchset());
+          AINFO << "clupedalopenreq is set as: "
+                << transport_can_conf_.clutchset();
           id_0xc040b2b_->set_xbr1_accpedalopenreq(0);
           AINFO << "accpedalopenreq is set as: " << 0;
 
           delta_brk = transport_can_conf_.brakeapplyrate() * 0.02;
           if (brkopen_last < transport_can_conf_.brakeset()) {
-            id_0xc040b2b_->set_xbr1_brkpedalopenreq(int(brkopen_last + delta_brk));
-            AINFO << "brkpedalopenreq is set as: " << int(brkopen_last + delta_brk);
+            id_0xc040b2b_->set_xbr1_brkpedalopenreq(
+                int(brkopen_last + delta_brk));
+            AINFO << "brkpedalopenreq is set as: "
+                  << int(brkopen_last + delta_brk);
             brkopen_last += delta_brk;
           } else {
-            id_0xc040b2b_->set_xbr1_brkpedalopenreq(transport_can_conf_.brakeset());
-            AINFO << "brkpedalopenreq is set as: " << transport_can_conf_.brakeset();
+            id_0xc040b2b_->set_xbr1_brkpedalopenreq(
+                transport_can_conf_.brakeset());
+            AINFO << "brkpedalopenreq is set as: "
+                  << transport_can_conf_.brakeset();
             brkopen_last = transport_can_conf_.brakeset();
             finishstop_flag = 1;
           }
           // id_0xc040b2b_->set_xbr1_brkpedalopenreq(transport_can_conf_.brakeset());
-          // AINFO << "brkpedalopenreq is set as: " << transport_can_conf_.brakeset();
+          // AINFO << "brkpedalopenreq is set as: " <<
+          // transport_can_conf_.brakeset();
           break;
         default:
           AINFO << "In default, control_flag = " << control_flag;
@@ -266,3 +286,5 @@ void TransportController::ControlUpdate(ControlCommand cmd,
 }
 
 TransportController::~TransportController() {}
+}  // namespace canbus
+}  // namespace apollo

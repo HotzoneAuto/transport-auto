@@ -20,10 +20,11 @@ cc_library(
         "//cyber",
         "//modules/drivers/canbus/can_client/socket:socket_can_client_raw",
         "//modules/drivers/canbus/can_comm:can_receiver",
-        "//modules/drivers/gps:GPSproto",
+        "//modules/drivers/gps:gps_protocol",
         "//modules/drivers/gps/proto:gps_cc_proto",
         "//modules/drivers/canbus/can_comm:can_sender",
         "//modules/drivers/canbus/proto:can_card_parameter_cc_proto",
+        "//modules/control/proto:control_setting_conf_cc_proto",
     ],
 )
 

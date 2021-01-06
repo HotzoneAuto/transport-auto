@@ -17,11 +17,12 @@ cc_library(
     deps = [
         "//cyber",
         "//modules/common/util",
-        "//modules/drivers/gps:GPSproto",
+        "//modules/drivers/gps:gps_protocol",
         "//modules/drivers/gps/proto:gps_cc_proto",
         "//modules/planning/proto:planning_setting_conf_cc_proto",
         "//modules/planning/proto:trajectory_cc_proto",
         "//modules/common/file:file",
+        "//modules/common/time",
     ],
 )
 

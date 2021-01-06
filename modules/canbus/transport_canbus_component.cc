@@ -4,10 +4,16 @@
 #include <iostream>
 #include <string>
 
+namespace apollo {
+namespace canbus {
+
 bool transport_Canbus::Init() {
   // read config;
-  ReadConfig();
-  // Open CAN0 
+  if (!GetProtoConfig(&control_setting_conf_)) {
+    AERROR << "Unable to load conf file" << ConfigFilePath();
+    return false;
+  }
+  // Open CAN0
   CANCardParameter CanPara = CANCardParameter();
 
   CanClient = std::unique_ptr<SocketCanClientRaw>(new SocketCanClientRaw());
@@ -18,45 +24,36 @@ bool transport_Canbus::Init() {
   CanPara.set_interface(CANCardParameter::NATIVE);
   CanClient->Init(CanPara);
   CanClient->Start();
-  
+
   // Init can0 message_menager
   message_manager = std::unique_ptr<MessageManager<ChassisDetail> >(
       new TransportMessageManager);
   message_manager->ClearSensorData();
-  
+
   // CAN0 receiver&sender
   can_receiver.Init(CanClient.get(), message_manager.get(), 1);
   can_receiver.Start();
   can_sender.Init(CanClient.get(), 1);
   can_sender.Start();
-  
+
   // Init CAN0 Controller
   transport_controller.Init(&can_sender, message_manager.get());
   transport_controller.Start();
-  
-  AINFO << "Canbus Init";
+
+  gps_reader_ = node_->CreateReader<Gps>(
+      "/transport/gps",
+      [this](const std::shared_ptr<Gps>& msg) { gps_.CopyFrom(*msg); });
+
+  shared_cmd_reader_ = node_->CreateReader<ControlCommand>(
+      "/transport/control", [this](const std::shared_ptr<ControlCommand>& msg) {
+        vol_cur_ = gps_.gps_velocity() * 3.6;
+        AINFO << "After read gps, vol_cur_ = " << vol_cur_;
+        OnControl(*msg);
+      });
 
   chassis_detail_writer_ =
       node_->CreateWriter<ChassisDetail>("/transport/chassisdetail");
-  // Create Writer
-
-  control_command_reader_ = node_->CreateReader<ControlCommand>(
-      "/transport/control",
-      [this](const std::shared_ptr<ControlCommand>& msg) {
-          gps_reader_ = node_->CreateReader<Gps>(
-              "/transport/gps",
-              [this](const std::shared_ptr<Gps>& msg) { gps_.CopyFrom(*msg); });
-
-          vol_cur_ = gps_.gps_velocity() * 3.6;
-          AINFO << "After read gps, vol_cur_ = " << vol_cur_;
-          OnControl(*msg); });
-
-  // TODO(ZENGPENG): SPLIT DATA RECORD FROM CHASSIS 
-  if (Mode == RecordMode) {
-    TrajFile.open("/apollo/modules/transportTraj.record");
-    if (TrajFile.is_open()) AINFO << "TrajFileOpened";
-  } else if (Mode == ControlMode) {
-  }
+  AINFO << "Canbus Init";
   return true;
 }
 
@@ -68,10 +65,6 @@ bool transport_Canbus::Proc() {
 
 // shutdown
 void transport_Canbus::Clear() {
-  if (TrajFile.is_open()) {
-    AINFO << "TrajFileClosed";
-    TrajFile.close();
-  }
   transport_controller.Stop();
   can_sender.Stop();
   can_receiver.Stop();
@@ -90,33 +83,11 @@ void transport_Canbus::OnControl(ControlCommand& msg) {
   // Write Control Here
   cmd.set_control_steer(msg.control_steer());
   // cmd.set_control_acc(msg.control_acc());
-  transport_controller.ControlUpdate(cmd, SteerEnable, AccEnable, vol_cur_,
-                                     msg.control_acc());
+  transport_controller.ControlUpdate(cmd, control_setting_conf_.latconswitch(),
+                                     control_setting_conf_.lonconswitch(),
+                                     vol_cur_, msg.control_acc());
   can_sender.Update();
   return;
 }
-
-// TODO(ZENGPENG):CONFIG
-void transport_Canbus::ReadConfig() {
-  std::ifstream f;
-  f.open("/apollo/modules/control/conf/ControlSettings.config");
-  if (f.is_open()) {
-    AINFO << "Control Config File Opened";
-    while (!f.eof()) {
-      std::string SettingName;
-      f >> SettingName;
-      if (SettingName == "LonConSwitch") {
-        f >> AccEnable;
-        AINFO << "AccEnable= " << AccEnable;
-      } else if (SettingName == "LatConSwitch") {
-        f >> SteerEnable;
-        AINFO << "SteerEnable= " << SteerEnable;
-      } else if (SettingName == "TrajMode") {
-        f >> Mode;
-        AINFO << "TrajMode= " << Mode;
-      }
-    }
-    f.close();
-  } else
-    AERROR << "ControlSettings.config Missing";
-}
+}  // namespace canbus
+}  // namespace apollo
