@@ -56,6 +56,7 @@ cc_library(
         "//modules/control/proto:control_command_cc_proto",
         "//modules/canbus/proto:transport_can_conf_cc_proto",
         "//modules/canbus/protocol:canbus_transport_protocol",
+        "@com_github_gflags_gflags//:gflags",
     ],
 )
 

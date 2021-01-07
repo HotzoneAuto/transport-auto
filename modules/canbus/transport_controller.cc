@@ -16,6 +16,10 @@
 
 #include "modules/canbus/transport_controller.h"
 
+DEFINE_string(can_conf_file,
+              "/apollo/modules/canbus/conf/transport_can_conf.pb",
+              "default control conf data file.");
+
 namespace apollo {
 namespace canbus {
 
@@ -27,9 +31,8 @@ ErrorCode TransportController::Init(
     return ErrorCode::CANBUS_ERROR;
   }
 
-  bool openconfig = apollo::cyber::common::GetProtoFromFile(
-      "/apollo/modules/canbus/conf", &transport_can_conf_);
-  if (!openconfig) {
+  if (!apollo::cyber::common::GetProtoFromFile(
+      FLAGS_can_conf_file, &transport_can_conf_)) {
     AERROR << "Unbale to load transport can conf file!";
   }
 
