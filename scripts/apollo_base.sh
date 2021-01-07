@@ -77,7 +77,7 @@ function find_device() {
   fi
 }
 
-function setup_device_for_aarch64() {
+function setup_device_for_aarch64_can0() {
   local can_dev="/dev/can0"
   if [ ! -e "${can_dev}" ]; then
       warning "No CAN device named ${can_dev}. "
@@ -86,6 +86,17 @@ function setup_device_for_aarch64() {
 
   sudo ip link set can0 type can bitrate 250000
   sudo ip link set can0 up
+}
+
+function setup_device_for_aarch64_can1() {
+  local can_dev="/dev/can1"
+  if [ ! -e "${can_dev}" ]; then
+      warning "No CAN device named ${can_dev}. "
+      return
+  fi
+
+  sudo ip link set can1 type can bitrate 500000
+  sudo ip link set can1 up
 }
 
 function setup_device_for_amd64() {
@@ -129,7 +140,8 @@ function setup_device() {
   if [[ "${HOST_ARCH}" == "x86_64" ]]; then
       setup_device_for_amd64
   else
-      setup_device_for_aarch64
+      setup_device_for_aarch64_can0
+      setup_device_for_aarch64_can1
   fi
 }
 
