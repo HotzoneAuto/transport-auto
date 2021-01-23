@@ -9,6 +9,12 @@ bool TransportPlanning::Init() {
     return false;
   }
   AINFO << planning_setting_conf_.trajmode();
+  AINFO << planning_setting_conf_.trajnumber();
+  if( planning_setting_conf_.trajnumber() == 1){
+    fname = "/apollo/modules/planning/data/gps_record1.csv";
+  }else if(planning_setting_conf_.trajnumber() == 2 ){
+    fname = "/apollo/modules/planning/data/gps_record2.csv";
+  }
   if (!planning_setting_conf_.trajmode()) {
     file_csv.open_file(fname);
     std::string msg_w =
@@ -96,17 +102,37 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
     traj_position->set_rel_vel(vel);
     traj_position->set_timestamp(apollo::cyber::Time::Now().ToNanosecond());
   }
+  //记录轨迹用于绘图
+  traj_draw_file.open("/apollo/modules/traj.record",std::ios::out);
+  traj_draw_file << msg_traj->points_size() << std::endl;
+  for(int i=0;i< msg_traj->points_size();i++){
+    traj_draw_file <<  msg_traj->points(i).rel_x() << " " 
+        <<msg_traj->points(i).rel_y() << std::endl;
+  }
+
   // msg_traj->mutable_header()->set_timestamp_sec(apollo::common::time::Clock::NowInSeconds());
   // trajs_writer->Write(msg_traj);
   double control_acc = 0;
-  double N_start = trajinfo[0][0] + trajinfo[1][0];
-  double E_start = trajinfo[2][0] + trajinfo[3][0];
   int length = trajinfo[0].size();
-  double N_end = trajinfo[0][length] + trajinfo[1][length];
-  double E_end = trajinfo[2][length] + trajinfo[3][length];
-  double DisToStart =
-      apollo::drivers::gps::SphereDis(E_now, N_now, E_start, N_start);
-  double DisToEnd = apollo::drivers::gps::SphereDis(E_now, N_now, E_end, N_end);
+  double DisToStart = 0;
+  for(int i=1;i<=TrajIndex;i++){
+      double N_1 = trajinfo[0][i-1] + trajinfo[1][i-1];
+      double E_1 = trajinfo[2][i-1] + trajinfo[3][i-1];
+      double N_2 = trajinfo[0][i] + trajinfo[1][i];
+      double E_2 = trajinfo[2][i] + trajinfo[3][i];
+      DisToStart = DisToStart +
+          apollo::drivers::gps::SphereDis(E_1, N_1, E_2, N_2);
+  }
+  double DisToEnd = 0;
+  for(int i = TrajIndex + 1;i < length;i++){
+    double N_1 = trajinfo[0][i-1] + trajinfo[1][i-1];
+    double E_1 = trajinfo[2][i-1] + trajinfo[3][i-1];
+    double N_2 = trajinfo[0][i] + trajinfo[1][i];
+    double E_2 = trajinfo[2][i] + trajinfo[3][i];
+    DisToEnd = DisToEnd +
+        apollo::drivers::gps::SphereDis(E_1, N_1, E_2, N_2);
+  }
+  
   // control_acc = std::min(DisToStart, DisToEnd) *
   // control_setting_conf_.speedk(); control_acc =
   // std::min(control_setting_conf_.desiredspeed(), control_acc);

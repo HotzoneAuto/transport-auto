@@ -40,6 +40,7 @@ class TransportPlanning : public apollo::cyber::Component<Gps> {
 
   apollo::common::file::File file_csv;
   std::fstream traj_record_file;
+  std::fstream traj_draw_file;
   int TrajIndex = 0;
   int frame = 0;
   std::string fname = "/apollo/modules/planning/data/gps_record.csv";
