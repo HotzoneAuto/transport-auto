@@ -37,6 +37,7 @@ void TransportPlanning::ReadTraj() {
   traj_record_file.open(fname, std::ios::in);
   char linestr[500] = {0};
   traj_record_file.getline(linestr, 500);
+  double last_gpsn=0,last_gpse=0;
   while (traj_record_file.getline(linestr, 500)) {
     std::stringstream ss(linestr);
     std::string csvdata[17];
@@ -51,11 +52,16 @@ void TransportPlanning::ReadTraj() {
     gpseh = atof(csvdata[3].data());
     gpsel = atof(csvdata[4].data());
     velocity = atof(csvdata[8].data());
-    trajinfo[0].push_back(gpsnh);
-    trajinfo[1].push_back(gpsnl);
-    trajinfo[2].push_back(gpseh);
-    trajinfo[3].push_back(gpsel);
-    trajinfo[4].push_back(velocity);
+    if( last_gpsn==0 || apollo::drivers::gps::SphereDis(
+          last_gpse,last_gpsn, gpseh+gpsel, gpsnh+gpsnl) > 0.1){
+      trajinfo[0].push_back(gpsnh);
+      trajinfo[1].push_back(gpsnl);
+      trajinfo[2].push_back(gpseh);
+      trajinfo[3].push_back(gpsel);
+      trajinfo[4].push_back(velocity);
+      last_gpsn=gpsnh+gpsnl;
+      last_gpse=gpseh+gpsel;
+    }
   }
   traj_record_file.close();
 }
