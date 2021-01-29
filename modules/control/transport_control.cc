@@ -145,7 +145,7 @@ double transport_Control::CaculateAcc(const std::shared_ptr<Trajectory>& msg0) {
     } else {
       control_acc = DisToEnd * control_setting_conf_.speedk();
     }
-
+    control_acc = std::min(control_setting_conf_.desiredspeed(), control_acc);
   } else if (control_setting_conf_.speedmode() == 1) {
     // Traj speed mode
     control_acc = msg0->control_acc();
