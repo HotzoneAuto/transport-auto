@@ -71,7 +71,7 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
   for (int i = lastindex;
        i < std::min(lastindex + TRAJLENGTH / 2, (int)trajinfo[0].size()); i++) {
     double N_point = trajinfo[0][i] + trajinfo[1][i];
-    double E_point = trajinfo[3][i] + trajinfo[4][i];
+    double E_point = trajinfo[2][i] + trajinfo[3][i];
     double dis =
         apollo::drivers::gps::SphereDis(E_now, N_now, E_point, N_point);
     double azi =
@@ -109,7 +109,7 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
     traj_draw_file <<  msg_traj->points(i).rel_x() << " " 
         <<msg_traj->points(i).rel_y() << std::endl;
   }
-
+  traj_draw_file.close();
   // msg_traj->mutable_header()->set_timestamp_sec(apollo::common::time::Clock::NowInSeconds());
   // trajs_writer->Write(msg_traj);
   double control_acc = 0;
