@@ -4,4 +4,11 @@ package apollo.canbus;
 
 message ChassisDetail{
     optional double current_steer_angle = 1;
+    optional int32 req_transport_come_flag = 2 [default = 0];
+    optional int32 digger_load_complete_flag = 3 [default = 0];
+    optional int32 req_transport_emergency_stop_flag = 4 [default = 0];
+    optional double digger_heading_angle = 5;
+    optional double digger_latitude = 6;
+    optional double digger_altitude = 7;
+    optional double digger_longitude = 8;
 };

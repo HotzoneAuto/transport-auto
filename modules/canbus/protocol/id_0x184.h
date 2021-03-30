@@ -14,34 +14,31 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/canbus/transport_message_manager.h"
+#pragma once
 
-#include "modules/canbus/protocol/id_0x18ff4bd1.h"
-#include "modules/canbus/protocol/id_0x4ef8480.h"
-#include "modules/canbus/protocol/id_0xc040b2b.h"
-#include "modules/canbus/protocol/id_0x184.h"
-#include "modules/canbus/protocol/id_0x284.h"
-#include "modules/canbus/protocol/id_0x384.h"
-#include "modules/canbus/protocol/id_0x484.h"
+#include "modules/canbus/proto/chassis_detail.pb.h"
+#include "modules/drivers/canbus/can_comm/protocol_data.h"
 
 namespace apollo {
 namespace canbus {
 namespace transport {
 
-TransportMessageManager::TransportMessageManager() {
-  // Control Messages
-  AddSendProtocolData<Id0xc040b2b, true>();
-  AddSendProtocolData<Id0x4ef8480, true>();
-  AddSendProtocolData<Id0x284, true>();
+class Id0x184 : public ::apollo::drivers::canbus::ProtocolData<
+                         ::apollo::canbus::ChassisDetail> {
+ public:
+  static const int32_t ID;
+  Id0x184();
+  void Parse(const std::uint8_t* bytes, int32_t length,
+             ChassisDetail* chassis) const override;
 
-  // Report Messages
-  AddRecvProtocolData<Id0x18ff4bd1, true>();
-  AddRecvProtocolData<Id0x184, true>();
-  AddRecvProtocolData<Id0x384, true>();
-  AddRecvProtocolData<Id0x484, true>();
-}
+ private:
+  int req_transport_come_flag(const std::uint8_t* bytes, const int32_t length) const;
 
-TransportMessageManager::~TransportMessageManager() {}
+  int digger_load_complete_flag(const std::uint8_t* bytes, const int32_t length) const;
+
+  int req_transport_emergency_stop_flag(const std::uint8_t* bytes,
+                           const int32_t length) const;
+};
 
 }  // namespace transport
 }  // namespace canbus

@@ -14,34 +14,41 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/canbus/transport_message_manager.h"
+#pragma once
 
-#include "modules/canbus/protocol/id_0x18ff4bd1.h"
-#include "modules/canbus/protocol/id_0x4ef8480.h"
-#include "modules/canbus/protocol/id_0xc040b2b.h"
-#include "modules/canbus/protocol/id_0x184.h"
-#include "modules/canbus/protocol/id_0x284.h"
-#include "modules/canbus/protocol/id_0x384.h"
-#include "modules/canbus/protocol/id_0x484.h"
+#include "modules/canbus/proto/chassis_detail.pb.h"
+#include "modules/drivers/canbus/can_comm/protocol_data.h"
 
 namespace apollo {
 namespace canbus {
 namespace transport {
 
-TransportMessageManager::TransportMessageManager() {
-  // Control Messages
-  AddSendProtocolData<Id0xc040b2b, true>();
-  AddSendProtocolData<Id0x4ef8480, true>();
-  AddSendProtocolData<Id0x284, true>();
+class Id0x284 : public ::apollo::drivers::canbus::ProtocolData<
+                        ::apollo::canbus::ChassisDetail> {
+ public:
+  static const int32_t ID;
 
-  // Report Messages
-  AddRecvProtocolData<Id0x18ff4bd1, true>();
-  AddRecvProtocolData<Id0x184, true>();
-  AddRecvProtocolData<Id0x384, true>();
-  AddRecvProtocolData<Id0x484, true>();
-}
+  Id0x284();
 
-TransportMessageManager::~TransportMessageManager() {}
+  uint32_t GetPeriod() const override;
+
+  void UpdateData(uint8_t* data) override;
+
+  void Reset() override;
+
+  Id0x284* set_transport_state(int transport_state);
+
+  Id0x284* set_receive_digger_gps_flag(int receive_digger_gps_flag);
+
+ private:
+  void set_p_transport_state(uint8_t* data, int transport_state);
+
+  void set_p_receive_digger_gps_flag(uint8_t* data, int receive_digger_gps_flag);
+
+ private:
+  int transport_state_;
+  int receive_digger_gps_flag_;
+};
 
 }  // namespace transport
 }  // namespace canbus
