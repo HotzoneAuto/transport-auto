@@ -62,8 +62,16 @@ ErrorCode TransportController::Init(
     return ErrorCode::CANBUS_ERROR;
   }
 
+  id_0x284_ = dynamic_cast<Id0x284 *>(
+      message_manager_->GetMutableProtocolDataById(Id0x284::ID));
+  if (id_0x284_ == nullptr) {
+    AERROR << "Id0x284 does not exist in the TransportMessageManager!";
+    return ErrorCode::CANBUS_ERROR;
+  }
+
   can_sender_->AddMessage(Id0x4ef8480::ID, id_0x4ef8480_, false);
   can_sender_->AddMessage(Id0xc040b2b::ID, id_0xc040b2b_, false);
+  can_sender_->AddMessage(Id0x284::ID, id_0x284_, false);
 
   // need sleep to ensure all messages received
   AINFO << "TransportController is initialized.";
