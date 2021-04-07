@@ -68,10 +68,18 @@ ErrorCode TransportController::Init(
     AERROR << "Id0x284 does not exist in the TransportMessageManager!";
     return ErrorCode::CANBUS_ERROR;
   }
+  
+  id_0x1314_ = dynamic_cast<Id0x1314 *>(
+      message_manager_->GetMutableProtocolDataById(Id0x1314::ID));
+  if (id_0x1314_ == nullptr) {
+    AERROR << "Id0x1314 does not exist in the TransportMessageManager!";
+    return ErrorCode::CANBUS_ERROR;
+  }
 
   can_sender_->AddMessage(Id0x4ef8480::ID, id_0x4ef8480_, false);
   can_sender_->AddMessage(Id0xc040b2b::ID, id_0xc040b2b_, false);
   can_sender_->AddMessage(Id0x284::ID, id_0x284_, false);
+  can_sender_->AddMessage(Id0x1314::ID, id_0x1314_, false);
 
   // need sleep to ensure all messages received
   AINFO << "TransportController is initialized.";
@@ -108,6 +116,13 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     AERROR << "Controller didn't start";
     return;
   }
+
+  int transport_state = 1;
+  id_0x284_->set_transport_state(transport_state);
+  id_0x284_->set_receive_digger_gps_flag(true);
+  id_0x4ef8480_->set_lifecnt(1);
+
+
   if (SteerEnable == 1) {  //横向控制启用
     static int lifecnt = 0;
     lifecnt++;

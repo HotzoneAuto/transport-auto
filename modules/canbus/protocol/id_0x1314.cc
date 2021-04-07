@@ -14,46 +14,46 @@
  * limitations under the License.
  *****************************************************************************/
 
-#pragma once
+#include "modules/canbus/protocol/id_0x1314.h"
 
-#include "modules/canbus/proto/chassis_detail.pb.h"
-#include "modules/drivers/canbus/can_comm/protocol_data.h"
+#include "modules/drivers/canbus/common/byte.h"
 
 namespace apollo {
 namespace canbus {
 namespace transport {
 
-class Id0x284 : public ::apollo::drivers::canbus::ProtocolData<
-                        ::apollo::canbus::ChassisDetail> {
- public:
-  static const int32_t ID;
+using ::apollo::drivers::canbus::Byte;
 
-  Id0x284();
+const int32_t Id0x1314::ID = 0x1314;
 
-  uint32_t GetPeriod() const override;
+// public
+Id0x1314::Id0x1314() { Reset(); }
 
-  void UpdateData(uint8_t* data) override;
+uint32_t Id0x1314::GetPeriod() const {
+  static const uint32_t PERIOD = 100 * 1000;
+  return PERIOD;
+}
 
-  void Reset() override;
+void Id0x1314::UpdateData(uint8_t* data) {
+  set_p_gearshiftcmd(data, gearshiftcmd_);
+}
 
-  Id0x284* set_transport_state(int transport_state);
+void Id0x1314::Reset() {
+  gearshiftcmd_ = 0;
+}
 
-  Id0x284* set_receive_digger_gps_flag(int receive_digger_gps_flag);
+Id0x1314* Id0x1314::set_gearshiftcmd(int gearshiftcmd) {
+  gearshiftcmd_ = gearshiftcmd;
+  return this;
+}
 
-  Id0x284* set_transport_height(double transport_height);
+void Id0x1314::set_p_gearshiftcmd(uint8_t* data, int gearshiftcmd) {
+  gearshiftcmd = ProtocolData::BoundedValue(0, 6, gearshiftcmd);
+  int x = gearshiftcmd;
 
- private:
-  void set_p_transport_state(uint8_t* data, int transport_state);
-
-  void set_p_receive_digger_gps_flag(uint8_t* data, int receive_digger_gps_flag);
-
-  void set_p_transport_height(uint8_t* data, double transport_height);
-
- private:
-  int transport_state_;
-  int receive_digger_gps_flag_;
-  double transport_height_;
-};
+  Byte to_set(data + 0);
+  to_set.set_value(x, 0, 8);
+}
 
 }  // namespace transport
 }  // namespace canbus

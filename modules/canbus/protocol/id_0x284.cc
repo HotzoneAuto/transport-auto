@@ -70,6 +70,19 @@ void Id0x284::set_p_receive_digger_gps_flag(uint8_t* data, int receive_digger_gp
   to_set.set_value(x, 0, 8);
 }
 
+Id0x284* Id0x284::set_transport_height(double transport_height) {
+  transport_height_ = transport_height;
+  return this;
+}
+
+void Id0x284::set_p_transport_height(uint8_t* data, double transport_height) {
+  transport_height = ProtocolData::BoundedValue(0.00, 5.10, transport_height);
+  int x = transport_height / 0.02;
+
+  Byte to_set(data + 5);
+  to_set.set_value(x, 0, 8);
+}
+
 }  // namespace transport
 }  // namespace canbus
 }  // namespace apollo
