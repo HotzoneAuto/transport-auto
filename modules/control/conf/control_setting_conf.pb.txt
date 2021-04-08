@@ -8,3 +8,4 @@ StanleyProp: 0.3
 DesiredSpeed: 6.0
 SpeedK: 1.0
 SpeedThreshold: 3.0
+PosOffset: 1.0

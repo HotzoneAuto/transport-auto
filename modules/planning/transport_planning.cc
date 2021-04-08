@@ -104,7 +104,7 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
   int lastindex = TrajIndex;
   double min_dis = MAXDIS;
   for (int i = lastindex;
-       i < std::min(lastindex + TRAJLENGTH / 2, (int)trajinfo[0].size()); i++) {
+       i < std::min(lastindex + TRAJFINDLENGTH, (int)trajinfo[0].size()); i++) {
     double N_point = trajinfo[0][i] + trajinfo[1][i];
     double E_point = trajinfo[2][i] + trajinfo[3][i];
     double dis =
@@ -121,7 +121,7 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
   AINFO << "TrajIndex= " << TrajIndex << "  MINDIS=" << min_dis;
   //将该点附近的若干个点加入到自车坐标系中
   for (int i = TrajIndex;
-       i < std::min(TrajIndex + TRAJLENGTH, (int)trajinfo[0].size()); i++) {
+       i < std::min(TrajIndex + TRAJPLOTLENGTH, (int)trajinfo[0].size()); i++) {
     double N_point = trajinfo[0][i] + trajinfo[1][i];
     double E_point = trajinfo[2][i] + trajinfo[3][i];
     double dis =
@@ -142,7 +142,8 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
   traj_draw_file << msg_traj->points_size() << std::endl;
   for(int i=0;i< msg_traj->points_size();i++){
     traj_draw_file <<  msg_traj->points(i).rel_x() << " " 
-        <<msg_traj->points(i).rel_y() << std::endl;
+        << -msg_traj->points(i).rel_y() << std::endl;
+    //由于绘图程序此处y需要取负
   }
   traj_draw_file.close();
   // msg_traj->mutable_header()->set_timestamp_sec(apollo::common::time::Clock::NowInSeconds());

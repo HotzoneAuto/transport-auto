@@ -19,7 +19,8 @@
 #include "modules/planning/proto/planning_setting_conf.pb.h"
 #include "modules/planning/proto/trajectory.pb.h"
 
-#define TRAJLENGTH 200
+#define TRAJPLOTLENGTH 400
+#define TRAJFINDLENGTH 100
 #define MAXDIS 99999
 #define L 2.4
 

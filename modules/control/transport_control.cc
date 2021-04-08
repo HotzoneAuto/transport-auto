@@ -83,10 +83,12 @@ double transport_Control::CaculateSteer(
   double steer_wheel_angle = 0;
   //根据预瞄点计算横向转角
   int LookAheadIndex = FindLookahead(control_setting_conf_.lookaheaddis());
-  double long_distance = rel_loc[0][LookAheadIndex];
+  double long_distance = rel_loc[0][LookAheadIndex]+ control_setting_conf_.posoffset();
+  // offset = +1 表示后轴在GPS后方1m
   double lat_distance = rel_loc[1][LookAheadIndex];
+  double distance= sqrt(long_distance*long_distance+lat_distance*lat_distance);
   double follow_angle =
-      std::atan(2 * L * lat_distance / (long_distance * long_distance)) * 180 /
+      std::atan(2 * L * lat_distance / (distance * distance)) * 180 /
       M_PI;
   AINFO << "LookAheadIndex: " << LookAheadIndex
         << " lat distance: " << lat_distance
