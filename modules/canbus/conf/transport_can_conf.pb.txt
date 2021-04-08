@@ -2,7 +2,7 @@ ClutchSet: 90.0
 BrakeSet: 50.0
 SpeedSet: 0.0
 ClutchReleaseRate: 25.0
-BrakeApplyRate: 30.0
+BrakeApplyRate: 50.0
 IdleSpeed: 2.0
 SpeedThreshold: 3.0
 SpeedErrorThreshold: -2.0
