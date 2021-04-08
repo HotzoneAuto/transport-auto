@@ -3,7 +3,7 @@
 #include "modules/common/util/util.h"
 
 bool TransportPlanning::Init() {
-  AINFO << "Transport_Control init";
+  AINFO << "Transport_Planning init";
   if (!GetProtoConfig(&planning_setting_conf_)) {
     AERROR << "Unable to load conf file" << ConfigFilePath();
     return false;
@@ -11,8 +11,10 @@ bool TransportPlanning::Init() {
   AINFO << planning_setting_conf_.trajmode();
   AINFO << planning_setting_conf_.trajnumber();
   if( planning_setting_conf_.trajnumber() == 1){
+    CurrentTrajNumber=1;
     fname = "/apollo/modules/planning/data/gps_record1.csv";
   }else if(planning_setting_conf_.trajnumber() == 2 ){
+    CurrentTrajNumber=2;
     fname = "/apollo/modules/planning/data/gps_record2.csv";
   }
   if (!planning_setting_conf_.trajmode()) {
@@ -27,6 +29,33 @@ bool TransportPlanning::Init() {
   } else {
     trajs_writer = node_->CreateWriter<apollo::planning::Trajectory>(
         "/transport/planning");
+    ReadTraj();
+  }
+  return true;
+}
+
+bool TransportPlanning::ChangeTraj(){
+  AINFO << "Transport_Planning ChangeTraj";
+  //reset current traj info
+  for(int i=0;i<6;i++) {trajinfo[i].clear();}
+  TrajIndex=0;
+
+  if (!GetProtoConfig(&planning_setting_conf_)) {
+    AERROR << "Unable to load conf file" << ConfigFilePath();
+    return false;
+  }
+  //change Traj 
+  if(CurrentTrajNumber==1){
+    CurrentTrajNumber=2;
+    fname = "/apollo/modules/planning/data/gps_record2.csv";
+  }else if(CurrentTrajNumber==2){
+    CurrentTrajNumber=1;
+    fname = "/apollo/modules/planning/data/gps_record1.csv";
+  }
+  if (!planning_setting_conf_.trajmode()) {
+    //record mode
+  } else {
+    //replay mode
     ReadTraj();
   }
   return true;

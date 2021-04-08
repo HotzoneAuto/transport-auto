@@ -35,7 +35,7 @@ class TransportPlanning : public apollo::cyber::Component<Gps> {
  private:
   void ReadTraj();
   void UpdateTraj(const std::shared_ptr<Gps>& msg0);
-
+  bool ChangeTraj();
   std::vector<double> trajinfo[6];
 
   apollo::common::file::File file_csv;
@@ -43,6 +43,7 @@ class TransportPlanning : public apollo::cyber::Component<Gps> {
   std::fstream traj_draw_file;
   int TrajIndex = 0;
   int frame = 0;
+  int CurrentTrajNumber=1;
   std::string fname = "/apollo/modules/planning/data/gps_record.csv";
   apollo::planning::PlanningSettingConf planning_setting_conf_;
   std::shared_ptr<apollo::cyber::Writer<apollo::planning::Trajectory>>

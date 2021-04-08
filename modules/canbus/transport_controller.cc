@@ -17,7 +17,7 @@
 #include "modules/canbus/transport_controller.h"
 
 DEFINE_string(can_conf_file,
-              "/apollo/modules/canbus/conf/transport_can_conf.pb.txt",
+              "/apollo/modules/canbus/conf/transport_can_conf.pb",
               "default control conf data file.");
 
 namespace apollo {
