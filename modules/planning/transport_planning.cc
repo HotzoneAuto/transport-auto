@@ -34,8 +34,8 @@ bool TransportPlanning::Init() {
   return true;
 }
 
-bool TransportPlanning::ChangeTraj(){
-  AINFO << "Transport_Planning ChangeTraj";
+bool TransportPlanning::ChangeTraj(int TrajNumber){
+  AINFO << "Transport_Planning ChangeTraj: "<< TrajNumber;
   //reset current traj info
   for(int i=0;i<6;i++) {trajinfo[i].clear();}
   TrajIndex=0;
@@ -45,12 +45,12 @@ bool TransportPlanning::ChangeTraj(){
     return false;
   }
   //change Traj 
-  if(CurrentTrajNumber==1){
-    CurrentTrajNumber=2;
-    fname = "/apollo/modules/planning/data/gps_record2.csv";
-  }else if(CurrentTrajNumber==2){
+  if(TrajNumber==1){
     CurrentTrajNumber=1;
     fname = "/apollo/modules/planning/data/gps_record1.csv";
+  }else if(TrajNumber==2){
+    CurrentTrajNumber=2;
+    fname = "/apollo/modules/planning/data/gps_record2.csv";
   }
   if (!planning_setting_conf_.trajmode()) {
     //record mode
@@ -184,7 +184,8 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
 /*
   Reader Callback function
 */
-bool TransportPlanning::Proc(const std::shared_ptr<Gps>& msg0) {
+bool TransportPlanning::Proc(const std::shared_ptr<Gps>& msg0, 
+                             const std::shared_ptr<ChassisDetail>& msg1) {
   if (!planning_setting_conf_.trajmode()) {
     if (frame == 65535) {
       frame = 0;
@@ -210,6 +211,9 @@ bool TransportPlanning::Proc(const std::shared_ptr<Gps>& msg0) {
                     + "," + std::to_string(msg0->timestamp());
     file_csv.write_file(msg_w);
   } else {
+    if(msg1->current_traj_number() != CurrentTrajNumber){
+      ChangeTraj( msg1->current_traj_number() );
+    }
     msg_traj.reset();
     msg_traj = std::make_shared<apollo::planning::Trajectory>();
     UpdateTraj(msg0);

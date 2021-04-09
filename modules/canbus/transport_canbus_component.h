@@ -9,12 +9,14 @@
 
 #include "modules/canbus/transport_controller.h"
 #include "modules/control/proto/control_setting_conf.pb.h"
+#include "modules/planning/proto/planning_setting_conf.pb.h"
 #include "modules/drivers/canbus/can_client/socket/socket_can_client_raw.h"
 #include "modules/drivers/canbus/can_comm/can_receiver.h"
 #include "modules/drivers/canbus/can_comm/can_sender.h"
 #include "modules/drivers/canbus/proto/can_card_parameter.pb.h"
 #include "modules/drivers/gps/gps_protocol.h"
 #include "modules/drivers/gps/proto/gps.pb.h"
+
 
 namespace apollo {
 namespace canbus {
@@ -33,6 +35,7 @@ using apollo::drivers::canbus::CanSender;
 using apollo::drivers::canbus::MessageManager;
 using apollo::drivers::canbus::can::SocketCanClientRaw;
 
+using apollo::cyber::common::GetProtoFromFile;
 class transport_Canbus : public apollo::cyber::TimerComponent {
  public:
   bool Init() override;
@@ -45,6 +48,7 @@ class transport_Canbus : public apollo::cyber::TimerComponent {
   int SteerEnable;
   int AccEnable;
   int Mode;
+  int CurrentTrajNumber;
   double vol_cur_;
   double vol_exp_;
   Gps gps_;
@@ -58,6 +62,7 @@ class transport_Canbus : public apollo::cyber::TimerComponent {
   std::shared_ptr<apollo::cyber::Reader<Gps>> gps_reader_;
   std::shared_ptr<apollo::cyber::Reader<ControlCommand>> shared_cmd_reader_;
   apollo::control::ControlSettingConf control_setting_conf_;
+  apollo::planning::PlanningSettingConf  planning_setting_conf_;
 };
 CYBER_REGISTER_COMPONENT(transport_Canbus)
 }  // namespace canbus

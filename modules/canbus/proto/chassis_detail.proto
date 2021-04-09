@@ -12,4 +12,5 @@ message ChassisDetail{
     optional double digger_altitude = 7;
     optional double digger_longitude = 8;
     optional int32 gear_position = 9 [default = 0];
+    optional int32 current_traj_number = 10 [default = 1];
 };

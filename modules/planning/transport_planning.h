@@ -18,6 +18,7 @@
 #include "modules/drivers/gps/proto/gps.pb.h"
 #include "modules/planning/proto/planning_setting_conf.pb.h"
 #include "modules/planning/proto/trajectory.pb.h"
+#include "modules/canbus/proto/chassis_detail.pb.h"
 
 #define TRAJPLOTLENGTH 400
 #define TRAJFINDLENGTH 100
@@ -26,17 +27,19 @@
 
 using apollo::cyber::Component;
 using apollo::drivers::Gps;
+using apollo::canbus::ChassisDetail;
 
-class TransportPlanning : public apollo::cyber::Component<Gps> {
+class TransportPlanning : public apollo::cyber::Component<Gps,ChassisDetail> {
  public:
   bool Init() override;
-  bool Proc(const std::shared_ptr<Gps>& msg0) override;
+  bool Proc(const std::shared_ptr<Gps>& msg0, 
+            const std::shared_ptr<ChassisDetail>& msg1) override;
   void Clear() override;
 
  private:
   void ReadTraj();
   void UpdateTraj(const std::shared_ptr<Gps>& msg0);
-  bool ChangeTraj();
+  bool ChangeTraj(int TrajNumber);
   std::vector<double> trajinfo[6];
 
   apollo::common::file::File file_csv;

@@ -13,6 +13,14 @@ bool transport_Canbus::Init() {
     AERROR << "Unable to load conf file" << ConfigFilePath();
     return false;
   }
+  std::string planning_conf_path="/apollo/modules/planning/conf/planning_replay_conf.pb.txt";
+  if( !GetProtoFromFile(planning_conf_path,&planning_setting_conf_) ){
+    AERROR << "Unable to load conf file" << planning_conf_path;
+    return false;
+  }
+  CurrentTrajNumber=planning_setting_conf_.trajnumber();
+
+
   // Open CAN0
   CANCardParameter CanPara = CANCardParameter();
 
@@ -73,6 +81,7 @@ void transport_Canbus::Clear() {
 
 void transport_Canbus::PublishChassisDetail() {
   message_manager->GetSensorData(&sensordata);
+  sensordata.set_current_traj_number(CurrentTrajNumber);
   chassis_detail_writer_->Write(sensordata);
   return;
 }

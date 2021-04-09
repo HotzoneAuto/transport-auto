@@ -9,6 +9,9 @@
             readers {
                 channel: "/transport/gps"
             }
+            readers {
+                channel: "/transport/chassisdetail"
+            }
         }
       }
     }
