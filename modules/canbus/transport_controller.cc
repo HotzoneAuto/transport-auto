@@ -117,12 +117,6 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     return;
   }
 
-  int transport_state = 1;
-  id_0x284_->set_transport_state(transport_state);
-  id_0x284_->set_receive_digger_gps_flag(true);
-  id_0x4ef8480_->set_lifecnt(1);
-
-
   if (SteerEnable == 1) {  //横向控制启用
     static int lifecnt = 0;
     lifecnt++;
@@ -133,6 +127,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     id_0x4ef8480_->set_lifecnt(lifecnt);
     id_0x4ef8480_->set_currentvehiclespeed(5);
   }
+
   if (AccEnable == 1) {  //纵向控制启用
     AINFO << "Into Long control, vol_cur = " << vol_cur
           << ", vol_exp = " << vol_exp;
@@ -142,172 +137,20 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     id_0xc040b2b_->set_xbr1_sysctrlmode(2);
     id_0xc040b2b_->set_xbr1_vehaccreq(-15);
 
-    int control_flag = 0;
-    float ths_dif = transport_can_conf_.speederrorthreshold();
-    float ths_exp = transport_can_conf_.speedthreshold();
-    AINFO << "ths_exp = " << ths_exp << ", ths_dif = " << ths_dif
-          << ", transport_can_conf_.idlespeed() = "
-          << transport_can_conf_.idlespeed();
-    AINFO << "transport_can_conf_.clutchset() = "
-          << transport_can_conf_.clutchset();
+    id_0xc040b2b_->set_xbr1_accpedalreqflag(cmd.control_accpedal_flag());
+    id_0xc040b2b_->set_xbr1_brkpedalreqflag(cmd.control_brkpedal_flag());
+    id_0xc040b2b_->set_xbr1_clupedalreqflag(cmd.control_clupedal_flag());
 
-    if ((wait_flag == 1) || (finishstop_flag == 1) ||
-        ((vol_exp == 0) && (start_flag == 1))) {
-      control_flag = 1;
-      AINFO << "control_flag is set as: 1";
-    } else if ((start_flag == 1) && (vol_exp > ths_exp - 0.1)) {
-      control_flag = 2;
-      AINFO << "control_flag is set as: 2";
-    } else if (vol_exp < transport_can_conf_.idlespeed()) {
-      control_flag = 5;
-      AINFO << "control_flag is set as: 5";
-    } else if ((vol_cur < ths_exp) || (vol_exp - vol_cur) > ths_dif) {
-      control_flag = 3;
-      AINFO << "control_flag is set as: 3";
-    } else if ((vol_exp - vol_cur) < ths_dif && (vol_cur > ths_exp)) {
-      control_flag = 4;
-      AINFO << "control_flag is set as: 4";
-    }
+    id_0xc040b2b_->set_xbr1_accpedalopenreq(cmd.control_accpedal());
+    id_0xc040b2b_->set_xbr1_brkpedalopenreq(cmd.control_brkpedal());
+    id_0xc040b2b_->set_xbr1_clupedalopenreq(cmd.control_clupedal());
 
-    AINFO << "Before switch cases, control_flag = " << control_flag;
-    if (control_flag) {
-      switch (control_flag) {
-        case 1:
-          if (wait_flag == 1) {
-            wait_count++;
-            if ((wait_count > transport_can_conf_.waitingtime() / 0.02) &&
-                (finishstop_flag == 0)) {
-              wait_flag = 0;
-              wait_count = 0;
-              start_flag = 1;
-            }
-          }
-          id_0xc040b2b_->set_xbr1_accpedalreqflag(0);
-          id_0xc040b2b_->set_xbr1_brkpedalreqflag(1);
-          id_0xc040b2b_->set_xbr1_clupedalreqflag(1);
-
-          id_0xc040b2b_->set_xbr1_clupedalopenreq(
-              transport_can_conf_.clutchset());
-          id_0xc040b2b_->set_xbr1_brkpedalopenreq(
-              transport_can_conf_.brakeset());
-          id_0xc040b2b_->set_xbr1_accpedalopenreq(0);
-          cluopen_last = transport_can_conf_.clutchset();
-          brkopen_last = transport_can_conf_.brakeset();
-          break;
-        // start mode
-        case 2:
-          // brake set
-          AINFO << "Into start mode, control_flag = " << control_flag;
-          id_0xc040b2b_->set_xbr1_accpedalreqflag(0);
-          id_0xc040b2b_->set_xbr1_brkpedalreqflag(1);
-          id_0xc040b2b_->set_xbr1_clupedalreqflag(1);
-
-          id_0xc040b2b_->set_xbr1_brkpedalopenreq(0);
-          id_0xc040b2b_->set_xbr1_accpedalopenreq(0);
-          AINFO << "brkpedalopenreq and accpedalopenreq are set as: 0";
-          brkopen_last = 0;
-
-          delta_clu = transport_can_conf_.clutchreleaserate() * 0.02;
-          if (cluopen_last > transport_can_conf_.clutchthreshold()) {
-            id_0xc040b2b_->set_xbr1_clupedalopenreq(
-                int(cluopen_last - delta_clu));
-            AINFO << "clupedalopenreq is set as: "
-                  << int(cluopen_last - delta_clu);
-            cluopen_last -= delta_clu;
-          } else {
-            id_0xc040b2b_->set_xbr1_clupedalopenreq(0);
-            AINFO << "clupedalopenreq is set as: 0";
-            cluopen_last = 0;
-            if (vol_cur > transport_can_conf_.idlespeed() / 2) {
-              start_flag = 0;
-            }
-          }
-          break;
-        // normal mode
-        case 3:
-          // P control
-          AINFO << "Into normal mode, control_flag = " << control_flag;
-          id_0xc040b2b_->set_xbr1_accpedalreqflag(1);
-          id_0xc040b2b_->set_xbr1_brkpedalreqflag(0);
-          id_0xc040b2b_->set_xbr1_clupedalreqflag(0);
-
-          id_0xc040b2b_->set_xbr1_accpedalopenreq(
-              int(vol_exp / transport_can_conf_.kspeedthrottle() +
-                  (vol_exp - vol_cur) * transport_can_conf_.kdrive()));
-          AINFO << "accpedalopenreq is set as: "
-                << int(vol_exp / transport_can_conf_.kspeedthrottle() +
-                       (vol_exp - vol_cur) * transport_can_conf_.kdrive());
-          id_0xc040b2b_->set_xbr1_brkpedalopenreq(0);
-          id_0xc040b2b_->set_xbr1_clupedalopenreq(0);
-          AINFO << "brkpedalopenreq and clupedalopenreq are set as: 0";
-          brkopen_last = 0;
-          cluopen_last = 0;
-          break;
-        // emergency mode
-        case 4:
-          // P control
-          AINFO << "Into emergency mode, control_flag = " << control_flag;
-          id_0xc040b2b_->set_xbr1_accpedalreqflag(0);
-          id_0xc040b2b_->set_xbr1_brkpedalreqflag(1);
-          id_0xc040b2b_->set_xbr1_clupedalreqflag(0);
-
-          id_0xc040b2b_->set_xbr1_brkpedalopenreq(
-              int(-(vol_exp - vol_cur) * transport_can_conf_.kbrake()));
-          AINFO << "brkpedalopenreq is set as: "
-                << int(-(vol_exp - vol_cur) * transport_can_conf_.kbrake());
-          id_0xc040b2b_->set_xbr1_accpedalopenreq(0);
-          id_0xc040b2b_->set_xbr1_clupedalopenreq(0);
-          AINFO << "accpedalopenreq and clupedalopenreq are set as: 0";
-          brkopen_last =
-              int(-(vol_exp - vol_cur) * transport_can_conf_.kbrake());
-          cluopen_last = 0;
-          break;
-        // stop mode
-        case 5:
-          // li he
-          AINFO << "Into stop mode, control_flag = " << control_flag;
-          id_0xc040b2b_->set_xbr1_accpedalreqflag(0);
-          id_0xc040b2b_->set_xbr1_brkpedalreqflag(1);
-          id_0xc040b2b_->set_xbr1_clupedalreqflag(1);
-
-          id_0xc040b2b_->set_xbr1_clupedalopenreq(
-              transport_can_conf_.clutchset());
-          AINFO << "clupedalopenreq is set as: "
-                << transport_can_conf_.clutchset();
-          id_0xc040b2b_->set_xbr1_accpedalopenreq(0);
-          AINFO << "accpedalopenreq is set as: " << 0;
-
-          delta_brk = transport_can_conf_.brakeapplyrate() * 0.02;
-          if (brkopen_last < transport_can_conf_.brakeset()) {
-            id_0xc040b2b_->set_xbr1_brkpedalopenreq(
-                int(brkopen_last + delta_brk));
-            AINFO << "brkpedalopenreq is set as: "
-                  << int(brkopen_last + delta_brk);
-            brkopen_last += delta_brk;
-          } else {
-            id_0xc040b2b_->set_xbr1_brkpedalopenreq(
-                transport_can_conf_.brakeset());
-            AINFO << "brkpedalopenreq is set as: "
-                  << transport_can_conf_.brakeset();
-            brkopen_last = transport_can_conf_.brakeset();
-            finishstop_flag = 1;
-          }
-          // id_0xc040b2b_->set_xbr1_brkpedalopenreq(transport_can_conf_.brakeset());
-          // AINFO << "brkpedalopenreq is set as: " <<
-          // transport_can_conf_.brakeset();
-          break;
-        default:
-          AINFO << "In default, control_flag = " << control_flag;
-          break;
-      }
-
-      if (count_flag == 15) {
-        control_flag = 0;
-      } else {
-        count_flag++;
-      }
-      id_0xc040b2b_->set_xbr1_rollingcnt(count_flag);
-    }
+    if (count_flag == 15) {
+      count_flag = 0;
+    } else {
+      count_flag++;
+    }    
+    id_0xc040b2b_->set_xbr1_rollingcnt(count_flag);  
   }
 }
 

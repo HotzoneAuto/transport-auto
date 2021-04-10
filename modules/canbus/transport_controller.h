@@ -69,14 +69,7 @@ class TransportController {
   bool is_initialized_ = false;
   bool is_start = false;
   int count_flag = 0;
-  int start_flag = 0;
-  int finishstop_flag = 0;
-  int wait_flag = 1;
-  int wait_count = 0;
-  double cluopen_last = 0;
-  double brkopen_last = 0;
-  double delta_brk = 0;
-  double delta_clu = 0;
+
   // control protocol
   CanSender<::apollo::canbus::ChassisDetail> *can_sender_;
   MessageManager<::apollo::canbus::ChassisDetail> *message_manager_;

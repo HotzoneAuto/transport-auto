@@ -50,7 +50,6 @@ class transport_Canbus : public apollo::cyber::TimerComponent {
   int Mode;
   int CurrentTrajNumber;
   double vol_cur_;
-  double vol_exp_;
   Gps gps_;
   ChassisDetail sensordata;
   std::unique_ptr<SocketCanClientRaw> CanClient;
@@ -62,7 +61,7 @@ class transport_Canbus : public apollo::cyber::TimerComponent {
   std::shared_ptr<apollo::cyber::Reader<Gps>> gps_reader_;
   std::shared_ptr<apollo::cyber::Reader<ControlCommand>> shared_cmd_reader_;
   apollo::control::ControlSettingConf control_setting_conf_;
-  apollo::planning::PlanningSettingConf  planning_setting_conf_;
+  apollo::planning::PlanningSettingConf planning_setting_conf_;
 };
 CYBER_REGISTER_COMPONENT(transport_Canbus)
 }  // namespace canbus

@@ -90,8 +90,15 @@ void transport_Canbus::PublishChassisDetail() {
 void transport_Canbus::OnControl(ControlCommand& msg) {
   static ControlCommand cmd;
   // Write Control Here
-  cmd.set_control_steer(msg.control_steer());
-  // cmd.set_control_acc(msg.control_acc());
+  cmd.set_control_steer(msg.control_steer());  
+  cmd.set_control_acc(msg.control_acc());
+  cmd.set_control_accpedal(msg.control_accpedal());
+  cmd.set_control_brkpedal(msg.control_brkpedal());
+  cmd.set_control_clupedal(msg.control_clupedal());
+  cmd.set_control_accpedal_flag(msg.control_accpedal_flag());
+  cmd.set_control_brkpedal_flag(msg.control_brkpedal_flag());
+  cmd.set_control_clupedal_flag(msg.control_clupedal_flag());
+
   transport_controller.ControlUpdate(cmd, control_setting_conf_.latconswitch(),
                                      control_setting_conf_.lonconswitch(),
                                      vol_cur_, msg.control_acc());

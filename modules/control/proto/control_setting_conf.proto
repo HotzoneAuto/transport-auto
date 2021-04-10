@@ -14,4 +14,16 @@ message ControlSettingConf {
     optional double SpeedK = 9 [ default = 1.0 ];
     optional double SpeedThreshold = 10 [ default = 3.0 ];
     optional double PosOffset = 11 [ default = 3.0 ];
+    optional double ClutchSet = 12 [ default = 90.0 ];
+    optional double BrakeSet = 13 [ default = 50.0 ];
+    optional double SpeedSet = 14 [ default = 0.0 ];
+    optional double ClutchReleaseRate = 15 [ default = 25.0 ];
+    optional double BrakeApplyRate = 16 [ default = 50.0 ];
+    optional double IdleSpeed = 17 [ default = 2.0 ];
+    optional double SpeedErrorThreshold = 18 [ default = -2.0 ];
+    optional double KSpeedThrottle = 19 [ default = 0.1 ];
+    optional double KDrive = 20 [ default = 10.0 ];
+    optional double KBrake = 21 [ default = 10.0 ];
+    optional double WaitingTime = 22 [ default = 10.0 ];
+    optional double ClutchThreshold = 23 [ default = 30.0 ];
 };

@@ -3,17 +3,4 @@ syntax = "proto2";
 package apollo.canbus;
 
 message TransportCanConf {
-  optional double ClutchSet = 1 [ default = 90.0 ];
-  optional double BrakeSet = 2 [ default = 50.0 ];
-  optional double SpeedSet = 3 [ default = 0.0 ];
-  optional double ClutchReleaseRate = 4 [ default = 25.0 ];
-  optional double BrakeApplyRate = 5 [ default = 50.0 ];
-  optional double IdleSpeed = 6 [ default = 2.0 ];
-  optional double SpeedThreshold = 7 [ default = 3.0 ];
-  optional double SpeedErrorThreshold = 8 [ default = -2.0 ];
-  optional double KSpeedThrottle = 9 [ default = 0.1 ];
-  optional double KDrive = 10 [ default = 10.0 ];
-  optional double KBrake = 11 [ default = 10.0 ];
-  optional double WaitingTime = 12 [ default = 10.0 ];
-  optional double ClutchThreshold = 13 [ default = 30.0 ];
 };

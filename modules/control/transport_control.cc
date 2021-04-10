@@ -13,6 +13,19 @@ bool transport_Control::Init() {
   // Init ControlCommand Writer
   writer = node_->CreateWriter<ControlCommand>("/transport/control");
 
+  gps_reader_ = node_->CreateReader<Gps>(
+      "/transport/gps",
+      [this](const std::shared_ptr<Gps>& msg) { 
+        gps_.CopyFrom(*msg); 
+        vol_cur = gps_.gps_velocity() * 3.6;
+        AINFO << "After read gps, vol_cur = " << vol_cur;
+      });
+
+  AINFO << "transport_Control Init OK!";
+
+  nanotime_last = Time::Now().ToNanosecond();
+  nanotime_init = nanotime_last;
+
   return true;
 }
 
@@ -63,14 +76,40 @@ bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0) {
     controlcmd.set_control_acc(control_acc);
     AINFO << controlcmd.DebugString();
   } else {
+    control_acc = 0;
     controlcmd.set_control_steer(0);
-    controlcmd.set_control_acc(0);
+    controlcmd.set_control_acc(control_acc);
   }
   if (msg0->gps_state() != 4) {
+    control_acc = 0;
     controlcmd.set_control_steer(0);
-    controlcmd.set_control_acc(0);
+    controlcmd.set_control_acc(control_acc);
   }
+
+  nanotime_now = Time::Now().ToNanosecond();
+  AINFO << "nanotime_last = " << nanotime_last;
+  AINFO << "nanotime_now = " << nanotime_now;
+
+  if (nanotime_last == nanotime_init) {
+    delta_t = 0;
+  } else {
+    delta_t = (nanotime_now - nanotime_last) * 1e-9;
+  }
+
+  CalculatePedalGear(control_acc, delta_t);
+
+  controlcmd.set_control_accpedal_flag(control_accpedal_flag);
+  controlcmd.set_control_brkpedal_flag(control_brkpedal_flag);
+  controlcmd.set_control_clupedal_flag(control_clupedal_flag); 
+  controlcmd.set_control_accpedal(control_accpedal);
+  controlcmd.set_control_brkpedal(control_brkpedal);
+  controlcmd.set_control_clupedal(control_clupedal);
+  controlcmd.set_control_gear(control_gear);
+
   writer->Write(controlcmd);
+
+  nanotime_last = Time::Now().ToNanosecond();
+
   return true;
 }
 
@@ -155,3 +194,185 @@ double transport_Control::CaculateAcc(const std::shared_ptr<Trajectory>& msg0) {
 
   return control_acc;
 }
+
+//设置三个踏板开度和期望换挡动作
+void transport_Control::CalculatePedalGear(double vol_exp, double delta_t) {
+  float ths_dif = control_setting_conf_.speederrorthreshold();
+  float ths_exp = control_setting_conf_.speedthreshold();
+  AINFO << "ths_exp = " << ths_exp << ", ths_dif = " << ths_dif
+        << ", control_setting_conf_.idlespeed() = "
+        << control_setting_conf_.idlespeed();
+  AINFO << "control_setting_conf_.clutchset() = "
+        << control_setting_conf_.clutchset();
+
+  if ((wait_flag == 1) || (finishstop_flag == 1) ||
+      ((vol_exp == 0) && (start_flag == 1))) {
+    control_flag = 1;
+    AINFO << "control_flag is set as: 1";
+  } else if ((start_flag == 1) && (vol_exp > ths_exp - 0.1)) {
+    control_flag = 2;
+    AINFO << "control_flag is set as: 2";
+  } else if (vol_exp < control_setting_conf_.idlespeed()) {
+    control_flag = 5;
+    AINFO << "control_flag is set as: 5";
+  } else if ((vol_cur < ths_exp) || (vol_exp - vol_cur) > ths_dif) {
+    control_flag = 3;
+    AINFO << "control_flag is set as: 3";
+  } else if ((vol_exp - vol_cur) < ths_dif && (vol_cur > ths_exp)) {
+    control_flag = 4;
+    AINFO << "control_flag is set as: 4";
+  }
+
+  AINFO << "Before switch cases, control_flag = " << control_flag;
+  if (control_flag) {
+    switch (control_flag) {
+      case 1:
+        AINFO << "Into case 1";
+        if (wait_flag == 1) {
+          wait_time += delta_t;
+          AINFO << "delta_t = " << delta_t;
+          AINFO << "wait_time = " << wait_time;
+          if ((wait_time > control_setting_conf_.waitingtime()) &&
+              (finishstop_flag == 0)) {
+            wait_flag = 0;
+            wait_time = 0;
+            start_flag = 1;
+            AINFO << "start_flag is changed to 1.";
+          }
+          /* wait_count++;
+          if ((wait_count > control_setting_conf_.waitingtime() / 0.02) &&
+              (finishstop_flag == 0)) {
+            wait_flag = 0;
+            wait_count = 0;
+            start_flag = 1;
+          }*/
+        }
+
+        control_accpedal_flag = 0;
+        control_brkpedal_flag = 1;
+        control_clupedal_flag = 1;
+
+        control_clupedal = control_setting_conf_.clutchset();
+        control_brkpedal = control_setting_conf_.brakeset();
+        control_accpedal = 0;
+
+        // staying in N
+        control_gear = 0;
+
+        cluopen_last = control_setting_conf_.clutchset();
+        brkopen_last = control_setting_conf_.brakeset();
+
+        break;
+      // start mode
+      case 2:
+        // brake set
+        AINFO << "Into start mode, control_flag = " << control_flag;
+
+        control_accpedal_flag = 0;
+        control_brkpedal_flag = 1;
+        control_clupedal_flag = 1;
+
+        control_brkpedal = 0;
+        control_accpedal = 0;
+        AINFO << "brkpedalopenreq and accpedalopenreq are set as: 0";
+        brkopen_last = 0;
+
+        delta_clu = control_setting_conf_.clutchreleaserate() * delta_t;
+        if (cluopen_last > control_setting_conf_.clutchthreshold()) {
+          control_clupedal = int(cluopen_last - delta_clu);          
+          AINFO << "clupedalopenreq is set as: " << control_clupedal;
+        } else {
+          control_clupedal = 0;
+          AINFO << "clupedalopenreq is set as: 0";
+          if (vol_cur > control_setting_conf_.idlespeed() / 2) {
+            start_flag = 0;
+          }
+        }
+        cluopen_last = control_clupedal;
+
+        // N to 1
+        control_gear = 1;   
+
+        break;
+      // normal mode
+      case 3:
+        // P control
+        AINFO << "Into normal mode, control_flag = " << control_flag;
+
+        control_accpedal_flag = 1;
+        control_brkpedal_flag = 0;
+        control_clupedal_flag = 0;
+
+        control_accpedal = int(vol_exp / control_setting_conf_.kspeedthrottle() +
+                (vol_exp - vol_cur) * control_setting_conf_.kdrive());
+        AINFO << "accpedalopenreq is set as: " << control_accpedal;
+        control_brkpedal = 0;
+        control_clupedal = 0;
+        AINFO << "brkpedalopenreq and clupedalopenreq are set as: 0";
+        brkopen_last = 0;
+        cluopen_last = 0;
+
+        // staying in 1
+        control_gear = 1;
+
+        break;
+      // emergency mode
+      case 4:
+        // P control
+        AINFO << "Into emergency mode, control_flag = " << control_flag;
+
+        control_accpedal_flag = 0;
+        control_brkpedal_flag = 1;
+        control_clupedal_flag = 0;
+
+        control_brkpedal = int(-(vol_exp - vol_cur) * control_setting_conf_.kbrake());
+        AINFO << "brkpedalopenreq is set as: " << control_brkpedal;
+        control_accpedal = 0;
+        control_clupedal = 0;
+        AINFO << "accpedalopenreq and clupedalopenreq are set as: 0";
+
+        brkopen_last = control_brkpedal;
+        cluopen_last = control_clupedal;
+
+        // staying in 1
+        control_gear = 1;
+
+        break;
+      // stop mode
+      case 5:
+        // li he
+        AINFO << "Into stop mode, control_flag = " << control_flag;
+
+        control_accpedal_flag = 0;
+        control_brkpedal_flag = 1;
+        control_clupedal_flag = 1;
+
+        control_clupedal = control_setting_conf_.clutchset();
+        AINFO << "clupedalopenreq is set as: " << control_clupedal;
+        cluopen_last = control_clupedal;
+
+        control_accpedal = 0;
+        AINFO << "accpedalopenreq is set as: " << 0;
+
+        delta_brk = control_setting_conf_.brakeapplyrate() * delta_t;
+        if (brkopen_last < control_setting_conf_.brakeset()) {
+          control_brkpedal = int(brkopen_last + delta_brk);
+          AINFO << "brkpedalopenreq is set as: " << control_brkpedal;          
+        } else {
+          control_brkpedal = control_setting_conf_.brakeset();
+          AINFO << "brkpedalopenreq is set as: " << control_brkpedal;
+          finishstop_flag = 1;
+        }
+        brkopen_last = control_brkpedal;
+
+        // staying in 1
+        control_gear = 1;
+
+        break;
+      default:
+        AINFO << "In default, control_flag = " << control_flag;
+        break;
+    }
+  }
+}
+
