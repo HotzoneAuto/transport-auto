@@ -7,6 +7,7 @@ StanleyK: 1.0
 StanleyProp: 0.3
 DesiredSpeed: 6.0
 SpeedK: 1.0
+ParkThreshold: 1.0
 SpeedThreshold: 3.0
 PosOffset: 1.0
 ClutchSet: 90.0
