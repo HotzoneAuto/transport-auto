@@ -3,5 +3,5 @@ syntax = "proto2";
 package apollo.canbus;
 
 message TransportCanConf {
-  optional double transportHeight = 1 [defalt = 2.5];
+  optional double transportHeight = 1 [default = 2.5];
 };
