@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/canbus/protocol/id_0x484.h"
+#include "modules/canbus/protocol/id_0x301.h"
 
 #include "glog/logging.h"
 
@@ -27,66 +27,38 @@ namespace transport {
 
 using ::apollo::drivers::canbus::Byte;
 
-Id0x484::Id0x484() {}
-const int32_t Id0x484::ID = 0x484;
+Id0x301::Id0x301() {}
+const int32_t Id0x301::ID = 0x301;
 
-void Id0x484::Parse(const std::uint8_t* bytes, int32_t length,
+void Id0x301::Parse(const std::uint8_t* bytes, int32_t length,
                          ChassisDetail* chassis) const {
   // TODO: update chassis_detail.proto
-  chassis->set_digger_altitude(digger_altitude(bytes, length));
-  chassis->set_digger_longitude(digger_longitude(bytes, length));
+  chassis->set_reqfrdigger_flag(reqfrdigger_flag(bytes, length));
+  chassis->set_loadfrdigger_flag(loadfrdigger_flag(bytes, length));
+  chassis->set_stopfrdigger_flag(stopfrdigger_flag(bytes, length));
 }
 
-double Id0x484::digger_altitude(const std::uint8_t* bytes, const int32_t length) const {
-  Byte t1(bytes + 7);
-  uint32_t x1 = t1.get_byte(0, 8);
+int Id0x301::reqfrdigger_flag(const std::uint8_t* bytes, const int32_t length) const {
+  Byte t0(bytes + 7);
+  int32_t x = t0.get_byte(0, 2);
 
-  Byte t2(bytes + 6);
-  uint32_t x2 = t2.get_byte(0, 8);
-
-  Byte t3(bytes + 5);
-  uint32_t x3 = t3.get_byte(0, 8);
-
-  x1 <<= 16;
-  x2 <<= 8;
-
-  x1 |= x2;
-  x1 |= x3;
-
-  double ret = x1 * 0.001;
+  int ret = x;
   return ret;
 }
 
-double Id0x484::digger_longitude(const std::uint8_t* bytes, const int32_t length) const {
-  Byte t1(bytes + 4);
-  int64_t x1 = t1.get_byte(0, 8);
+int Id0x301::loadfrdigger_flag(const std::uint8_t* bytes, const int32_t length) const {
+  Byte t0(bytes + 7);
+  int32_t x = t0.get_byte(2, 4);
 
-  Byte t2(bytes + 3);
-  int64_t x2 = t2.get_byte(0, 8);
+  int ret = x;
+  return ret;
+}
 
-  Byte t3(bytes + 2);
-  int64_t x3 = t3.get_byte(0, 8);
+int Id0x301::stopfrdigger_flag(const std::uint8_t* bytes, const int32_t length) const {
+  Byte t0(bytes + 0);
+  int32_t x = t0.get_byte(0, 8);
 
-  Byte t4(bytes + 1);
-  int64_t x4 = t4.get_byte(0, 8);
-
-  Byte t5(bytes + 0);
-  int64_t x5 = t5.get_byte(0, 8);
-
-  x1 <<= 32;
-  x2 <<= 24;
-  x3 <<= 16;
-  x4 <<= 8;
-
-  x1 |= x2;
-  x1 |= x3;
-  x1 |= x4;
-  x1 |= x5;
-
-  x1 <<= 24;
-  x1 >>= 24;
-
-  double ret = x1 * 1e-9;
+  int ret = x;
   return ret;
 }
 

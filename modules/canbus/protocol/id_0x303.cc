@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/canbus/protocol/id_0x184.h"
+#include "modules/canbus/protocol/id_0x303.h"
 
 #include "glog/logging.h"
 
@@ -27,38 +27,66 @@ namespace transport {
 
 using ::apollo::drivers::canbus::Byte;
 
-Id0x184::Id0x184() {}
-const int32_t Id0x184::ID = 0x184;
+Id0x303::Id0x303() {}
+const int32_t Id0x303::ID = 0x303;
 
-void Id0x184::Parse(const std::uint8_t* bytes, int32_t length,
+void Id0x303::Parse(const std::uint8_t* bytes, int32_t length,
                          ChassisDetail* chassis) const {
   // TODO: update chassis_detail.proto
-  chassis->set_req_transport_come_flag(req_transport_come_flag(bytes, length));
-  chassis->set_digger_load_complete_flag(digger_load_complete_flag(bytes, length));
-  chassis->set_req_transport_emergency_stop_flag(req_transport_emergency_stop_flag(bytes, length));
+  chassis->set_digger_heading_angle(digger_heading_angle(bytes, length));
+  chassis->set_digger_latitude(digger_latitude(bytes, length));
 }
 
-int Id0x184::req_transport_come_flag(const std::uint8_t* bytes, const int32_t length) const {
-  Byte t0(bytes + 7);
-  int32_t x = t0.get_byte(0, 2);
+double Id0x303::digger_heading_angle(const std::uint8_t* bytes, const int32_t length) const {
+  Byte t1(bytes + 7);
+  uint32_t x1 = t1.get_byte(0, 8);
 
-  int ret = x;
+  Byte t2(bytes + 6);
+  uint32_t x2 = t2.get_byte(0, 8);
+
+  Byte t3(bytes + 5);
+  uint32_t x3 = t3.get_byte(0, 8);
+
+  x1 <<= 16;
+  x2 <<= 8;
+
+  x1 |= x2;
+  x1 |= x3;
+
+  double ret = x1 * 0.01;
   return ret;
 }
 
-int Id0x184::digger_load_complete_flag(const std::uint8_t* bytes, const int32_t length) const {
-  Byte t0(bytes + 7);
-  int32_t x = t0.get_byte(2, 4);
+double Id0x303::digger_latitude(const std::uint8_t* bytes, const int32_t length) const {
+  Byte t1(bytes + 4);
+  int64_t x1 = t1.get_byte(0, 8);
 
-  int ret = x;
-  return ret;
-}
+  Byte t2(bytes + 3);
+  int64_t x2 = t2.get_byte(0, 8);
 
-int Id0x184::req_transport_emergency_stop_flag(const std::uint8_t* bytes, const int32_t length) const {
-  Byte t0(bytes + 0);
-  int32_t x = t0.get_byte(0, 8);
+  Byte t3(bytes + 2);
+  int64_t x3 = t3.get_byte(0, 8);
 
-  int ret = x;
+  Byte t4(bytes + 1);
+  int64_t x4 = t4.get_byte(0, 8);
+
+  Byte t5(bytes + 0);
+  int64_t x5 = t5.get_byte(0, 8);
+
+  x1 <<= 32;
+  x2 <<= 24;
+  x3 <<= 16;
+  x4 <<= 8;
+
+  x1 |= x2;
+  x1 |= x3;
+  x1 |= x4;
+  x1 |= x5;
+
+  x1 <<= 24;
+  x1 >>= 24;
+
+  double ret = x1 * 1e-9;
   return ret;
 }
 

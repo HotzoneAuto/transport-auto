@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/canbus/protocol/id_0x384.h"
+#include "modules/canbus/protocol/id_0x304.h"
 
 #include "glog/logging.h"
 
@@ -27,17 +27,17 @@ namespace transport {
 
 using ::apollo::drivers::canbus::Byte;
 
-Id0x384::Id0x384() {}
-const int32_t Id0x384::ID = 0x384;
+Id0x304::Id0x304() {}
+const int32_t Id0x304::ID = 0x304;
 
-void Id0x384::Parse(const std::uint8_t* bytes, int32_t length,
+void Id0x304::Parse(const std::uint8_t* bytes, int32_t length,
                          ChassisDetail* chassis) const {
   // TODO: update chassis_detail.proto
-  chassis->set_digger_heading_angle(digger_heading_angle(bytes, length));
-  chassis->set_digger_latitude(digger_latitude(bytes, length));
+  chassis->set_digger_altitude(digger_altitude(bytes, length));
+  chassis->set_digger_longitude(digger_longitude(bytes, length));
 }
 
-double Id0x384::digger_heading_angle(const std::uint8_t* bytes, const int32_t length) const {
+double Id0x304::digger_altitude(const std::uint8_t* bytes, const int32_t length) const {
   Byte t1(bytes + 7);
   uint32_t x1 = t1.get_byte(0, 8);
 
@@ -53,11 +53,11 @@ double Id0x384::digger_heading_angle(const std::uint8_t* bytes, const int32_t le
   x1 |= x2;
   x1 |= x3;
 
-  double ret = x1 * 0.01;
+  double ret = x1 * 0.001;
   return ret;
 }
 
-double Id0x384::digger_latitude(const std::uint8_t* bytes, const int32_t length) const {
+double Id0x304::digger_longitude(const std::uint8_t* bytes, const int32_t length) const {
   Byte t1(bytes + 4);
   int64_t x1 = t1.get_byte(0, 8);
 

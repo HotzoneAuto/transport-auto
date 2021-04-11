@@ -23,18 +23,36 @@ namespace apollo {
 namespace canbus {
 namespace transport {
 
-class Id0x484 : public ::apollo::drivers::canbus::ProtocolData<
-                         ::apollo::canbus::ChassisDetail> {
+class Id0x302 : public ::apollo::drivers::canbus::ProtocolData<
+                        ::apollo::canbus::ChassisDetail> {
  public:
   static const int32_t ID;
-  Id0x484();
-  void Parse(const std::uint8_t* bytes, int32_t length,
-             ChassisDetail* chassis) const override;
+
+  Id0x302();
+
+  uint32_t GetPeriod() const override;
+
+  void UpdateData(uint8_t* data) override;
+
+  void Reset() override;
+
+  Id0x302* set_infotodigger_flag(int infotodigger_flag);
+
+  Id0x302* set_ackloctodigger_flag(int ackloctodigger_flag);
+
+  Id0x302* set_vehheighttodigger(double vehheighttodigger);
 
  private:
-  double digger_altitude(const std::uint8_t* bytes, const int32_t length) const;
+  void set_p_infotodigger_flag(uint8_t* data, int infotodigger_flag);
 
-  double digger_longitude(const std::uint8_t* bytes, const int32_t length) const;
+  void set_p_ackloctodigger_flag(uint8_t* data, int ackloctodigger_flag);
+
+  void set_p_vehheighttodigger(uint8_t* data, double vehheighttodigger);
+
+ private:
+  int infotodigger_flag_;
+  int ackloctodigger_flag_;
+  double vehheighttodigger_;
 };
 
 }  // namespace transport

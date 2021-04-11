@@ -23,36 +23,18 @@ namespace apollo {
 namespace canbus {
 namespace transport {
 
-class Id0x284 : public ::apollo::drivers::canbus::ProtocolData<
-                        ::apollo::canbus::ChassisDetail> {
+class Id0x304 : public ::apollo::drivers::canbus::ProtocolData<
+                         ::apollo::canbus::ChassisDetail> {
  public:
   static const int32_t ID;
-
-  Id0x284();
-
-  uint32_t GetPeriod() const override;
-
-  void UpdateData(uint8_t* data) override;
-
-  void Reset() override;
-
-  Id0x284* set_transport_state(int transport_state);
-
-  Id0x284* set_receive_digger_gps_flag(int receive_digger_gps_flag);
-
-  Id0x284* set_transport_height(double transport_height);
+  Id0x304();
+  void Parse(const std::uint8_t* bytes, int32_t length,
+             ChassisDetail* chassis) const override;
 
  private:
-  void set_p_transport_state(uint8_t* data, int transport_state);
+  double digger_altitude(const std::uint8_t* bytes, const int32_t length) const;
 
-  void set_p_receive_digger_gps_flag(uint8_t* data, int receive_digger_gps_flag);
-
-  void set_p_transport_height(uint8_t* data, double transport_height);
-
- private:
-  int transport_state_;
-  int receive_digger_gps_flag_;
-  double transport_height_;
+  double digger_longitude(const std::uint8_t* bytes, const int32_t length) const;
 };
 
 }  // namespace transport

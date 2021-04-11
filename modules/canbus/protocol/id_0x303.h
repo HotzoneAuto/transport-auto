@@ -23,21 +23,18 @@ namespace apollo {
 namespace canbus {
 namespace transport {
 
-class Id0x184 : public ::apollo::drivers::canbus::ProtocolData<
+class Id0x303 : public ::apollo::drivers::canbus::ProtocolData<
                          ::apollo::canbus::ChassisDetail> {
  public:
   static const int32_t ID;
-  Id0x184();
+  Id0x303();
   void Parse(const std::uint8_t* bytes, int32_t length,
              ChassisDetail* chassis) const override;
 
  private:
-  int req_transport_come_flag(const std::uint8_t* bytes, const int32_t length) const;
+  double digger_heading_angle(const std::uint8_t* bytes, const int32_t length) const;
 
-  int digger_load_complete_flag(const std::uint8_t* bytes, const int32_t length) const;
-
-  int req_transport_emergency_stop_flag(const std::uint8_t* bytes,
-                           const int32_t length) const;
+  double digger_latitude(const std::uint8_t* bytes, const int32_t length) const;
 };
 
 }  // namespace transport
