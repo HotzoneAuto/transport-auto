@@ -13,35 +13,43 @@
 #include "cyber/time/time.h"
 
 #include "modules/canbus/proto/transport_can_conf.pb.h"
+#include "modules/canbus/proto/chassis_detail.pb.h"
 #include "modules/control/proto/control_command.pb.h"
+#include "modules/control/proto/control_flag.pb.h"
 #include "modules/control/proto/control_setting_conf.pb.h"
 #include "modules/planning/proto/trajectory.pb.h"
 #include "modules/drivers/gps/gps_protocol.h"
 #include "modules/drivers/gps/proto/gps.pb.h"
 
+
 using apollo::cyber::Time;
 using apollo::canbus::TransportCanConf;
 using apollo::control::ControlCommand;
+using apollo::control::ControlFlag;
 using apollo::cyber::Component;
 using apollo::cyber::Reader;
 using apollo::cyber::Writer;
 using apollo::planning::Trajectory;
 using apollo::drivers::Gps;
+using apollo::canbus::ChassisDetail;
 
-class transport_Control : public apollo::cyber::Component<Trajectory> {
+class transport_Control : public apollo::cyber::Component<Trajectory,ChassisDetail> {
  public:
   bool Init() override;
-  bool Proc(const std::shared_ptr<Trajectory>& msg0) override;
+  bool Proc(const std::shared_ptr<Trajectory>& msg0,
+            const std::shared_ptr<ChassisDetail>& msg1) override;
 
  private:
   std::shared_ptr<Writer<ControlCommand>> writer;
+  std::shared_ptr<Writer<ControlFlag>> flag_writer;
   ControlCommand controlcmd;
+  ControlFlag controlflag;
   double CaculateSteer(const std::shared_ptr<Trajectory>& msg0);
   double CaculateAcc(const std::shared_ptr<Trajectory>& msg0);
 
   double Stanley(double k, double v, int& ValidCheck);
   int FindLookahead(double totaldis);
-  void CalculatePedalGear(double vol_exp, double delta_t);
+  void CalculatePedalGear(double vol_exp, double delta_t,Trajectory msg0,ChassisDetail msg1);
 
   std::vector<double> rel_loc[4];
 

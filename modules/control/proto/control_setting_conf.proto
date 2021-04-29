@@ -15,7 +15,7 @@ message ControlSettingConf {
     optional double ParkThreshold = 10 [ default = 1.0 ];
     optional double SpeedThreshold = 11 [ default = 3.0 ];
     optional double PosOffset = 12 [ default = 3.0 ];
-    optional double ClutchSet = 13 [ default = 90.0 ];
+    optional double ClutchSetHigh = 13 [ default = 90.0 ];
     optional double BrakeSet = 14 [ default = 50.0 ];
     optional double SpeedSet = 15 [ default = 0.0 ];
     optional double ClutchReleaseRate = 16 [ default = 25.0 ];
@@ -26,5 +26,7 @@ message ControlSettingConf {
     optional double KDrive = 21 [ default = 10.0 ];
     optional double KBrake = 22 [ default = 10.0 ];
     optional double WaitingTime = 23 [ default = 10.0 ];
-    optional double ClutchThreshold = 24 [ default = 30.0 ];
+    optional double WaitingTimeShort = 24 [ default = 10.0 ];
+    optional double WaitingTimeLong = 25 [ default = 10.0 ];
+    optional double ClutchSetLow = 26 [ default = 30.0 ];
 };

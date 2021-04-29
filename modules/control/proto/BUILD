@@ -41,3 +41,21 @@ py_proto_library(
         ":control_setting_conf_proto",
     ],
 )
+cc_proto_library(
+    name = "control_flag_cc_proto",
+    deps = [
+        ":control_flag_proto",
+    ],
+)
+
+proto_library(
+    name = "control_flag_proto",
+    srcs = ["control_flag.proto"],
+)
+
+py_proto_library(
+    name = "control_flag_py_pb2",
+    deps = [
+        ":control_flag_proto",
+    ],
+)

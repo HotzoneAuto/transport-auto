@@ -24,6 +24,7 @@ cc_library(
         "//modules/common/file:file",
         "//modules/common/time",
 	"//modules/canbus/proto:chassis_detail_cc_proto",
+	"//modules/control/proto:control_flag_cc_proto",
     ],
 )
 

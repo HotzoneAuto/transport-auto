@@ -31,6 +31,12 @@ bool TransportPlanning::Init() {
         "/transport/planning");
     ReadTraj();
   }
+
+  //Create control flag reader
+  controlflag_reader_= node_->CreateReader<ControlFlag>(
+        "/transport/controlflag",[this](const std::shared_ptr<ControlFlag>& msg) {
+          controlflag_=*msg;
+      });
   return true;
 }
 
@@ -184,8 +190,7 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
 /*
   Reader Callback function
 */
-bool TransportPlanning::Proc(const std::shared_ptr<Gps>& msg0, 
-                             const std::shared_ptr<ChassisDetail>& msg1) {
+bool TransportPlanning::Proc(const std::shared_ptr<Gps>& msg0) {
   if (!planning_setting_conf_.trajmode()) {
     if (frame == 65535) {
       frame = 0;
@@ -211,9 +216,10 @@ bool TransportPlanning::Proc(const std::shared_ptr<Gps>& msg0,
                     + "," + std::to_string(msg0->timestamp());
     file_csv.write_file(msg_w);
   } else {
-    if(msg1->current_traj_number() != CurrentTrajNumber){
-      ChangeTraj( msg1->current_traj_number() );
+    if(controlflag_.traj_number() != CurrentTrajNumber){
+      ChangeTraj( controlflag_.traj_number() );
     }
+
     msg_traj.reset();
     msg_traj = std::make_shared<apollo::planning::Trajectory>();
     UpdateTraj(msg0);
