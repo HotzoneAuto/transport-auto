@@ -15,4 +15,5 @@ message ChassisDetail{
     optional int32 stopfrmaster_flag = 10 [default = 0];
     optional int32 missionfrmaster_flag = 11 [default = 0];
     optional int32 trajfrmaster_flag = 12 [default = 0];
+    optional int32 current_traj_number =13 [default =1];
 };
