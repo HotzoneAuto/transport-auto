@@ -16,7 +16,10 @@
 
 #include "modules/canbus/protocol/id_0x2273.h"
 
+#include "glog/logging.h"
+
 #include "modules/drivers/canbus/common/byte.h"
+#include "modules/drivers/canbus/common/canbus_consts.h"
 
 namespace apollo {
 namespace canbus {
@@ -24,65 +27,38 @@ namespace transport {
 
 using ::apollo::drivers::canbus::Byte;
 
+Id0x2273::Id0x2273() {}
 const int32_t Id0x2273::ID = 0x2273;
 
-// public
-Id0x2273::Id0x2273() { Reset(); }
-
-uint32_t Id0x2273::GetPeriod() const {
-  static const uint32_t PERIOD = 100 * 1000;
-  return PERIOD;
+void Id0x2273::Parse(const std::uint8_t* bytes, int32_t length,
+                         ChassisDetail* chassis) const {
+  chassis->set_stopfrmaster_flag(stopfrmaster_flag(bytes, length));
+  chassis->set_missionfrmaster_flag(missionfrmaster_flag(bytes, length));
+  chassis->set_trajfrmaster_flag(trajfrmaster_flag(bytes, length));
 }
 
-void Id0x2273::UpdateData(uint8_t* data) {
-  set_p_stopfrmaster_flag(data, stopfrmaster_flag_);
-  set_p_missionfrmaster_flag(data, missionfrmaster_flag_);
-  set_p_trajfrmaster_flag(data, trajfrmaster_flag_);
+int Id0x2273::stopfrmaster_flag(const std::uint8_t* bytes, const int32_t length) const {
+  Byte t0(bytes + 0);
+  int32_t x = t0.get_byte(0, 8);
+
+  int ret = x;
+  return ret;
 }
 
-void Id0x2273::Reset() {
-  stopfrmaster_flag_ = 0;
-  missionfrmaster_flag_ = 0;
-  trajfrmaster_flag_ = 0;
+int Id0x2273::missionfrmaster_flag(const std::uint8_t* bytes, const int32_t length) const {
+  Byte t0(bytes + 1);
+  int32_t x = t0.get_byte(0, 8);
+
+  int ret = x;
+  return ret;
 }
 
-Id0x2273* Id0x2273::set_stopfrmaster_flag(int stopfrmaster_flag) {
-  stopfrmaster_flag_ = stopfrmaster_flag;
-  return this;
-}
+int Id0x2273::trajfrmaster_flag(const std::uint8_t* bytes, const int32_t length) const {
+  Byte t0(bytes + 2);
+  int32_t x = t0.get_byte(0, 8);
 
-void Id0x2273::set_p_stopfrmaster_flag(uint8_t* data, int stopfrmaster_flag) {
-  stopfrmaster_flag = ProtocolData::BoundedValue(0, 3, stopfrmaster_flag);
-  int x = stopfrmaster_flag;
-
-  Byte to_set(data + 0);
-  to_set.set_value(x, 0, 8);
-}
-
-Id0x2273* Id0x2273::set_missionfrmaster_flag(int missionfrmaster_flag) {
-  missionfrmaster_flag_ = missionfrmaster_flag;
-  return this;
-}
-
-void Id0x2273::set_p_missionfrmaster_flag(uint8_t* data, int missionfrmaster_flag) {
-  missionfrmaster_flag = ProtocolData::BoundedValue(0, 2, missionfrmaster_flag);
-  int x = missionfrmaster_flag;
-
-  Byte to_set(data + 1);
-  to_set.set_value(x, 0, 8);
-}
-
-Id0x2273* Id0x2273::set_trajfrmaster_flag(int trajfrmaster_flag) {
-  trajfrmaster_flag_ = trajfrmaster_flag;
-  return this;
-}
-
-void Id0x2273::set_p_trajfrmaster_flag(uint8_t* data, int trajfrmaster_flag) {
-  trajfrmaster_flag = ProtocolData::BoundedValue(0, 10, trajfrmaster_flag);
-  int x = trajfrmaster_flag;
-
-  Byte to_set(data + 2);
-  to_set.set_value(x, 0, 8);
+  int ret = x;
+  return ret;
 }
 
 }  // namespace transport

@@ -30,29 +30,15 @@ class Id0x2273 : public ::apollo::drivers::canbus::ProtocolData<
 
   Id0x2273();
 
-  uint32_t GetPeriod() const override;
-
-  void UpdateData(uint8_t* data) override;
-
-  void Reset() override;
-
-  Id0x2273* set_stopfrmaster_flag(int stopfrmaster_flag);
-
-  Id0x2273* set_missionfrmaster_flag(int missionfrmaster_flag);
-
-  Id0x2273* set_trajfrmaster_flag(int trajfrmaster_flag);
+  void Parse(const std::uint8_t* bytes, int32_t length,
+             ChassisDetail* chassis) const override;
 
  private:
-  void set_p_stopfrmaster_flag(uint8_t* data, int stopfrmaster_flag);
+  int stopfrmaster_flag(const std::uint8_t* bytes, const int32_t length) const;
 
-  void set_p_missionfrmaster_flag(uint8_t* data, int missionfrmaster_flag);
+  int missionfrmaster_flag(const std::uint8_t* bytes, const int32_t length) const;
 
-  void set_p_trajfrmaster_flag(uint8_t* data, int trajfrmaster_flag);
-
- private:
-  int stopfrmaster_flag_;
-  int missionfrmaster_flag_;
-  int trajfrmaster_flag_;
+  int trajfrmaster_flag(const std::uint8_t* bytes, const int32_t length) const;
 };
 
 }  // namespace transport

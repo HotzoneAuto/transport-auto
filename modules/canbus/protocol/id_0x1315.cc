@@ -32,7 +32,6 @@ const int32_t Id0x1315::ID = 0x1315;
 
 void Id0x1315::Parse(const std::uint8_t* bytes, int32_t length,
                          ChassisDetail* chassis) const {
-  // TODO: update chassis_detail.proto
   chassis->set_gear_position(gear_position(bytes, length));
 }
 
