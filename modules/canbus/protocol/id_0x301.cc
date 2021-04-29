@@ -32,7 +32,6 @@ const int32_t Id0x301::ID = 0x301;
 
 void Id0x301::Parse(const std::uint8_t* bytes, int32_t length,
                          ChassisDetail* chassis) const {
-  // TODO: update chassis_detail.proto
   chassis->set_reqfrdigger_flag(reqfrdigger_flag(bytes, length));
   chassis->set_loadfrdigger_flag(loadfrdigger_flag(bytes, length));
   chassis->set_stopfrdigger_flag(stopfrdigger_flag(bytes, length));

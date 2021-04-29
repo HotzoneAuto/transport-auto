@@ -31,7 +31,6 @@
 #include "modules/canbus/protocol/id_0xc040b2b.h"
 #include "modules/canbus/protocol/id_0x302.h"
 #include "modules/canbus/protocol/id_0x1314.h"
-#include "modules/canbus/protocol/id_0x2273.h"
 #include "modules/canbus/transport_message_manager.h"
 #include "modules/common/proto/error_code.pb.h"
 #include "modules/common/time/time.h"
@@ -46,7 +45,6 @@ using ::apollo::canbus::transport::Id0x4ef8480;
 using ::apollo::canbus::transport::Id0xc040b2b;
 using ::apollo::canbus::transport::Id0x302;
 using ::apollo::canbus::transport::Id0x1314;
-using ::apollo::canbus::transport::Id0x2273;
 using ::apollo::common::ErrorCode;
 using ::apollo::control::ControlCommand;
 using ::apollo::drivers::canbus::CanSender;
@@ -80,7 +78,6 @@ class TransportController {
   Id0xc040b2b *id_0xc040b2b_ = nullptr;
   Id0x302 *id_0x302_ = nullptr;
   Id0x1314 *id_0x1314_ = nullptr;
-  Id0x2273 *id_0x2273_ = nullptr;
 };
 }  // namespace canbus
 }  // namespace apollo

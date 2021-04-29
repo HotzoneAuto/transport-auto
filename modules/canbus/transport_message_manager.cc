@@ -37,7 +37,6 @@ TransportMessageManager::TransportMessageManager() {
   AddSendProtocolData<Id0x4ef8480, true>();
   AddSendProtocolData<Id0x302, true>();
   AddSendProtocolData<Id0x1314, true>();
-  AddSendProtocolData<Id0x2273, true>();
 
   // Report Messages
   AddRecvProtocolData<Id0x18ff4bd1, true>();
@@ -45,6 +44,7 @@ TransportMessageManager::TransportMessageManager() {
   AddRecvProtocolData<Id0x303, true>();
   AddRecvProtocolData<Id0x304, true>();
   AddRecvProtocolData<Id0x1315, true>();
+  AddRecvProtocolData<Id0x2273, true>();
 }
 
 TransportMessageManager::~TransportMessageManager() {}

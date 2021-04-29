@@ -32,7 +32,6 @@ const int32_t Id0x303::ID = 0x303;
 
 void Id0x303::Parse(const std::uint8_t* bytes, int32_t length,
                          ChassisDetail* chassis) const {
-  // TODO: update chassis_detail.proto
   chassis->set_digger_heading_angle(digger_heading_angle(bytes, length));
   chassis->set_digger_latitude(digger_latitude(bytes, length));
 }

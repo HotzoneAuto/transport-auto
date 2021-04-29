@@ -32,7 +32,6 @@ const int32_t Id0x304::ID = 0x304;
 
 void Id0x304::Parse(const std::uint8_t* bytes, int32_t length,
                          ChassisDetail* chassis) const {
-  // TODO: update chassis_detail.proto
   chassis->set_digger_altitude(digger_altitude(bytes, length));
   chassis->set_digger_longitude(digger_longitude(bytes, length));
 }
