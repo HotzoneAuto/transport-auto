@@ -25,7 +25,7 @@
 #include "modules/canbus/protocol/id_0x304.h"
 #include "modules/canbus/protocol/id_0x1314.h"
 #include "modules/canbus/protocol/id_0x1315.h"
-#include "modules/canbus/protocol/id_0x2273.h"
+#include "modules/canbus/protocol/id_0x100.h"
 
 namespace apollo {
 namespace canbus {
@@ -44,7 +44,7 @@ TransportMessageManager::TransportMessageManager() {
   AddRecvProtocolData<Id0x303, true>();
   AddRecvProtocolData<Id0x304, true>();
   AddRecvProtocolData<Id0x1315, true>();
-  AddRecvProtocolData<Id0x2273, true>();
+  AddRecvProtocolData<Id0x100, true>();
 }
 
 TransportMessageManager::~TransportMessageManager() {}

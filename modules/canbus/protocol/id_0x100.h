@@ -23,12 +23,12 @@ namespace apollo {
 namespace canbus {
 namespace transport {
 
-class Id0x2273 : public ::apollo::drivers::canbus::ProtocolData<
+class Id0x100 : public ::apollo::drivers::canbus::ProtocolData<
                         ::apollo::canbus::ChassisDetail> {
  public:
   static const int32_t ID;
 
-  Id0x2273();
+  Id0x100();
 
   void Parse(const std::uint8_t* bytes, int32_t length,
              ChassisDetail* chassis) const override;
