@@ -7,7 +7,10 @@ message TrajectoryPoint {
     optional double rel_x = 1;
     optional double rel_y = 2;
     optional double rel_vel = 3;
-    optional double timestamp = 4[default = 0];
+    optional double yaw_rate = 4;
+    optional double heading_angle = 5;
+    optional double curvature = 6;
+    optional double timestamp = 7[default = 0];
 };
 
 message Trajectory {

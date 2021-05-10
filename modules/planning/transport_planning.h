@@ -40,7 +40,7 @@ class TransportPlanning : public apollo::cyber::Component<Gps,ChassisDetail> {
   void ReadTraj();
   void UpdateTraj(const std::shared_ptr<Gps>& msg0);
   bool ChangeTraj(int TrajNumber);
-  std::vector<double> trajinfo[6];
+  std::vector<double> trajinfo[8];
 
   apollo::common::file::File file_csv;
   std::fstream traj_record_file;

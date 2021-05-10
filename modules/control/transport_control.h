@@ -40,10 +40,11 @@ class transport_Control : public apollo::cyber::Component<Trajectory> {
   double CaculateAcc(const std::shared_ptr<Trajectory>& msg0);
 
   double Stanley(double k, double v, int& ValidCheck);
+  double LookAheadPredict();
   int FindLookahead(double totaldis);
   void CalculatePedalGear(double vol_exp, double delta_t);
 
-  std::vector<double> rel_loc[4];
+  std::vector<double> rel_loc[7];
 
   apollo::control::ControlSettingConf control_setting_conf_;
 
@@ -68,11 +69,19 @@ class transport_Control : public apollo::cyber::Component<Trajectory> {
   double delta_clu = 0;
 
   double vol_cur;
+  double v_lateral;
+  double v_forward;
+  double heading_angle_now;
+  double yaw_rate_now;
 
   uint64_t nanotime_last = 0;
   uint64_t nanotime_now = 0;
   uint64_t nanotime_init = 0;
   double delta_t = 0;
+
+  // TODO: initialize kb and kf
+  double kb[4] = {0};
+  double kf[21] = {0};
 
   Gps gps_;
   std::shared_ptr<apollo::cyber::Reader<Gps>> gps_reader_;

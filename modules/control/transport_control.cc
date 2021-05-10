@@ -18,7 +18,13 @@ bool transport_Control::Init() {
       [this](const std::shared_ptr<Gps>& msg) { 
         gps_.CopyFrom(*msg); 
         vol_cur = gps_.gps_velocity() * 3.6;
+        v_lateral = gps_.velocity_lateral();
+        v_forward = gps_.velocity_forward();
+        heading_angle_now = gps_.heading_angle();
+        yaw_rate_now = gps_.yaw_rate();
         AINFO << "After read gps, vol_cur = " << vol_cur;
+        AINFO << "v_lateral = " << v_lateral;
+        AINFO << "v_forward = " << v_forward;
       });
 
   AINFO << "transport_Control Init OK!";
@@ -50,11 +56,17 @@ bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0) {
   rel_loc[1].clear();
   rel_loc[2].clear();
   rel_loc[3].clear();
+  rel_loc[4].clear();
+  rel_loc[5].clear();
+  rel_loc[6].clear();
   for (int i = 0; i < msg0->points_size(); i++) {
     rel_loc[0].push_back(msg0->points(i).rel_x());
     rel_loc[1].push_back(msg0->points(i).rel_y());
     rel_loc[2].push_back(msg0->points(i).rel_vel());
-    rel_loc[3].push_back(msg0->points(i).timestamp());
+    rel_loc[3].push_back(msg0->points(i).yaw_rate());
+    rel_loc[4].push_back(msg0->points(i).heading_angle());
+    rel_loc[5].push_back(msg0->points(i).curvature());
+    rel_loc[6].push_back(msg0->points(i).timestamp());
   }
 
   double control_steer = 0;
@@ -170,6 +182,41 @@ double transport_Control::Stanley(double k, double v, int& ValidCheck) {
   if (v <= 1) v = 1;
   float phi_y = std::atan(k * rel_loc[1][index] / v);
   return phi_e + phi_y;
+}
+
+double transport_Control::LookAheadPredict() {
+  // find longitudinal nearest point
+  int index = 0;
+  for (int i = 0; i < rel_loc[0].size() - 1; i++) {
+    if (std::abs(rel_loc[0][i]) < std::abs(rel_loc[0][index])) {
+      index = i;
+    }
+  }
+
+  double e_y = rel_loc[1][index];
+
+  // TODO: New e_phi version by xingyu
+  // double e_phi = std::atan((rel_loc[1][index + 1] - rel_loc[1][index]) / (rel_loc[0][index + 1] - rel_loc[0][index]) / M_PI * 180);
+
+  double phi_des = rel_loc[4][index];
+  double e_phi = (heading_angle_now - phi_des) / 180 * M_PI;
+
+  double v_x = v_forward;
+  double v_y = v_lateral;
+  double e_y_dot = v_y + v_x * e_phi;
+
+  // TODO: check all angle and velocity units
+  double yaw_rate_des = rel_loc[3][index];
+  double e_phi_dot = (yaw_rate_now - yaw_rate_des) / 180 * M_PI;
+
+  double u1 = kb[0] * e_y + kb[1] * e_y_dot + kb[2] * e_phi + kb[3] * e_phi_dot;
+  double u2 = 0;
+  for (int i = 0; i < sizeof(kf); i++) {
+    u2 += kf[i] * rel_loc[5][index + i];
+  }
+
+  double front_wheel_angle = u1 + u2;
+  return front_wheel_angle;
 }
 
 //设置纵向期望速度
