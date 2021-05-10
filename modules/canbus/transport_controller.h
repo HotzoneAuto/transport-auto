@@ -35,6 +35,7 @@
 #include "modules/common/proto/error_code.pb.h"
 #include "modules/common/time/time.h"
 #include "modules/control/proto/control_command.pb.h"
+#include "modules/control/proto/control_flag.pb.h"
 #include "modules/drivers/canbus/can_comm/can_sender.h"
 #include "modules/drivers/canbus/can_comm/protocol_data.h"
 
@@ -47,6 +48,7 @@ using ::apollo::canbus::transport::Id0x302;
 using ::apollo::canbus::transport::Id0x1314;
 using ::apollo::common::ErrorCode;
 using ::apollo::control::ControlCommand;
+using ::apollo::control::ControlFlag;
 using ::apollo::drivers::canbus::CanSender;
 using ::apollo::drivers::canbus::MessageManager;
 using ::apollo::drivers::canbus::ProtocolData;
@@ -62,6 +64,7 @@ class TransportController {
       MessageManager<::apollo::canbus::ChassisDetail> *const message_manager);
   void ControlUpdate(ControlCommand cmd, const int SteerEnable,
                      const int AccEnable, float vol_cur, float vol_exp);
+  void FlagUpdate(ControlFlag controlflag);
   void Start();
   void Stop();
 

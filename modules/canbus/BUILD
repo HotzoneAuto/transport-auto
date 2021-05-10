@@ -25,6 +25,7 @@ cc_library(
         "//modules/drivers/canbus/can_comm:can_sender",
         "//modules/drivers/canbus/proto:can_card_parameter_cc_proto",
         "//modules/control/proto:control_setting_conf_cc_proto",
+	"//modules/control/proto:control_flag_cc_proto",
 	"//modules/planning/proto:planning_setting_conf_cc_proto",
     ],
 )
@@ -55,6 +56,7 @@ cc_library(
         "//modules/drivers/canbus/can_comm:can_sender",
         "//modules/drivers/canbus/common:canbus_common",
         "//modules/control/proto:control_command_cc_proto",
+	"//modules/control/proto:control_flag_cc_proto",
         "//modules/canbus/proto:transport_can_conf_cc_proto",
         "//modules/canbus/protocol:canbus_transport_protocol",
         "@com_github_gflags_gflags//:gflags",

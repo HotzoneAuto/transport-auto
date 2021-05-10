@@ -153,6 +153,15 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     id_0xc040b2b_->set_xbr1_rollingcnt(count_flag);  
   }
 }
+void TransportController::FlagUpdate(ControlFlag controlflag) {
+  if (!is_start) {
+    AERROR << "Controller didn't start";
+    return;
+  }
+  id_0x302_->set_infotodigger_flag(controlflag.statetodigger_flag());
+  id_0x302_->set_ackloctodigger_flag(controlflag.gpsacktodigger_flag());
+ 
+}
 
 TransportController::~TransportController() {}
 }  // namespace canbus

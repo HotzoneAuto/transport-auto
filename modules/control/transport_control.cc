@@ -2,7 +2,6 @@
 
 #define TRAJLENGTH 400
 #define MAXDIS 99999
-#define L 2.4
 
 bool transport_Control::Init() {
   AINFO << "Transport_Control init";
@@ -15,6 +14,16 @@ bool transport_Control::Init() {
   // Init ControlFlag Writer and Write initial state
   flag_writer = node_->CreateWriter<ControlFlag>("/transport/controlflag");
   controlflag.Clear();
+
+  //Init TrajNumber
+  std::string planning_conf_path="/apollo/modules/planning/conf/planning_replay_conf.pb.txt";
+  if( !GetProtoFromFile(planning_conf_path,&planning_setting_conf_) ){
+    AERROR << "Unable to load conf file" << planning_conf_path;
+    return false;
+  }
+  controlflag.set_traj_number(planning_setting_conf_.trajnumber());
+
+
   flag_writer->Write(controlflag);
 
   gps_reader_ = node_->CreateReader<Gps>(
@@ -126,13 +135,13 @@ double transport_Control::CaculateSteer(
     const std::shared_ptr<Trajectory>& msg0) {
   double steer_wheel_angle = 0;
   //根据预瞄点计算横向转角
-  int LookAheadIndex = FindLookahead(control_setting_conf_.lookaheaddis());
+  int LookAheadIndex = FindLookahead(control_setting_conf_.lookaheaddis() - control_setting_conf_.posoffset());
   double long_distance = rel_loc[0][LookAheadIndex]+ control_setting_conf_.posoffset();
   // offset = +1 表示后轴在GPS后方1m
   double lat_distance = rel_loc[1][LookAheadIndex];
   double distance= sqrt(long_distance*long_distance+lat_distance*lat_distance);
   double follow_angle =
-      std::atan(2 * L * lat_distance / (distance * distance)) * 180 /
+      std::atan(2 * control_setting_conf_.wheelbase() * lat_distance / (distance * distance)) * 180 /
       M_PI;
   AINFO << "LookAheadIndex: " << LookAheadIndex
         << " lat distance: " << lat_distance
@@ -140,13 +149,12 @@ double transport_Control::CaculateSteer(
   //根据stanley计算转角
   double stanley_angle = 0;
   int validcheck = 0;
-  // stanley_angle =
-  //     Stanley(configinfo.stanley_k, msg0->gps_velocity(), validcheck);
-  // todo 增加前轮转角与方向盘转角的函数表达式。
+   stanley_angle =
+       Stanley(control_setting_conf_.stanleyk(), vol_cur, validcheck) * 180 / M_PI;
   double StanleyProp = control_setting_conf_.stanleyprop();
-  // double front_wheel_angle =
-  //     follow_angle * (1 - StanleyProp) + stanley_angle * StanleyProp;
-  double front_wheel_angle = follow_angle;
+  double front_wheel_angle =
+      follow_angle * (1 - StanleyProp) + stanley_angle * StanleyProp;
+  //double front_wheel_angle = follow_angle;
   steer_wheel_angle = front_wheel_angle / 14.0 * 360.0;
   return steer_wheel_angle;
 }
@@ -156,24 +164,33 @@ double transport_Control::Stanley(double k, double v, int& ValidCheck) {
   ValidCheck = 1;
   // find point X=0
   int index = 0;
+  double front_wheel_offset=control_setting_conf_.wheelbase()-control_setting_conf_.posoffset();
+  //寻找距离车辆前轴最近点
+  double mindis=99999;
   for (int i = 0; i < rel_loc[0].size() - 1; i++) {
-    if (std::abs(rel_loc[0][i]) < std::abs(rel_loc[0][index])) {
+    double dis=sqrt( (rel_loc[0][i]-front_wheel_offset)*(rel_loc[0][i]-front_wheel_offset) 
+              + rel_loc[1][i]*rel_loc[0][i]);
+    if (dis < mindis) {
+      mindis = dis;
       index = i;
     }
   }
-  // find angle at point X=0
-  if (rel_loc[0][index + 1] - rel_loc[0][index] == 0) {
-    ValidCheck = 0;
-    return 0;
+  // find angle at point i  
+  // use point i+1 ~ i+5
+  double phi_e=0;
+  for( int i = 1 ; index + i < rel_loc[0].size() && i<=5; i++ ){
+    double dx = rel_loc[0][index+i] - rel_loc[0][index];
+    double dy = rel_loc[0][index+i] - rel_loc[0][index];
+    double phi_temp = std::acos( dx / sqrt(dx*dx+dy*dy) );
+    phi_e += phi_temp;
   }
-  float phi_e = std::atan((rel_loc[1][index + 1] - rel_loc[1][index]) /
-                          (rel_loc[0][index + 1] - rel_loc[0][index])) /
-                M_PI * 180;
-  // X[i] and X[i+1] may be same?
+  phi_e /= 5;
 
   // find y error at point X=0
-  if (v <= 1) v = 1;
+  if (v <= 0.5) v = 0.5;
+
   float phi_y = std::atan(k * rel_loc[1][index] / v);
+
   return phi_e + phi_y;
 }
 

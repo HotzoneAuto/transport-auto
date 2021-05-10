@@ -22,3 +22,4 @@ KDrive: 10.0
 KBrake: 10.0
 WaitingTime: 10.0
 ClutchThreshold: 30.0
+WheelBase: 2.4

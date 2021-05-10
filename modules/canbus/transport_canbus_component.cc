@@ -13,13 +13,6 @@ bool transport_Canbus::Init() {
     AERROR << "Unable to load conf file" << ConfigFilePath();
     return false;
   }
-  std::string planning_conf_path="/apollo/modules/planning/conf/planning_replay_conf.pb.txt";
-  if( !GetProtoFromFile(planning_conf_path,&planning_setting_conf_) ){
-    AERROR << "Unable to load conf file" << planning_conf_path;
-    return false;
-  }
-  CurrentTrajNumber=planning_setting_conf_.trajnumber();
-
 
   // Open CAN0
   CANCardParameter CanPara = CANCardParameter();
@@ -58,7 +51,10 @@ bool transport_Canbus::Init() {
         AINFO << "After read gps, vol_cur_ = " << vol_cur_;
         OnControl(*msg);
       });
-
+  flag_reader_= node_->CreateReader<ControlFlag>(
+      "/transport/controlflag", [this](const std::shared_ptr<ControlFlag>& msg) {
+        UpdateFlag(*msg);
+      });
   chassis_detail_writer_ =
       node_->CreateWriter<ChassisDetail>("/transport/chassisdetail");
   AINFO << "Canbus Init";
@@ -81,7 +77,6 @@ void transport_Canbus::Clear() {
 
 void transport_Canbus::PublishChassisDetail() {
   message_manager->GetSensorData(&sensordata);
-  sensordata.set_current_traj_number(CurrentTrajNumber);
   chassis_detail_writer_->Write(sensordata);
   return;
 }
@@ -105,5 +100,15 @@ void transport_Canbus::OnControl(ControlCommand& msg) {
   can_sender.Update();
   return;
 }
+void transport_Canbus::UpdateFlag(ControlFlag& msg) {
+  static ControlFlag controlflag;
+  controlflag.CopyFrom(msg);
+
+  transport_controller.FlagUpdate(controlflag);
+  can_sender.Update();
+  return;
+}
+
+
 }  // namespace canbus
 }  // namespace apollo

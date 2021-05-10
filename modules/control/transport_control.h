@@ -18,6 +18,7 @@
 #include "modules/control/proto/control_flag.pb.h"
 #include "modules/control/proto/control_setting_conf.pb.h"
 #include "modules/planning/proto/trajectory.pb.h"
+#include "modules/planning/proto/planning_setting_conf.pb.h"
 #include "modules/drivers/gps/gps_protocol.h"
 #include "modules/drivers/gps/proto/gps.pb.h"
 
@@ -32,6 +33,7 @@ using apollo::cyber::Writer;
 using apollo::planning::Trajectory;
 using apollo::drivers::Gps;
 using apollo::canbus::ChassisDetail;
+using apollo::cyber::common::GetProtoFromFile;
 
 class transport_Control : public apollo::cyber::Component<Trajectory,ChassisDetail> {
  public:
@@ -54,6 +56,7 @@ class transport_Control : public apollo::cyber::Component<Trajectory,ChassisDeta
   std::vector<double> rel_loc[4];
 
   apollo::control::ControlSettingConf control_setting_conf_;
+  apollo::planning::PlanningSettingConf planning_setting_conf_;
 
   int control_brkpedal_flag = 0;
   int control_accpedal_flag = 0;
