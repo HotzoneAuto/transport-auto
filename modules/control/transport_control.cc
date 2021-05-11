@@ -14,6 +14,7 @@ bool transport_Control::Init() {
   // Init ControlFlag Writer and Write initial state
   flag_writer = node_->CreateWriter<ControlFlag>("/transport/controlflag");
   controlflag.Clear();
+  AINFO<<controlflag.DebugString();
 
   //Init TrajNumber
   std::string planning_conf_path="/apollo/modules/planning/conf/planning_replay_conf.pb.txt";
@@ -109,17 +110,17 @@ bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0,
   } else {
     delta_t = (nanotime_now - nanotime_last) * 1e-9;
   }
-
+  AINFO << "Start Control Logic";
   CalculatePedalGear(control_acc, delta_t,*msg0,*msg1);
-
+  AINFO << "Finish Control Logic";
   controlcmd.set_control_accpedal_flag(control_accpedal_flag);
   controlcmd.set_control_brkpedal_flag(control_brkpedal_flag);
   controlcmd.set_control_clupedal_flag(control_clupedal_flag); 
-  controlcmd.set_control_accpedal(control_accpedal);
-  controlcmd.set_control_brkpedal(control_brkpedal);
-  controlcmd.set_control_clupedal(control_clupedal);
+  controlcmd.set_control_accpedal((int)control_accpedal);
+  controlcmd.set_control_brkpedal((int)control_brkpedal);
+  controlcmd.set_control_clupedal((int)control_clupedal);
   controlcmd.set_control_gear(control_gear);
-
+  AINFO<<controlcmd.DebugString();  
   writer->Write(controlcmd);
 
   nanotime_last = Time::Now().ToNanosecond();
@@ -227,7 +228,10 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
         << vol_idle;
   AINFO << "control_setting_conf_.clutchsethigh() = "
         << control_setting_conf_.clutchsethigh();
-
+  //记录master标志位
+  controlflag.set_stopfrmaster_flag( msg1.stopfrmaster_flag() );
+  controlflag.set_missionfrmaster_flag( msg1.missionfrmaster_flag() );
+  controlflag.set_trajfrmaster_flag( msg1.trajfrmaster_flag() );
   //处理标志位的赋值
   //轨迹编号
   if(controlflag.traj_number()==1){
@@ -251,7 +255,7 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
     controlflag.set_stop_flag(3);
   }else if(controlflag.stopfrmaster_flag()==1){
     controlflag.set_stop_flag(1);
-  }else if(controlflag.stopfrmaster_flag()==2 || controlflag.stopfrdigger_flag()==1 || vol_exp > vol_cur){
+  }else if(controlflag.stopfrmaster_flag()==2 || controlflag.stopfrdigger_flag()==1 || vol_exp < vol_idle){
     controlflag.set_stop_flag(2);
   }else{
     controlflag.set_stop_flag(0);
@@ -259,8 +263,8 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
   //启动标记赋值
   if(controlflag.start_flag()==1 && (controlflag.control_flag()!=3 || controlflag.stop_flag()!=0)){
     controlflag.set_start_flag(0);
-  }else if(controlflag.start_flag()==0 && controlflag.park_flag()==0 && controlflag.stop_flag()==0 && 
-            controlflag.wait_flag()==0 &&controlflag.mission_flag()==1 && vol_exp>=vol_cur){
+  }else if(controlflag.start_flag()==0 && controlflag.park_flag()==1 && controlflag.stop_flag()==0 && 
+            controlflag.wait_flag()==0 &&controlflag.mission_flag()==1 && vol_exp>=vol_idle){
     controlflag.set_start_flag(1);
   }
   //反馈标志赋值
@@ -297,7 +301,7 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
 
   switch(controlflag.control_flag()){
     case 0://不控制模式
-      controlflag.set_park_flag(0);
+      controlcmd.set_control_steer_flag(0); //转向不控制
       controlflag.set_start_flag(0);
       control_accpedal_flag=0;
       control_brkpedal_flag=0;
@@ -308,8 +312,8 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
       control_gear=0;
       break;
     case 1://驻车模式
-      controlcmd.set_control_steer(0);//转向不控制
-      control_accpedal_flag=1;
+      controlcmd.set_control_steer_flag(0); //转向不控制
+      control_accpedal_flag=0;
       control_brkpedal_flag=1;
       control_clupedal_flag=1;
       control_brkpedal = control_setting_conf_.brakeset();
@@ -330,8 +334,8 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
       }
       break;
     case 2://待机模式
-      //转向控制
-      control_accpedal_flag=1;
+      controlcmd.set_control_steer_flag(1); //转向控制
+      control_accpedal_flag=0;
       control_brkpedal_flag=1;
       control_clupedal_flag=1;
       control_brkpedal = control_setting_conf_.brakeset();
@@ -356,16 +360,17 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
       }
       break;
     case 3: //启动模式
+      controlcmd.set_control_steer_flag(1); //转向控制
       controlflag.set_park_flag(0);
       control_accpedal_flag=0;
-      control_brkpedal_flag=0;
+      control_brkpedal_flag=1;
       control_clupedal_flag=1;
       control_brkpedal = 0;
       control_accpedal = 0;
       control_gear=1;
       delta_clu = control_setting_conf_.clutchreleaserate() * delta_t;
       if (control_clupedal > control_setting_conf_.clutchsetlow()) {
-        control_clupedal = int(control_clupedal - delta_clu);          
+        control_clupedal = control_clupedal - delta_clu;          
       } else {
         control_clupedal = 0;
         if (vol_cur > vol_idle *0.8) {
@@ -374,6 +379,7 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
       }
       break;
     case 4: //停车模式
+      controlcmd.set_control_steer_flag(1); //转向控制
       control_accpedal_flag=0;
       control_brkpedal_flag=1;
       control_clupedal_flag=1;
@@ -382,7 +388,7 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
       control_gear = 1;
       delta_brk = control_setting_conf_.brakeapplyrate() * delta_t;
       if (control_brkpedal < control_setting_conf_.brakeset()) {
-        control_brkpedal = int(control_brkpedal + delta_brk);        
+        control_brkpedal = control_brkpedal + delta_brk;        
       } else {
         control_brkpedal = control_setting_conf_.brakeset();
         if(vol_cur <= 0.5){
@@ -391,27 +397,31 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
       }
       break;
     case 5: //行驶模式
+      controlcmd.set_control_steer_flag(1); //转向控制
       control_accpedal_flag=1;
       control_brkpedal_flag=0;
       control_clupedal_flag=0;
       control_brkpedal = 0;
       control_clupedal = 0;
       control_gear=1;
-      control_accpedal = int( vol_exp/control_setting_conf_.kspeedthrottle()
-            +(vol_exp-vol_cur)*control_setting_conf_.kdrive() );
+      control_accpedal = vol_exp/control_setting_conf_.kspeedthrottle()
+            +(vol_exp-vol_cur)*control_setting_conf_.kdrive() ;
       break;
     case 6://制动模式
+      controlcmd.set_control_steer_flag(1); //转向控制
       control_accpedal_flag = 0;
       control_brkpedal_flag = 1;
       control_clupedal_flag = 0;
 
-      control_brkpedal = int(-(vol_exp - vol_cur) * control_setting_conf_.kbrake());
+      control_brkpedal = -(vol_exp - vol_cur) * control_setting_conf_.kbrake();
       control_accpedal = 0;
       control_clupedal = 0;
       break;
     default:
       break;
   }
+  AINFO<< controlflag.DebugString();
+  AINFO<<"vol="<< vol_cur;
   flag_writer->Write(controlflag);
 }
 

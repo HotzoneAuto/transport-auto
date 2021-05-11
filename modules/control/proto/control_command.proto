@@ -4,12 +4,13 @@ package apollo.control;
 
 message ControlCommand {
   optional double control_steer = 1;
-  optional double control_acc = 2;
-  optional double control_accpedal = 3 [default = 0];
-  optional double control_brkpedal = 4 [default = 0];
-  optional double control_clupedal = 5 [default = 0];
-  optional int32 control_gear = 6 [default = 0];
-  optional int32 control_accpedal_flag = 7 [default = 0];
-  optional int32 control_brkpedal_flag = 8 [default = 0];
-  optional int32 control_clupedal_flag = 9 [default = 0];
+  optional int32 control_steer_flag = 2 [default = 1];
+  optional double control_acc = 3;
+  optional double control_accpedal = 4 [default = 0];
+  optional double control_brkpedal = 5 [default = 0];
+  optional double control_clupedal = 6 [default = 0];
+  optional int32 control_gear = 7 [default = 0];
+  optional int32 control_accpedal_flag = 8 [default = 0];
+  optional int32 control_brkpedal_flag = 9 [default = 0];
+  optional int32 control_clupedal_flag = 10 [default = 0];
 };

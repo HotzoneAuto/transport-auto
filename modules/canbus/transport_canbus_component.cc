@@ -85,6 +85,10 @@ void transport_Canbus::PublishChassisDetail() {
 void transport_Canbus::OnControl(ControlCommand& msg) {
   static ControlCommand cmd;
   // Write Control Here
+  int latswitch=0;
+  if(control_setting_conf_.latconswitch() == 1 && msg.control_steer_flag()==1)
+      latswitch = 1;
+
   cmd.set_control_steer(msg.control_steer());  
   cmd.set_control_acc(msg.control_acc());
   cmd.set_control_accpedal(msg.control_accpedal());

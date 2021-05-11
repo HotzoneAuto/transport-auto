@@ -3,18 +3,18 @@ syntax = "proto2";
 package apollo.control;
 
 message ControlFlag {
-  optional int32 control_flag = 1 [default = 0];
+  optional int32 control_flag = 1 [default = 1];
   optional int32 wait_flag = 2 [default = 0];
   optional int32 start_flag = 3 [default = 0];
-  optional int32 park_flag = 4 [default = 0];
-  optional int32 stop_flag = 5 [default = 0];
+  optional int32 park_flag = 4 [default = 1];
+  optional int32 stop_flag = 5 [default = 1];
   optional int32 mission_flag = 6 [default = 0];
   optional int32 traj_number = 7 [default = 1];
-  optional int32 stopfrmaster_flag = 8 [default = 0];
+  optional int32 stopfrmaster_flag = 8 [default = 1];
   optional int32 missionfrmaster_flag = 9 [default = 0];
   optional int32 trajfrmaster_flag = 10 [default = 0];
   optional int32 reqfrdigger_flag = 11 [default = 0];
-  optional int32 loadfrdigger_flag = 12 [default = 1];
+  optional int32 loadfrdigger_flag = 12 [default = 0];
   optional int32 stopfrdigger_flag = 13 [default = 0];
   optional int32 statetodigger_flag = 14 [default = 0];
   optional int32 gpsacktodigger_flag = 15 [default = 0];
