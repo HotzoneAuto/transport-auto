@@ -12,6 +12,7 @@
 #include "cyber/cyber.h"
 #include "cyber/time/time.h"
 
+#include "modules/common/file/file.h"
 #include "modules/canbus/proto/transport_can_conf.pb.h"
 #include "modules/control/proto/control_command.pb.h"
 #include "modules/control/proto/control_setting_conf.pb.h"
@@ -32,6 +33,7 @@ class transport_Control : public apollo::cyber::Component<Trajectory> {
  public:
   bool Init() override;
   bool Proc(const std::shared_ptr<Trajectory>& msg0) override;
+  void Clear() override;
 
  private:
   std::shared_ptr<Writer<ControlCommand>> writer;
@@ -82,6 +84,10 @@ class transport_Control : public apollo::cyber::Component<Trajectory> {
   // TODO: initialize kb and kf
   double kb[4] = {0};
   double kf[21] = {0};
+  //record file
+  apollo::common::file::File file_csv;
+  std::string fname;
+  int frame=0;
 
   Gps gps_;
   std::shared_ptr<apollo::cyber::Reader<Gps>> gps_reader_;

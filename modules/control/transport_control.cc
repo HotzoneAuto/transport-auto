@@ -32,7 +32,17 @@ bool transport_Control::Init() {
   nanotime_last = Time::Now().ToNanosecond();
   nanotime_init = nanotime_last;
 
+  //Experiment Record File
+    fname="/apollo/modules/control/data/exp_record.csv";
+    file_csv.open_file(fname);
+    std::string msg_w =
+        "frame,e_y,e_y_dot,e_phi,e_phi_dot,timestamp";
+    file_csv.write_file(msg_w);
+
   return true;
+}
+void transport_Control::Clear(){
+    file_csv.close_file();
 }
 
 int transport_Control::FindLookahead(double totaldis) {
@@ -138,9 +148,11 @@ double transport_Control::CaculateSteer(
   // offset = +1 表示后轴在GPS后方1m
   double lat_distance = rel_loc[1][LookAheadIndex];
   double distance= sqrt(long_distance*long_distance+lat_distance*lat_distance);
-  double follow_angle =
+ /* double follow_angle =
       std::atan(2 * L * lat_distance / (distance * distance)) * 180 /
-      M_PI;
+      M_PI;*/
+  double follow_angle=LookAheadPredict() *180 /M_PI;
+
   AINFO << "LookAheadIndex: " << LookAheadIndex
         << " lat distance: " << lat_distance
         << " long distance: " << long_distance;
@@ -197,7 +209,20 @@ double transport_Control::LookAheadPredict() {
 
   // TODO: New e_phi version by xingyu
   // double e_phi = std::atan((rel_loc[1][index + 1] - rel_loc[1][index]) / (rel_loc[0][index + 1] - rel_loc[0][index]) / M_PI * 180);
-
+  // find e_phi.  use 5 point.
+/*
+  double phi_des=0;
+  int phi_des_num=0;
+  while(index+phi_des_num +1 < rel_loc[0].size() && phi_des_num+1<=5){
+    phi_des_num++;
+    int tmpindex=phi_des_num+index;    
+    double dx= rel_loc[0][tmpindex]-rel_loc[0][index];
+    double dy= rel_loc[1][tmpindex]-rel_loc[1][index];
+    double d_e_phi=acos(dx/sqrt(dx*dx+dy*dy));
+    phi_des+=d_phi_des;
+  }
+  phi_des/=phi_des_num;
+*/
   double phi_des = rel_loc[4][index];
   double e_phi = (heading_angle_now - phi_des) / 180 * M_PI;
 
@@ -214,6 +239,20 @@ double transport_Control::LookAheadPredict() {
   for (int i = 0; i < sizeof(kf); i++) {
     u2 += kf[i] * rel_loc[5][index + i];
   }
+
+  //record e_y e_phi e_y_dot e_phi_dot
+    if (frame == 65535) {
+      frame = 0;
+    }
+    frame++;
+
+    std::string msg_w = std::to_string(frame) + "," + std::to_string(e_y) 
+                    + "," + std::to_string(e_y_dot) 
+                    + "," + std::to_string(e_phi) 
+                    + "," + std::to_string(e_phi_dot)
+                    + "," + std::to_string(Time::Now().ToNanosecond());
+    file_csv.write_file(msg_w);
+
 
   double front_wheel_angle = u1 + u2;
   return front_wheel_angle;

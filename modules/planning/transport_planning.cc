@@ -30,6 +30,16 @@ bool TransportPlanning::Init() {
     trajs_writer = node_->CreateWriter<apollo::planning::Trajectory>(
         "/transport/planning");
     ReadTraj();
+//record replay traj
+    fname = "/apollo/modules/planning/data/exp_gps_record.csv";
+    file_csv.open_file(fname);
+    std::string msg_w =
+        "frame,pgsnh,gpsnl,gpseh,gpsel,heading_angle,"
+        "yaw_rate,gps_state,gps_velocity,acceleration_forward,"
+        "acceleration_lateral,acceleration_down,pitch_angle,"
+        "velocity_down,velocity_lateral,velocity_forward,roll_angle,"
+        "timestamp";
+    file_csv.write_file(msg_w);
   }
   return true;
 }
@@ -250,6 +260,32 @@ bool TransportPlanning::Proc(const std::shared_ptr<Gps>& msg0,
                     + "," + std::to_string(msg0->timestamp());
     file_csv.write_file(msg_w);
   } else {
+    //record replay info
+    if (frame == 65535) {
+      frame = 0;
+    }
+    frame++;
+
+    std::string msg_w = std::to_string(frame) + "," + std::to_string(msg0->gpsnh()) 
+                    + "," + std::to_string(msg0->gpsnl()) 
+                    + "," + std::to_string(msg0->gpseh()) 
+                    + "," + std::to_string(msg0->gpsel()) 
+                    + "," + std::to_string(msg0->heading_angle()) 
+                    + "," + std::to_string(msg0->yaw_rate()) 
+                    + "," + std::to_string(msg0->gps_state()) 
+                    + "," + std::to_string(msg0->gps_velocity())
+                    + "," + std::to_string(msg0->acceleration_forward()) 
+                    + "," + std::to_string(msg0->acceleration_lateral()) 
+                    + "," + std::to_string(msg0->acceleration_down()) 
+                    + "," + std::to_string(msg0->pitch_angle()) 
+                    + "," + std::to_string(msg0->velocity_down()) 
+                    + "," + std::to_string(msg0->velocity_lateral()) 
+                    + "," + std::to_string(msg0->velocity_forward()) 
+                    + "," + std::to_string(msg0->roll_angle())
+                    + "," + std::to_string(msg0->timestamp());
+    file_csv.write_file(msg_w);
+
+    //
     if(msg1->current_traj_number() != CurrentTrajNumber){
       ChangeTraj( msg1->current_traj_number() );
     }
@@ -264,6 +300,8 @@ bool TransportPlanning::Proc(const std::shared_ptr<Gps>& msg0,
 
 void TransportPlanning::Clear() {
   if (!planning_setting_conf_.trajmode()) {
+    file_csv.close_file();
+  }else{
     file_csv.close_file();
   }
 }
