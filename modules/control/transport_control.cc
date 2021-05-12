@@ -91,11 +91,13 @@ bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0,
     controlcmd.set_control_acc(control_acc);
     AINFO << controlcmd.DebugString();
   } else {
+    AINFO<<"Traj length too short";
     control_acc = 0;
     controlcmd.set_control_steer(0);
     controlcmd.set_control_acc(control_acc);
   }
   if (msg0->gps_state() != 4) {
+    AINFO<<"GPS state is not 4, is "<< msg0->gps_state();
     control_acc = 0;
     controlcmd.set_control_steer(0);
     controlcmd.set_control_acc(control_acc);
