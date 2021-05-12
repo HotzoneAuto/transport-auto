@@ -170,7 +170,7 @@ double transport_Control::Stanley(double k, double v, int& ValidCheck) {
   double mindis=99999;
   for (int i = 0; i < rel_loc[0].size() - 1; i++) {
     double dis=sqrt( (rel_loc[0][i]-front_wheel_offset)*(rel_loc[0][i]-front_wheel_offset) 
-              + rel_loc[1][i]*rel_loc[0][i]);
+              + rel_loc[1][i]*rel_loc[1][i]);
     if (dis < mindis) {
       mindis = dis;
       index = i;
@@ -242,13 +242,13 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
     controlflag.set_traj_number(1);
   }
   //任务标志赋值
-  if(controlflag.mission_flag()==1){
+  if(controlflag.mission_flag()==0){
     if(msg1.missionfrmaster_flag()==1 || 
-        (msg1.missionfrmaster_flag()==1 && (msg1.reqfrdigger_flag()==1 || msg1.loadfrdigger_flag()==2)))
-      controlflag.set_mission_flag(2);
-  } else if(controlflag.mission_flag()==2){
-    if(msg0.dis_to_end()<=control_setting_conf_.parkthreshold())
+        (msg1.missionfrmaster_flag()==2 && (msg1.reqfrdigger_flag()==1 || msg1.loadfrdigger_flag()==2)))
       controlflag.set_mission_flag(1);
+  } else if(controlflag.mission_flag()==1){
+    if(msg0.dis_to_end()<=control_setting_conf_.parkthreshold())
+      controlflag.set_mission_flag(0);
   }
   //停车标志赋值
   if(controlflag.stopfrmaster_flag()==3){
@@ -261,7 +261,7 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
     controlflag.set_stop_flag(0);
   }
   //启动标记赋值
-  if(controlflag.start_flag()==1 && (controlflag.control_flag()!=3 || controlflag.stop_flag()!=0)){
+  if(controlflag.start_flag()==1 && ( controlflag.stop_flag()!=0)){
     controlflag.set_start_flag(0);
   }else if(controlflag.start_flag()==0 && controlflag.park_flag()==1 && controlflag.stop_flag()==0 && 
             controlflag.wait_flag()==0 &&controlflag.mission_flag()==1 && vol_exp>=vol_idle){
@@ -351,7 +351,6 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
       }else if(control_gear==1 && controlflag.wait_flag()==1){
         wait_time += delta_t;
         if(wait_time > control_setting_conf_.waitingtimelong()){
-          control_gear=0;
           controlflag.set_wait_flag(0);
           wait_time=0;
         }

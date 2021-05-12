@@ -102,6 +102,12 @@ ErrorCode SocketCanClientRaw::Start() {
 
     filter[5].can_id = 0x00000713;
     filter[5].can_mask = CAN_SFF_MASK;
+    
+    filter[6].can_id = 0x00000100;
+    filter[6].can_mask = CAN_SFF_MASK;
+
+    filter[7].can_id = 0x00000301;
+    filter[7].can_mask = CAN_SFF_MASK;
 
     ret = setsockopt(dev_handler_, SOL_CAN_RAW, CAN_RAW_FILTER, &filter,
                      sizeof(filter));

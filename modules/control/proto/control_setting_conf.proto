@@ -25,9 +25,8 @@ message ControlSettingConf {
     optional double KSpeedThrottle = 20 [ default = 0.1 ];
     optional double KDrive = 21 [ default = 10.0 ];
     optional double KBrake = 22 [ default = 10.0 ];
-    optional double WaitingTime = 23 [ default = 10.0 ];
-    optional double WaitingTimeShort = 24 [ default = 10.0 ];
-    optional double WaitingTimeLong = 25 [ default = 10.0 ];
-    optional double ClutchSetLow = 26 [ default = 30.0 ];
-    optional double WheelBase = 27 [default = 2.4];
+    optional double WaitingTimeShort = 23 [ default = 10.0 ];
+    optional double WaitingTimeLong = 24 [ default = 10.0 ];
+    optional double ClutchSetLow = 25 [ default = 30.0 ];
+    optional double WheelBase = 26 [default = 2.4];
 };
