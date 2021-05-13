@@ -96,11 +96,20 @@ bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0) {
     // calculate acc
     control_acc = CaculateAcc(msg0);
     controlcmd.set_control_acc(control_acc);
+
+    control_accpedal_flag=1;
+    control_brkpedal_flag=0;
+    control_clupedal_flag=0;
+    control_accpedal=50;
+    control_brkpedal=0;
+    control_clupedal=0;
+
     AINFO << controlcmd.DebugString();
   } else {
     control_acc = 0;
     controlcmd.set_control_steer(0);
     controlcmd.set_control_acc(control_acc);
+
   }
   if (msg0->gps_state() != 4) {
     control_acc = 0;
@@ -118,7 +127,7 @@ bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0) {
     delta_t = (nanotime_now - nanotime_last) * 1e-9;
   }
 
-  CalculatePedalGear(control_acc, delta_t);
+  //CalculatePedalGear(control_acc, delta_t);
 
   controlcmd.set_control_accpedal_flag(control_accpedal_flag);
   controlcmd.set_control_brkpedal_flag(control_brkpedal_flag);
@@ -235,11 +244,11 @@ double transport_Control::LookAheadPredict() {
   double e_phi_dot = (yaw_rate_now - yaw_rate_des) / 180 * M_PI;
 
   double u1 = kb[0] * e_y + kb[1] * e_y_dot + kb[2] * e_phi + kb[3] * e_phi_dot;
-  double u2 = 0;
+/*  double u2 = 0;
   for (int i = 0; i < sizeof(kf); i++) {
     u2 += kf[i] * rel_loc[5][index + i];
   }
-
+*/
   //record e_y e_phi e_y_dot e_phi_dot
     if (frame == 65535) {
       frame = 0;
@@ -254,7 +263,8 @@ double transport_Control::LookAheadPredict() {
     file_csv.write_file(msg_w);
 
 
-  double front_wheel_angle = u1 + u2;
+  //double front_wheel_angle = u1 + u2;
+  double front_wheel_angle = u1;
   return front_wheel_angle;
 }
 
