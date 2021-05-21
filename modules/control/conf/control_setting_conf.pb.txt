@@ -11,7 +11,7 @@ ParkThreshold: 1.0
 SpeedThreshold: 3.0
 PosOffset: 2.4
 ClutchSetHigh: 90.0
-BrakeSet: 50.0
+BrakeSet: 80.0
 SpeedSet: 0.0
 ClutchReleaseRate: 25.0
 BrakeApplyRate: 50.0
@@ -24,3 +24,4 @@ WaitingTimeLong: 16.0
 WaitingTimeShort: 8.0
 ClutchSetLow: 30.0
 WheelBase: 2.4
+GpsInvalidTime: 0.5

@@ -98,7 +98,7 @@ void transport_Canbus::OnControl(ControlCommand& msg) {
   cmd.set_control_brkpedal_flag(msg.control_brkpedal_flag());
   cmd.set_control_clupedal_flag(msg.control_clupedal_flag());
 
-  transport_controller.ControlUpdate(cmd, control_setting_conf_.latconswitch(),
+  transport_controller.ControlUpdate(cmd, latswitch,
                                      control_setting_conf_.lonconswitch(),
                                      vol_cur_, msg.control_acc());
   can_sender.Update();

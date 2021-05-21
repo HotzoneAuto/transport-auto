@@ -29,4 +29,5 @@ message ControlSettingConf {
     optional double WaitingTimeLong = 24 [ default = 10.0 ];
     optional double ClutchSetLow = 25 [ default = 30.0 ];
     optional double WheelBase = 26 [default = 2.4];
+    optional double GpsInvalidTime = 27 [default = 0.5];
 };

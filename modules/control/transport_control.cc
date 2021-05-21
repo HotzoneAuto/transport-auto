@@ -72,46 +72,64 @@ bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0,
     rel_loc[3].push_back(msg0->points(i).timestamp());
   }
 
-  double control_steer = 0;
-  double control_acc = 0;
-
-  if (rel_loc[0].size() > 10) {
-    // near destination
-    // calculate steer
-    control_steer = CaculateSteer(msg0);
-    if (control_steer > 720.0) {
-      control_steer = 720.0;
-    } else if (control_steer < -720.0) {
-      control_steer = -720.0;
-    }
-    controlcmd.set_control_steer(-control_steer);
-
-    // calculate acc
-    control_acc = CaculateAcc(msg0);
-    controlcmd.set_control_acc(control_acc);
-    AINFO << controlcmd.DebugString();
-  } else {
-    AINFO<<"Traj length too short";
-    control_acc = 0;
-    controlcmd.set_control_steer(0);
-    controlcmd.set_control_acc(control_acc);
-  }
-  if (msg0->gps_state() != 4) {
-    AINFO<<"GPS state is not 4, is "<< msg0->gps_state();
-    control_acc = 0;
-    controlcmd.set_control_steer(0);
-    controlcmd.set_control_acc(control_acc);
-  }
-
   nanotime_now = Time::Now().ToNanosecond();
   AINFO << "nanotime_last = " << nanotime_last;
   AINFO << "nanotime_now = " << nanotime_now;
-
   if (nanotime_last == nanotime_init) {
     delta_t = 0;
   } else {
     delta_t = (nanotime_now - nanotime_last) * 1e-9;
   }
+  
+  double control_steer = 0;
+  double control_acc = 0;
+  static double last_control_steer = 0;
+  static double last_control_acc = 0;
+  static double gps_invalid_time = 0;
+  if (msg0->gps_state() != 4) {
+    //gps invalid
+    AINFO<<"GPS state is not 4, is "<< msg0->gps_state();
+    gps_invalid_time+=delta_t;
+    if( gps_invalid_time > control_setting_conf_.gpsinvalidtime() ){
+      control_acc = 0;
+      controlcmd.set_control_steer(0);
+      controlcmd.set_control_acc(control_acc);
+    }else{
+      controlcmd.set_control_steer(last_control_steer);
+      controlcmd.set_control_acc(last_control_acc);
+    }
+    
+  }else {
+    //gps ok
+    gps_invalid_time = 0;
+    if (rel_loc[0].size() > 10) {
+      // near destination
+      // calculate steer
+      control_steer = CaculateSteer(msg0);
+      if (control_steer > 720.0) {
+        control_steer = 720.0;
+      } else if (control_steer < -720.0) {
+        control_steer = -720.0;
+      }
+      controlcmd.set_control_steer(-control_steer);
+  
+      // calculate acc
+      control_acc = CaculateAcc(msg0);
+      controlcmd.set_control_acc(control_acc);
+      AINFO << controlcmd.DebugString();
+    } else {
+      AINFO<<"Traj length too short";
+      control_acc = 0;
+      controlcmd.set_control_steer(0);
+      controlcmd.set_control_acc(control_acc);
+    }
+    last_control_acc = control_acc;
+    last_control_steer = control_steer;
+  }
+
+
+
+
   AINFO << "Start Control Logic";
   CalculatePedalGear(control_acc, delta_t,*msg0,*msg1);
   AINFO << "Finish Control Logic";
@@ -150,14 +168,17 @@ double transport_Control::CaculateSteer(
         << " lat distance: " << lat_distance
         << " long distance: " << long_distance;
   //根据stanley计算转角
+  /*
   double stanley_angle = 0;
   int validcheck = 0;
    stanley_angle =
        Stanley(control_setting_conf_.stanleyk(), vol_cur, validcheck) * 180 / M_PI;
   double StanleyProp = control_setting_conf_.stanleyprop();
+  
   double front_wheel_angle =
       follow_angle * (1 - StanleyProp) + stanley_angle * StanleyProp;
-  //double front_wheel_angle = follow_angle;
+*/
+  double front_wheel_angle = follow_angle;
   steer_wheel_angle = front_wheel_angle / 14.0 * 360.0;
   return steer_wheel_angle;
 }
@@ -421,6 +442,7 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
     default:
       break;
   }
+
   AINFO<< controlflag.DebugString();
   AINFO<<"vol="<< vol_cur;
   flag_writer->Write(controlflag);
