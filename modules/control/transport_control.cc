@@ -36,7 +36,7 @@ bool transport_Control::Init() {
     fname="/apollo/modules/control/data/exp_record.csv";
     file_csv.open_file(fname);
     std::string msg_w =
-        "frame,e_y,e_y_dot,e_phi,e_phi_dot,timestamp";
+        "frame,e_y,e_y_dot,e_phi,e_phi_dot,index,u1/deg,u1_0,u1_1,u1_2,u1_3,u2,curvature,v_x,v_y,timestamp";
     file_csv.write_file(msg_w);
 
   return true;
@@ -218,22 +218,25 @@ double transport_Control::LookAheadPredict() {
 
   // TODO: New e_phi version by xingyu
   // double e_phi = std::atan((rel_loc[1][index + 1] - rel_loc[1][index]) / (rel_loc[0][index + 1] - rel_loc[0][index]) / M_PI * 180);
+  
   // find e_phi.  use 5 point.
 /*
-  double phi_des=0;
-  int phi_des_num=0;
-  while(index+phi_des_num +1 < rel_loc[0].size() && phi_des_num+1<=5){
-    phi_des_num++;
-    int tmpindex=phi_des_num+index;    
-    double dx= rel_loc[0][tmpindex]-rel_loc[0][index];
-    double dy= rel_loc[1][tmpindex]-rel_loc[1][index];
-    double d_e_phi=acos(dx/sqrt(dx*dx+dy*dy));
-    phi_des+=d_phi_des;
+  double e_phi=0;
+  int e_phi_num=0;
+  while(index+e_phi_num +1 < rel_loc[0].size() && e_phi_num+1<=5){
+    e_phi_num++;
+    int tmpindex=e_phi_num+index;    
+    double dx = rel_loc[0][tmpindex]-rel_loc[0][index];
+    double dy = rel_loc[1][tmpindex]-rel_loc[1][index];
+    double d_e_phi = acos(dx/sqrt(dx*dx+dy*dy));
+    e_phi += d_e_phi;
   }
-  phi_des/=phi_des_num;
+  e_phi /= e_phi_num;
 */
+  // find e_phi by history
+
   double phi_des = rel_loc[4][index];
-  double e_phi = (heading_angle_now - phi_des) / 180 * M_PI;
+  double e_phi = -(heading_angle_now - phi_des) / 180 * M_PI;
 
   double v_x = v_forward;
   double v_y = v_lateral;
@@ -243,8 +246,14 @@ double transport_Control::LookAheadPredict() {
   double yaw_rate_des = rel_loc[3][index];
   double e_phi_dot = (yaw_rate_now - yaw_rate_des) / 180 * M_PI;
 
-  double u1 = kb[0] * e_y + kb[1] * e_y_dot + kb[2] * e_phi + kb[3] * e_phi_dot;
-/*  double u2 = 0;
+  double u1_0 = kb[0] * e_y;
+  double u1_1 = kb[1] * e_y_dot;
+  double u1_2 = kb[2] * e_phi;
+  double u1_3 = kb[3] * e_phi_dot;
+
+  double u1 = u1_0 + u1_1 + u1_2 + u1_3;
+  double u2 = 0;
+/*
   for (int i = 0; i < sizeof(kf); i++) {
     u2 += kf[i] * rel_loc[5][index + i];
   }
@@ -259,6 +268,16 @@ double transport_Control::LookAheadPredict() {
                     + "," + std::to_string(e_y_dot) 
                     + "," + std::to_string(e_phi) 
                     + "," + std::to_string(e_phi_dot)
+                    + "," + std::to_string(index)
+                    + "," + std::to_string(u1 / M_PI * 180)
+                    + "," + std::to_string(u1_0)
+                    + "," + std::to_string(u1_1)
+                    + "," + std::to_string(u1_2)
+                    + "," + std::to_string(u1_3)
+                    + "," + std::to_string(u2/ M_PI * 180)
+                    + "," + std::to_string(rel_loc[5][index])
+                    + "," + std::to_string(v_x)
+                    + "," + std::to_string(v_y)
                     + "," + std::to_string(Time::Now().ToNanosecond());
     file_csv.write_file(msg_w);
 

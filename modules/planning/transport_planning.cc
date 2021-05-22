@@ -110,18 +110,18 @@ void TransportPlanning::ReadTraj() {
 
   // add curvature in trajinfo
   int traj_length = (int)trajinfo[0].size();
-  int step = 2;
+  int step = 15;
   for (int j = 0; j < traj_length; j++) {
-    if (j < step || j > traj_length - 3) {
+    if (j < step || j > traj_length - step - 1) {
       trajinfo[7].push_back(0);
     }
 
-    double N_1 = trajinfo[0][j-2] + trajinfo[1][j-2];
-    double E_1 = trajinfo[2][j-2] + trajinfo[3][j-2];
+    double N_1 = trajinfo[0][j-step] + trajinfo[1][j-step];
+    double E_1 = trajinfo[2][j-step] + trajinfo[3][j-step];
     double N_2 = trajinfo[0][j] + trajinfo[1][j];
     double E_2 = trajinfo[2][j] + trajinfo[3][j];
-    double N_3 = trajinfo[0][j+2] + trajinfo[1][j+2];
-    double E_3 = trajinfo[2][j+2] + trajinfo[3][j+2];
+    double N_3 = trajinfo[0][j+step] + trajinfo[1][j+step];
+    double E_3 = trajinfo[2][j+step] + trajinfo[3][j+step];
 
     double dis_a =
         apollo::drivers::gps::SphereDis(E_1, N_1, E_3, N_3);
