@@ -100,7 +100,7 @@ bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0) {
     control_accpedal_flag=1;
     control_brkpedal_flag=0;
     control_clupedal_flag=0;
-    control_accpedal=50;
+    control_accpedal=65;
     control_brkpedal=0;
     control_clupedal=0;
 

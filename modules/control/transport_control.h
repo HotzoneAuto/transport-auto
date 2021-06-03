@@ -82,7 +82,7 @@ class transport_Control : public apollo::cyber::Component<Trajectory> {
   double delta_t = 0;
 
   // TODO: initialize kb and kf
-  double kb[4] = {0.0975,0.0119,1.5071,0.0189};
+  double kb[4] = {0.1394,0.0064,1.2752,0.0115};
   double kf[21] = {-0.0380,-0.0361,-0.0344,-0.0327,-0.0311,-0.0295,-0.0280,-0.0266,-0.0253,-0.0240,-0.0227,-0.0215,-0.0204,-0.0193,-0.0182,-0.0172,-0.0163,-0.0153,-0.0145,-0.0136,-0.0128};
   //record file
   apollo::common::file::File file_csv;
