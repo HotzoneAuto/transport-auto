@@ -9,12 +9,22 @@ bool transport_Control::Init() {
     AERROR << "Unable to load control_setting_conf file" << ConfigFilePath();
     return false;
   }
+  // Init vectors
+    accelset = {control_setting_conf_.accelset_1(), control_setting_conf_.accelset_2()};
+    clutchreleaserate = {control_setting_conf_.clutchreleaserate_1(), control_setting_conf_.clutchreleaserate_2()};
+    brakeapplyrate = {control_setting_conf_.brakeapplyrate_1(), control_setting_conf_.brakeapplyrate_2()};
+    kspeedthrottle = {control_setting_conf_.kspeedthrottle_1(), control_setting_conf_.kspeedthrottle_2()};
+    kdrive = {control_setting_conf_.kdrive_1(), control_setting_conf_.kdrive_2()};
+    kbrake = {control_setting_conf_.kbrake_1(), control_setting_conf_.kbrake_2()};
+
   // Init ControlCommand Writer
   writer = node_->CreateWriter<ControlCommand>("/transport/control");
   // Init ControlFlag Writer and Write initial state
   flag_writer = node_->CreateWriter<ControlFlag>("/transport/controlflag");
   controlflag.Clear();
   AINFO<<controlflag.DebugString();
+
+  remote_writer = node_->CreateWriter<ControlToRemote>("transport/control_to_remote");
 
   //Init TrajNumber
   std::string planning_conf_path="/apollo/modules/planning/conf/planning_replay_conf.pb.txt";
@@ -24,8 +34,12 @@ bool transport_Control::Init() {
   }
   controlflag.set_traj_number(planning_setting_conf_.trajnumber());
 
-
   flag_writer->Write(controlflag);
+
+  fname = "/apollo/modules/control/data/control_record.csv";
+  file_csv.open_file(fname);
+  std::string msg_w = "fname, e_y, e_phi, control_gear, control_accpedal_flag, control_accpedal, control_brkpedal_flag, controlbrkpedal,  control_clupedal_flag, control_clupedal, control_speed, control_steer, gps_n,gps_e,heading_angle, yaw_rate,gps_state,gps_velocity,acceleration_forward, acceleration_lateral,acceleration_down,pitch_angle,velocity_down,velocity_lateral,velocity_forward,roll_angle,timestamp";
+  file_csv.write_file(msg_w);
 
   gps_reader_ = node_->CreateReader<Gps>(
       "/transport/gps",
@@ -41,6 +55,10 @@ bool transport_Control::Init() {
   nanotime_init = nanotime_last;
 
   return true;
+}
+
+void transport_Control::Clear() {
+  file_csv.close_file();
 }
 
 int transport_Control::FindLookahead(double totaldis) {
@@ -65,11 +83,13 @@ bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0,
   rel_loc[1].clear();
   rel_loc[2].clear();
   rel_loc[3].clear();
+  rel_loc[4].clear();
   for (int i = 0; i < msg0->points_size(); i++) {
     rel_loc[0].push_back(msg0->points(i).rel_x());
     rel_loc[1].push_back(msg0->points(i).rel_y());
     rel_loc[2].push_back(msg0->points(i).rel_vel());
-    rel_loc[3].push_back(msg0->points(i).timestamp());
+    rel_loc[3].push_back(msg0->points(i).heading_angle());
+    rel_loc[4].push_back(msg0->points(i).timestamp());
   }
 
   nanotime_now = Time::Now().ToNanosecond();
@@ -82,21 +102,21 @@ bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0,
   }
   
   double control_steer = 0;
-  double control_acc = 0;
+  double control_speed = 0;
   static double last_control_steer = 0;
-  static double last_control_acc = 0;
+  static double last_control_speed = 0;
   static double gps_invalid_time = 0;
   if (msg0->gps_state() != 4) {
     //gps invalid
     AINFO<<"GPS state is not 4, is "<< msg0->gps_state();
     gps_invalid_time+=delta_t;
-    if( gps_invalid_time > control_setting_conf_.gpsinvalidtime() ){
-      control_acc = 0;
+    if( gps_invalid_time > control_setting_conf_.waitingtimertk() ){
+      control_speed = 0;
       controlcmd.set_control_steer(0);
-      controlcmd.set_control_acc(control_acc);
+      controlcmd.set_control_speed(control_speed);
     }else{
       controlcmd.set_control_steer(last_control_steer);
-      controlcmd.set_control_acc(last_control_acc);
+      controlcmd.set_control_speed(std::min(last_control_speed, control_setting_conf_.speedthreshold()));
     }
     
   }else {
@@ -114,24 +134,21 @@ bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0,
       controlcmd.set_control_steer(-control_steer);
   
       // calculate acc
-      control_acc = CaculateAcc(msg0);
-      controlcmd.set_control_acc(control_acc);
+      control_speed = CaculateAcc(msg0);
+      controlcmd.set_control_speed(control_speed);
       AINFO << controlcmd.DebugString();
     } else {
       AINFO<<"Traj length too short";
-      control_acc = 0;
+      control_speed = 0;
       controlcmd.set_control_steer(0);
-      controlcmd.set_control_acc(control_acc);
+      controlcmd.set_control_speed(control_speed);
     }
-    last_control_acc = control_acc;
+    last_control_speed = control_speed;
     last_control_steer = control_steer;
   }
 
-
-
-
   AINFO << "Start Control Logic";
-  CalculatePedalGear(control_acc, delta_t,*msg0,*msg1);
+  CalculatePedalGear(control_speed, delta_t,*msg0,*msg1);
   AINFO << "Finish Control Logic";
   controlcmd.set_control_accpedal_flag(control_accpedal_flag);
   controlcmd.set_control_brkpedal_flag(control_brkpedal_flag);
@@ -144,6 +161,63 @@ bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0,
   writer->Write(controlcmd);
 
   nanotime_last = Time::Now().ToNanosecond();
+
+  if (frame == 65535) {
+    frame = 0;
+  }
+  frame++;
+
+  int index = 0;
+  for (int i = 0; i < rel_loc[0].size(); i++) {
+    if (std::abs(rel_loc[0][i]) < std::abs(rel_loc[0][index])) {
+      index = i;
+    }
+  }
+  e_y = rel_loc[1][index];
+  e_phi = gps_.heading_angle() - rel_loc[3][index];
+
+// std::string msg_w = "fname, e_y, e_phi, control_gear, control_accpedal_flag, control_accpedal, control_brkpedal_flag, controlbrkpedal,  control_clupedal_flag, control_clupedal, control_speed, control_steer, gpsn,gpse,heading_angle, yaw_rate,gps_state,gps_velocity,acceleration_forward, acceleration_lateral,acceleration_down,pitch_angle,velocity_down,velocity_lateral,velocity_forward,roll_angle,timestamp";
+
+  std::string msg_w = std::to_string(frame) + "," + std::to_string(e_y) + "," + std::to_string(e_phi) 
+                      + "," + std::to_string(control_gear)
+                      + "," + std::to_string(control_accpedal_flag)
+                      + "," + std::to_string(control_accpedal)
+                      + "," + std::to_string(control_brkpedal_flag) 
+                      + "," + std::to_string(control_brkpedal) 
+                      + "," + std::to_string(control_clupedal_flag)
+                      + "," + std::to_string(control_clupedal)
+                      + "," + std::to_string(control_speed)
+                      + "," + std::to_string(control_steer)
+                      + "," + std::to_string(gps_.gpsnh()+gps_.gpsnl())
+                      + "," + std::to_string(gps_.gpseh()+gps_.gpsel())
+                      + "," + std::to_string(gps_.heading_angle())
+                      + "," + std::to_string(gps_.yaw_rate())
+                      + "," + std::to_string(gps_.gps_state())
+                      + "," + std::to_string(gps_.gps_velocity())
+                      + "," + std::to_string(gps_.acceleration_forward())
+                      + "," + std::to_string(gps_.acceleration_lateral())
+                      + "," + std::to_string(gps_.acceleration_down())
+                      + "," + std::to_string(gps_.pitch_angle())
+                      + "," + std::to_string(gps_.velocity_down())
+                      + "," + std::to_string(gps_.velocity_lateral())
+                      + "," + std::to_string(gps_.velocity_forward())
+                      + "," + std::to_string(gps_.roll_angle())
+                      + "," + std::to_string(Time::Now().ToNanosecond());
+  file_csv.write_file(msg_w);
+  
+  controltoremote.set_control_flag(controlflag.control_flag());
+  controltoremote.set_wait_flag(controlflag.wait_flag());
+  controltoremote.set_start_flag(controlflag.start_flag());
+  controltoremote.set_park_flag(controlflag.park_flag());
+  controltoremote.set_stop_flag(controlflag.stop_flag());
+  controltoremote.set_mission_flag(controlflag.mission_flag());
+  controltoremote.set_traj_number(controlflag.traj_number());
+  controltoremote.set_gps_state(gps_.gps_state());
+  controltoremote.set_gps_velocity(gps_.gps_velocity());
+  controltoremote.set_gear_position(controlcmd.control_gear());  
+  controltoremote.set_e_y(e_y);
+  controltoremote.set_e_phi(e_phi);
+  remote_writer->Write(controltoremote);
 
   return true;
 }
@@ -220,25 +294,25 @@ double transport_Control::Stanley(double k, double v, int& ValidCheck) {
 
 //设置纵向期望速度
 double transport_Control::CaculateAcc(const std::shared_ptr<Trajectory>& msg0) {
-  double control_acc = 0;
+  double control_speed = 0;
   if (control_setting_conf_.speedmode() == 0) {
     // const speed mode;
     double DisToStart = msg0->dis_to_start();
     double DisToEnd = msg0->dis_to_end();
     if (DisToStart < DisToEnd) {
-      control_acc = std::max(DisToStart * control_setting_conf_.speedk(),
+      control_speed = std::max(DisToStart * control_setting_conf_.kspeedtoends(),
                              control_setting_conf_.speedthreshold());
-      AINFO << "When DisToStart < DisToEnd, control_acc = " << control_acc;
+      AINFO << "When DisToStart < DisToEnd, control_speed = " << control_speed;
     } else {
-      control_acc = DisToEnd * control_setting_conf_.speedk();
+      control_speed = DisToEnd * control_setting_conf_.kspeedtoends();
     }
-    control_acc = std::min(control_setting_conf_.desiredspeed(), control_acc);
+    control_speed = std::min(control_setting_conf_.planningspeed(), control_speed);
   } else if (control_setting_conf_.speedmode() == 1) {
     // Traj speed mode
-    control_acc = msg0->control_acc();
+    control_speed = msg0->control_speed();
   }
 
-  return control_acc;
+  return control_speed;
 }
 
 //设置三个踏板开度和期望换挡动作
@@ -384,13 +458,13 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
     case 3: //启动模式
       controlcmd.set_control_steer_flag(1); //转向控制
       controlflag.set_park_flag(0);
-      control_accpedal_flag=0;
-      control_brkpedal_flag=1;
+      control_accpedal_flag=1;
+      control_brkpedal_flag=0;
       control_clupedal_flag=1;
       control_brkpedal = 0;
-      control_accpedal = 0;
+      control_accpedal = accelset[controlflag.traj_number()-1];
       control_gear=1;
-      delta_clu = control_setting_conf_.clutchreleaserate() * delta_t;
+      delta_clu = clutchreleaserate[controlflag.traj_number()-1] * delta_t;
       if (control_clupedal > control_setting_conf_.clutchsetlow()) {
         control_clupedal = control_clupedal - delta_clu;          
       } else {
@@ -408,7 +482,7 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
       control_accpedal = 0;
       control_clupedal = control_setting_conf_.clutchsethigh();
       control_gear = 1;
-      delta_brk = control_setting_conf_.brakeapplyrate() * delta_t;
+      delta_brk = brakeapplyrate[controlflag.traj_number()-1] * delta_t;
       if (control_brkpedal < control_setting_conf_.brakeset()) {
         control_brkpedal = control_brkpedal + delta_brk;        
       } else {
@@ -426,8 +500,8 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
       control_brkpedal = 0;
       control_clupedal = 0;
       control_gear=1;
-      control_accpedal = vol_exp/control_setting_conf_.kspeedthrottle()
-            +(vol_exp-vol_cur)*control_setting_conf_.kdrive() ;
+      control_accpedal = vol_exp/kspeedthrottle[controlflag.traj_number()-1]
+            +(vol_exp-vol_cur)*kdrive[controlflag.traj_number()-1] ;
       break;
     case 6://制动模式
       controlcmd.set_control_steer_flag(1); //转向控制
@@ -435,7 +509,7 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
       control_brkpedal_flag = 1;
       control_clupedal_flag = 0;
 
-      control_brkpedal = -(vol_exp - vol_cur) * control_setting_conf_.kbrake();
+      control_brkpedal = -(vol_exp - vol_cur) * kbrake[controlflag.traj_number()-1];
       control_accpedal = 0;
       control_clupedal = 0;
       break;

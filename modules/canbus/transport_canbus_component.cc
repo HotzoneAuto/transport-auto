@@ -55,6 +55,11 @@ bool transport_Canbus::Init() {
       "/transport/controlflag", [this](const std::shared_ptr<ControlFlag>& msg) {
         UpdateFlag(*msg);
       });
+  controltoremote_reader_= node_->CreateReader<ControlToRemote>(
+      "/transport/control_to_remote", [this](const std::shared_ptr<ControlToRemote>& msg) {
+        UpdateRemote(*msg);
+      });
+  
   chassis_detail_writer_ =
       node_->CreateWriter<ChassisDetail>("/transport/chassisdetail");
   AINFO << "Canbus Init";
@@ -90,7 +95,7 @@ void transport_Canbus::OnControl(ControlCommand& msg) {
       latswitch = 1;
 
   cmd.set_control_steer(msg.control_steer());  
-  cmd.set_control_acc(msg.control_acc());
+  cmd.set_control_speed(msg.control_speed());
   cmd.set_control_accpedal(msg.control_accpedal());
   cmd.set_control_brkpedal(msg.control_brkpedal());
   cmd.set_control_clupedal(msg.control_clupedal());
@@ -100,7 +105,7 @@ void transport_Canbus::OnControl(ControlCommand& msg) {
 
   transport_controller.ControlUpdate(cmd, latswitch,
                                      control_setting_conf_.lonconswitch(),
-                                     vol_cur_, msg.control_acc());
+                                     vol_cur_, msg.control_speed());
   can_sender.Update();
   return;
 }
@@ -109,7 +114,14 @@ void transport_Canbus::UpdateFlag(ControlFlag& msg) {
   controlflag.CopyFrom(msg);
 
   transport_controller.FlagUpdate(controlflag);
-  can_sender.Update();
+  return;
+}
+
+void transport_Canbus::UpdateRemote(ControlToRemote& msg) {
+  static ControlToRemote controltoremote;
+  controltoremote.CopyFrom(msg);
+
+  transport_controller.RemoteUpdate(controltoremote);
   return;
 }
 

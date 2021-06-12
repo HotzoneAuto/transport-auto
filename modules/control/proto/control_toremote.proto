@@ -1,0 +1,18 @@
+syntax = "proto2";
+
+package apollo.control;
+
+message ControlToRemote {
+  optional int32 control_flag = 1 [default = 1];
+  optional int32 wait_flag = 2 [default = 0];
+  optional int32 start_flag = 3 [default = 0];
+  optional int32 park_flag = 4 [default = 1];
+  optional int32 stop_flag = 5 [default = 1];
+  optional int32 mission_flag = 6 [default = 0];
+  optional int32 traj_number = 7 [default = 1];
+  optional double gps_state =8;
+  optional double gps_velocity = 9;
+  optional int32 gear_position = 10 [default = 0];
+  optional double e_y = 11;
+  optional double e_phi = 12;
+};

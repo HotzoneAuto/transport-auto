@@ -76,10 +76,18 @@ ErrorCode TransportController::Init(
     return ErrorCode::CANBUS_ERROR;
   }
 
+  id_0x200_ = dynamic_cast<Id0x200 *>(
+      message_manager_->GetMutableProtocolDataById(Id0x200::ID));
+  if (id_0x200_ == nullptr) {
+    AERROR << "Id0x200 does not exist in the TransportMessageManager!";
+    return ErrorCode::CANBUS_ERROR;
+  }
+
   can_sender_->AddMessage(Id0x4ef8480::ID, id_0x4ef8480_, false);
   can_sender_->AddMessage(Id0xc040b2b::ID, id_0xc040b2b_, false);
   can_sender_->AddMessage(Id0x302::ID, id_0x302_, false);
   can_sender_->AddMessage(Id0x1314::ID, id_0x1314_, false);
+  can_sender_->AddMessage(Id0x200::ID, id_0x200_, false);
 
   // need sleep to ensure all messages received
   AINFO << "TransportController is initialized.";
@@ -153,6 +161,7 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     id_0xc040b2b_->set_xbr1_rollingcnt(count_flag);  
   }
 }
+
 void TransportController::FlagUpdate(ControlFlag controlflag) {
   if (!is_start) {
     AERROR << "Controller didn't start";
@@ -161,6 +170,28 @@ void TransportController::FlagUpdate(ControlFlag controlflag) {
   id_0x302_->set_infotodigger_flag(controlflag.statetodigger_flag());
   id_0x302_->set_ackloctodigger_flag(controlflag.gpsacktodigger_flag());
  
+}
+
+void TransportController::RemoteUpdate(ControlToRemote controltoremote) {
+  if (!is_start) {
+    AERROR << "Controller didn't start";
+    return;
+  }
+  id_0x200_->set_control_flag(controltoremote.control_flag());
+  id_0x200_->set_wait_flag(controltoremote.wait_flag());
+  id_0x200_->set_start_flag(controltoremote.start_flag());
+  id_0x200_->set_park_flag(controltoremote.park_flag());
+  id_0x200_->set_stop_flag(controltoremote.stop_flag());
+  id_0x200_->set_mission_flag(controltoremote.mission_flag());
+  id_0x200_->set_traj_number(controltoremote.traj_number());
+
+  id_0x200_->set_gps_state(controltoremote.gps_state());
+  id_0x200_->set_speed_now(controltoremote.gps_velocity());
+
+  id_0x200_->set_gear_position(controltoremote.gear_position());
+
+  id_0x200_->set_e_y_now(controltoremote.e_y());
+  id_0x200_->set_e_phi_now(controltoremote.e_phi());
 }
 
 TransportController::~TransportController() {}

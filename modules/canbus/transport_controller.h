@@ -31,11 +31,16 @@
 #include "modules/canbus/protocol/id_0xc040b2b.h"
 #include "modules/canbus/protocol/id_0x302.h"
 #include "modules/canbus/protocol/id_0x1314.h"
+#include "modules/canbus/protocol/id_0x200.h"
 #include "modules/canbus/transport_message_manager.h"
 #include "modules/common/proto/error_code.pb.h"
 #include "modules/common/time/time.h"
 #include "modules/control/proto/control_command.pb.h"
 #include "modules/control/proto/control_flag.pb.h"
+#include "modules/control/proto/control_toremote.pb.h"
+#include "modules/canbus/proto/chassis_detail.pb.h"
+#include "modules/drivers/gps/gps_protocol.h"
+#include "modules/drivers/gps/proto/gps.pb.h"
 #include "modules/drivers/canbus/can_comm/can_sender.h"
 #include "modules/drivers/canbus/can_comm/protocol_data.h"
 
@@ -46,9 +51,13 @@ using ::apollo::canbus::transport::Id0x4ef8480;
 using ::apollo::canbus::transport::Id0xc040b2b;
 using ::apollo::canbus::transport::Id0x302;
 using ::apollo::canbus::transport::Id0x1314;
+using ::apollo::canbus::transport::Id0x200;
 using ::apollo::common::ErrorCode;
 using ::apollo::control::ControlCommand;
 using ::apollo::control::ControlFlag;
+using ::apollo::control::ControlToRemote;
+using ::apollo::canbus::ChassisDetail;
+using ::apollo::drivers::Gps;
 using ::apollo::drivers::canbus::CanSender;
 using ::apollo::drivers::canbus::MessageManager;
 using ::apollo::drivers::canbus::ProtocolData;
@@ -65,6 +74,7 @@ class TransportController {
   void ControlUpdate(ControlCommand cmd, const int SteerEnable,
                      const int AccEnable, float vol_cur, float vol_exp);
   void FlagUpdate(ControlFlag controlflag);
+  void RemoteUpdate(ControlToRemote controltoremote);
   void Start();
   void Stop();
 
@@ -81,6 +91,7 @@ class TransportController {
   Id0xc040b2b *id_0xc040b2b_ = nullptr;
   Id0x302 *id_0x302_ = nullptr;
   Id0x1314 *id_0x1314_ = nullptr;
+  Id0x200 *id_0x200_ = nullptr;
 };
 }  // namespace canbus
 }  // namespace apollo

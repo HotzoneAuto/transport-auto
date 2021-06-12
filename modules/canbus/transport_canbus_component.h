@@ -10,6 +10,7 @@
 #include "modules/canbus/transport_controller.h"
 #include "modules/control/proto/control_setting_conf.pb.h"
 #include "modules/control/proto/control_flag.pb.h"
+#include "modules/control/proto/control_toremote.pb.h"
 
 #include "modules/drivers/canbus/can_client/socket/socket_can_client_raw.h"
 #include "modules/drivers/canbus/can_comm/can_receiver.h"
@@ -29,6 +30,7 @@ using apollo::canbus::ChassisDetail;
 using apollo::canbus::transport::TransportMessageManager;
 using apollo::control::ControlCommand;
 using apollo::control::ControlFlag;
+using apollo::control::ControlToRemote;
 using apollo::drivers::Gps;
 
 using apollo::drivers::canbus::CANCardParameter;
@@ -45,6 +47,7 @@ class transport_Canbus : public apollo::cyber::TimerComponent {
   void PublishChassisDetail();
   void OnControl(ControlCommand& msg);
   void UpdateFlag(ControlFlag& msg);
+  void UpdateRemote(ControlToRemote& msg);
 
  private:
   int SteerEnable;
@@ -62,6 +65,8 @@ class transport_Canbus : public apollo::cyber::TimerComponent {
   std::shared_ptr<apollo::cyber::Reader<Gps>> gps_reader_;
   std::shared_ptr<apollo::cyber::Reader<ControlFlag>> flag_reader_;
   std::shared_ptr<apollo::cyber::Reader<ControlCommand>> shared_cmd_reader_;
+  std::shared_ptr<apollo::cyber::Reader<ChassisDetail>> chassis_reader_;
+  std::shared_ptr<apollo::cyber::Reader<ControlToRemote>> controltoremote_reader_;
   apollo::control::ControlSettingConf control_setting_conf_;
 
 };

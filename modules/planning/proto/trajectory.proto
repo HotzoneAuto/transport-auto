@@ -7,13 +7,14 @@ message TrajectoryPoint {
     optional double rel_x = 1;
     optional double rel_y = 2;
     optional double rel_vel = 3;
-    optional double timestamp = 4[default = 0];
+    optional double heading_angle = 4;
+    optional double timestamp = 5[default = 0];
 };
 
 message Trajectory {
     repeated TrajectoryPoint points = 1;
     optional double dis_to_start = 2;
     optional double dis_to_end = 3;
-    optional double control_acc = 4;
+    optional double control_speed = 4;
     optional double gps_state = 5;
 };

@@ -5,7 +5,7 @@ package apollo.control;
 message ControlCommand {
   optional double control_steer = 1;
   optional int32 control_steer_flag = 2 [default = 1];
-  optional double control_acc = 3;
+  optional double control_speed = 3;
   optional double control_accpedal = 4 [default = 0];
   optional double control_brkpedal = 5 [default = 0];
   optional double control_clupedal = 6 [default = 0];

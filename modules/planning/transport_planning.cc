@@ -20,7 +20,7 @@ bool TransportPlanning::Init() {
   if (!planning_setting_conf_.trajmode()) {
     file_csv.open_file(fname);
     std::string msg_w =
-        "frame,pgsnh,gpsnl,gpseh,gpsel,heading_angle,"
+        "frame,gpsnh,gpsnl,gpseh,gpsel,heading_angle,"
         "yaw_rate,gps_state,gps_velocity,acceleration_forward,"
         "acceleration_lateral,acceleration_down,pitch_angle,"
         "velocity_down,velocity_lateral,velocity_forward,roll_angle,"
@@ -76,7 +76,7 @@ void TransportPlanning::ReadTraj() {
   while (traj_record_file.getline(linestr, 500)) {
     std::stringstream ss(linestr);
     std::string csvdata[17];
-    double gpsnh, gpsnl, gpseh, gpsel, velocity;
+    double gpsnh, gpsnl, gpseh, gpsel, velocity, heading_angle;
     for (int i = 0; i < 17; i++) {
       char tempdata[500] = {0};
       ss.getline(tempdata, 500, ',');
@@ -87,6 +87,7 @@ void TransportPlanning::ReadTraj() {
     gpseh = atof(csvdata[3].data());
     gpsel = atof(csvdata[4].data());
     velocity = atof(csvdata[8].data());
+    heading_angle = atof(csvdata[5].data());
     if( last_gpsn==0 || apollo::drivers::gps::SphereDis(
           last_gpse,last_gpsn, gpseh+gpsel, gpsnh+gpsnl) > 0.1){
       trajinfo[0].push_back(gpsnh);
@@ -94,6 +95,7 @@ void TransportPlanning::ReadTraj() {
       trajinfo[2].push_back(gpseh);
       trajinfo[3].push_back(gpsel);
       trajinfo[4].push_back(velocity);
+      trajinfo[5].push_back(heading_angle);
       last_gpsn=gpsnh+gpsnl;
       last_gpse=gpseh+gpsel;
     }
@@ -137,10 +139,12 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
     double rel_x = dis * std::cos(azi - Azi_now);
     double rel_y = dis * std::sin(azi - Azi_now);
     double vel = trajinfo[4][i];
+    double heading_angle = trajinfo[5][i];
     auto* traj_position = msg_traj->add_points();
     traj_position->set_rel_x(rel_x);
     traj_position->set_rel_y(rel_y);
     traj_position->set_rel_vel(vel);
+    traj_position->set_heading_angle(heading_angle);
     traj_position->set_timestamp(apollo::cyber::Time::Now().ToNanosecond());
   }
   //记录轨迹用于绘图
@@ -154,7 +158,7 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
   traj_draw_file.close();
   // msg_traj->mutable_header()->set_timestamp_sec(apollo::common::time::Clock::NowInSeconds());
   // trajs_writer->Write(msg_traj);
-  double control_acc = 0;
+  double control_speed = 0;
   int length = trajinfo[0].size();
   double DisToStart = 0;
   for(int i=1;i<=TrajIndex;i++){
@@ -175,15 +179,15 @@ void TransportPlanning::UpdateTraj(const std::shared_ptr<Gps>& msg0) {
         apollo::drivers::gps::SphereDis(E_1, N_1, E_2, N_2);
   }
   
-  // control_acc = std::min(DisToStart, DisToEnd) *
-  // control_setting_conf_.speedk(); control_acc =
-  // std::min(control_setting_conf_.desiredspeed(), control_acc);
+  // control_speed = std::min(DisToStart, DisToEnd) *
+  // control_setting_conf_.speedk(); control_speed =
+  // std::min(control_setting_conf_.desiredspeed(), control_speed);
 
   // Traj speed mode
-  control_acc = trajinfo[4][TrajIndex];
+  control_speed = trajinfo[4][TrajIndex];
   msg_traj->set_dis_to_start(DisToStart);
   msg_traj->set_dis_to_end(DisToEnd);
-  msg_traj->set_control_acc(control_acc);
+  msg_traj->set_control_speed(control_speed);
   msg_traj->set_gps_state(msg0->gps_state());
 }
 

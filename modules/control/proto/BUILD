@@ -59,3 +59,22 @@ py_proto_library(
         ":control_flag_proto",
     ],
 )
+
+cc_proto_library(
+    name = "control_toremote_cc_proto",
+    deps = [
+        ":control_toremote_proto",
+    ],
+)
+
+proto_library(
+    name = "control_toremote_proto",
+    srcs = ["control_toremote.proto"],
+)
+
+py_proto_library(
+    name = "control_toremote_py_pb2",
+    deps = [
+        ":control_toremote_proto",
+    ],
+)
