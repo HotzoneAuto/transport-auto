@@ -129,8 +129,9 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     static int lifecnt = 0;
     lifecnt++;
     if (lifecnt > 255) lifecnt = 0;
-    id_0x4ef8480_->set_steerenablecmd(1);
-    id_0x4ef8480_->set_steeranglespeedcmd(350);
+    id_0x4ef8480_->set_steerenablecmd(cmd.control_steer_flag());
+    //TODO: config variable
+    id_0x4ef8480_->set_steeranglespeedcmd(cmd.control_steeranglespeed());
     id_0x4ef8480_->set_steeranglecmd(cmd.control_steer());
     id_0x4ef8480_->set_lifecnt(lifecnt);
     id_0x4ef8480_->set_currentvehiclespeed(5);
@@ -152,6 +153,8 @@ void TransportController::ControlUpdate(ControlCommand cmd,
     id_0xc040b2b_->set_xbr1_accpedalopenreq(cmd.control_accpedal());
     id_0xc040b2b_->set_xbr1_brkpedalopenreq(cmd.control_brkpedal());
     id_0xc040b2b_->set_xbr1_clupedalopenreq(cmd.control_clupedal());
+
+    id_0x1314_->set_gearshiftcmd(cmd.control_gear());
 
     if (count_flag == 15) {
       count_flag = 0;

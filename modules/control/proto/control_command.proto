@@ -13,4 +13,5 @@ message ControlCommand {
   optional int32 control_accpedal_flag = 8 [default = 0];
   optional int32 control_brkpedal_flag = 9 [default = 0];
   optional int32 control_clupedal_flag = 10 [default = 0];
+  optional int32 control_steeranglespeed = 11 [default = 350];
 };

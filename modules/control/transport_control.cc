@@ -24,7 +24,7 @@ bool transport_Control::Init() {
   controlflag.Clear();
   AINFO<<controlflag.DebugString();
 
-  remote_writer = node_->CreateWriter<ControlToRemote>("transport/control_to_remote");
+  remote_writer = node_->CreateWriter<ControlToRemote>("/transport/control_to_remote");
 
   //Init TrajNumber
   std::string planning_conf_path="/apollo/modules/planning/conf/planning_replay_conf.pb.txt";
@@ -157,6 +157,7 @@ bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0,
   controlcmd.set_control_brkpedal((int)control_brkpedal);
   controlcmd.set_control_clupedal((int)control_clupedal);
   controlcmd.set_control_gear(control_gear);
+  controlcmd.set_control_steeranglespeed((int)control_setting_conf_.steeranglespeed());
   AINFO<<controlcmd.DebugString();  
   writer->Write(controlcmd);
 
@@ -329,15 +330,22 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
   controlflag.set_stopfrmaster_flag( msg1.stopfrmaster_flag() );
   controlflag.set_missionfrmaster_flag( msg1.missionfrmaster_flag() );
   controlflag.set_trajfrmaster_flag( msg1.trajfrmaster_flag() );
+  //记录digger标志位
+  controlflag.set_reqfrdigger_flag( msg1.reqfrdigger_flag() );
+  controlflag.set_loadfrdigger_flag( msg1.loadfrdigger_flag() );
+  controlflag.set_stopfrdigger_flag( msg1.stopfrdigger_flag() );
   //处理标志位的赋值
   //轨迹编号
-  if(controlflag.traj_number()==1){
-    if( (msg1.trajfrmaster_flag()==2 || msg1.loadfrdigger_flag()==2) && controlflag.control_flag()==2)
-    controlflag.set_traj_number(2);
-  } else if(controlflag.traj_number()==2){
-    if( (msg1.trajfrmaster_flag()==1 || msg1.loadfrdigger_flag()==1) && controlflag.control_flag()==2)
-    controlflag.set_traj_number(1);
+  if(controlflag.traj_number()==1 && controlflag.control_flag()==2){
+    if (msg1.trajfrmaster_flag()==2 || (msg1.trajfrmaster_flag()==0 && msg1.loadfrdigger_flag()==2)) {
+      controlflag.set_traj_number(2);
+    } 
+  } else if (controlflag.traj_number()==2 && controlflag.control_flag()==2) {
+    if (msg1.trajfrmaster_flag()==1 || (msg1.trajfrmaster_flag()==0 && msg1.loadfrdigger_flag()==1)) {
+      controlflag.set_traj_number(1);
+    }
   }
+  
   //任务标志赋值
   if(controlflag.mission_flag()==0){
     if(msg1.missionfrmaster_flag()==1 || 
@@ -352,7 +360,7 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
     controlflag.set_stop_flag(3);
   }else if(controlflag.stopfrmaster_flag()==1){
     controlflag.set_stop_flag(1);
-  }else if(controlflag.stopfrmaster_flag()==2 || controlflag.stopfrdigger_flag()==1 || vol_exp < vol_idle){
+  }else if(controlflag.stopfrmaster_flag()==2 || msg1.stopfrdigger_flag()!=0 || vol_exp < vol_idle){
     controlflag.set_stop_flag(2);
   }else{
     controlflag.set_stop_flag(0);

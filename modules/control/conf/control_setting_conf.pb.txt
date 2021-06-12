@@ -14,15 +14,15 @@ ClutchSetHigh: 75.0
 BrakeSet: 60.0
 ToAdd: 0.0
 AccelSet_1: 0.0
-AccelSet_2: 15.0
+AccelSet_2: 20.0
 ClutchReleaseRate_1: 30.0
 ClutchReleaseRate_2: 20.0
 BrakeApplyRate_1: 30.0
 BrakeApplyRate_2: 50.0
 IdleSpeed: 2.0
 SpeedErrorThreshold: -2.0
-KSpeedThrottle_1: 0.09
-KSpeedThrottle_2: 0.11
+KSpeedThrottle_1: 0.11
+KSpeedThrottle_2: 0.09
 KDrive_1: 8.0
 KDrive_2: 12.0
 KBrake_1: 8.0
@@ -32,3 +32,4 @@ WaitingTimeShort: 8.0
 ClutchSetLow: 20.0
 WheelBase: 2.4
 WaitingTimeRTK: 0.5
+SteerAngleSpeed: 350
