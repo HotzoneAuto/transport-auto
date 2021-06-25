@@ -38,7 +38,7 @@ bool transport_Control::Init() {
 
   fname = "/apollo/modules/control/data/control_record.csv";
   file_csv.open_file(fname);
-  std::string msg_w = "fname, e_y, e_phi, control_gear, control_accpedal_flag, control_accpedal, control_brkpedal_flag, controlbrkpedal,  control_clupedal_flag, control_clupedal, control_speed, control_steer, gps_n,gps_e,heading_angle, yaw_rate,gps_state,gps_velocity,acceleration_forward, acceleration_lateral,acceleration_down,pitch_angle,velocity_down,velocity_lateral,velocity_forward,roll_angle,timestamp";
+  std::string msg_w = "fname, e_y, e_phi, control_flag, wait_flag, start_flag, park_flag, stop_flag, mission_flag, traj_number, stopfrmaster_flag, missionfrmaster_flag, trajfrmaster_flag, reqfrdigger_flag, loadfrdigger_flag, stopfrdigger_flag, statetodigger_flag, gpsacktodigger_flag, control_gear, control_accpedal_flag, control_accpedal, control_brkpedal_flag, controlbrkpedal,  control_clupedal_flag, control_clupedal, control_speed, control_steer, gpsn,gpse,heading_angle, yaw_rate,gps_state,gps_velocity,acceleration_forward, acceleration_lateral,acceleration_down,pitch_angle,velocity_down,velocity_lateral,velocity_forward,roll_angle,timestamp";
   file_csv.write_file(msg_w);
 
   gps_reader_ = node_->CreateReader<Gps>(
@@ -177,9 +177,24 @@ bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0,
   e_y = rel_loc[1][index];
   e_phi = gps_.heading_angle() - rel_loc[3][index];
 
-// std::string msg_w = "fname, e_y, e_phi, control_gear, control_accpedal_flag, control_accpedal, control_brkpedal_flag, controlbrkpedal,  control_clupedal_flag, control_clupedal, control_speed, control_steer, gpsn,gpse,heading_angle, yaw_rate,gps_state,gps_velocity,acceleration_forward, acceleration_lateral,acceleration_down,pitch_angle,velocity_down,velocity_lateral,velocity_forward,roll_angle,timestamp";
+// std::string msg_w = "fname, e_y, e_phi, control_flag, wait_flag, start_flag, park_flag, stop_flag, mission_flag, traj_number, stopfrmaster_flag, missionfrmaster_flag, trajfrmaster_flag, reqfrdigger_flag, loadfrdigger_flag, stopfrdigger_flag, statetodigger_flag, gpsacktodigger_flag, control_gear, control_accpedal_flag, control_accpedal, control_brkpedal_flag, controlbrkpedal,  control_clupedal_flag, control_clupedal, control_speed, control_steer, gpsn,gpse,heading_angle, yaw_rate,gps_state,gps_velocity,acceleration_forward, acceleration_lateral,acceleration_down,pitch_angle,velocity_down,velocity_lateral,velocity_forward,roll_angle,timestamp";
 
-  std::string msg_w = std::to_string(frame) + "," + std::to_string(e_y) + "," + std::to_string(e_phi) 
+  std::string msg_w = std::to_string(frame) + "," + std::to_string(e_y) + "," + std::to_string(e_phi)
+                      + "," + std::to_string(controlflag.control_flag())
+                      + "," + std::to_string(controlflag.wait_flag())
+                      + "," + std::to_string(controlflag.start_flag())
+                      + "," + std::to_string(controlflag.park_flag())
+                      + "," + std::to_string(controlflag.stop_flag())
+                      + "," + std::to_string(controlflag.mission_flag())
+                      + "," + std::to_string(controlflag.traj_number())
+                      + "," + std::to_string(controlflag.stopfrmaster_flag())
+                      + "," + std::to_string(controlflag.missionfrmaster_flag())
+                      + "," + std::to_string(controlflag.trajfrmaster_flag())
+                      + "," + std::to_string(controlflag.reqfrdigger_flag())
+                      + "," + std::to_string(controlflag.loadfrdigger_flag())
+                      + "," + std::to_string(controlflag.stopfrdigger_flag())
+                      + "," + std::to_string(controlflag.statetodigger_flag())
+                      + "," + std::to_string(controlflag.gpsacktodigger_flag())
                       + "," + std::to_string(control_gear)
                       + "," + std::to_string(control_accpedal_flag)
                       + "," + std::to_string(control_accpedal)
@@ -408,6 +423,7 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
     case 0://不控制模式
       controlcmd.set_control_steer_flag(0); //转向不控制
       controlflag.set_start_flag(0);
+      controlflag.set_wait_flag(0);
       control_accpedal_flag=0;
       control_brkpedal_flag=0;
       control_clupedal_flag=0;
@@ -507,7 +523,7 @@ void transport_Control::CalculatePedalGear(double vol_exp, double delta_t,Trajec
       control_clupedal_flag=0;
       control_brkpedal = 0;
       control_clupedal = 0;
-      control_gear=1;
+      control_gear = 1;
       control_accpedal = vol_exp/kspeedthrottle[controlflag.traj_number()-1]
             +(vol_exp-vol_cur)*kdrive[controlflag.traj_number()-1] ;
       break;
