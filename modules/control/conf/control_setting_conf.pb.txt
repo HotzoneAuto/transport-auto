@@ -33,3 +33,4 @@ ClutchSetLow: 20.0
 WheelBase: 2.4
 WaitingTimeRTK: 0.5
 SteerAngleSpeed: 350
+VisualRecoverTime: 1.0

@@ -79,7 +79,7 @@ ErrorCode SocketCanClientRaw::Start() {
 
   // 1. for non virtual busses, set receive message_id filter, ie white list
   if (interface_ != CANCardParameter::VIRTUAL) {
-    struct can_filter filter[8];
+    struct can_filter filter[9];
     /*for (int i = 0; i < 2048; ++i) {
       filter[i].can_id = 0x000 + i;
       filter[i].can_mask = CAN_EFF_MASK;
@@ -108,6 +108,9 @@ ErrorCode SocketCanClientRaw::Start() {
 
     filter[7].can_id = 0x00000301;
     filter[7].can_mask = CAN_SFF_MASK;
+
+    filter[8].can_id = 0x00000123;
+    filter[8].can_mask = CAN_SFF_MASK;
 
     ret = setsockopt(dev_handler_, SOL_CAN_RAW, CAN_RAW_FILTER, &filter,
                      sizeof(filter));

@@ -38,4 +38,5 @@ message ControlSettingConf {
     optional double WheelBase = 33 [default = 2.4];
     optional double WaitingTimeRTK = 34 [default = 0.5];
     optional int32 SteerAngleSpeed = 35 [default = 350];
+    optional double VisualRecoverTime = 36 [default = 1.0];
 };

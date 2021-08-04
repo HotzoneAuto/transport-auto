@@ -135,6 +135,21 @@ bool transport_Control::Proc(const std::shared_ptr<Trajectory>& msg0,
   
       // calculate acc
       control_speed = CaculateAcc(msg0);
+
+      //if 0 time > Visualrecovertime, then continue driving.
+      static double VisualRecoverTime_ = 0;
+      if( msg1->pedestrian_detect() ){
+        control_speed = 0; 
+        VisualRecoverTime_ =control_setting_conf_.visualrecovertime();
+      }else{
+        if( VisualRecoverTime_ > 0){
+          VisualRecoverTime_ -= delta_t;
+          control_speed = 0; 
+        }else {
+          VisualRecoverTime_ = 0;
+        }
+      }
+      
       controlcmd.set_control_speed(control_speed);
       AINFO << controlcmd.DebugString();
     } else {
